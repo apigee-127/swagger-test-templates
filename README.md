@@ -1,7 +1,8 @@
 #swagger-test-templates
 
-##Usage
 Generate test code from a Swagger spec
+
+##Usage
 
 ```javascript
 var testGen = require('swagger-test-templates');
