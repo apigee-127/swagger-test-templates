@@ -1,5 +1,6 @@
 #swagger-test-templates
 
+##Usage
 Generate test code from a Swagger spec
 
 ```javascript
