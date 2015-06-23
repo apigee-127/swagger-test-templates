@@ -19,14 +19,11 @@ testGen(swagger, config);
 ```
 
 ##Commend Line Template Generating
-Choose assertion type for your test
+To generate the tests for your API, if pathname is not provided it generates for all.
+--assertion-format=should is also optional, options are should | expect | assert
 ```shell
-swagger testgen --type <type>
+swagger project generate-test {pahtname|*} --assertion-format=should
 ```
 
-Generate all the testing stub for your api
-```shell
-swagger testgen --all
-```
 ##License
 [MIT](/LICENSE)
