@@ -1,6 +1,6 @@
 {
   "name": "swagger-test-templates",
-  "version": "1.0.0",
+  "version": "0.0.0-alpha",
   "description": "Generate test code from a Swagger spec",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,11 @@
     "API",
     "Test"
   ],
-  "author": "",
+  "swagger-test-templates@1.0.0": [
+    {"name": "Mohsen Azimi", "email": "me@azimi.me", "url": "http://azimi.me"},
+    {"name": "Linjie Penjg", "email": "elsa.peng@hotmail.com"},
+    {"name": "Noah Dietz", "email": "noahdietz24@gmail.com"}
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/apigee-127/swagger-test-templates/issues"
