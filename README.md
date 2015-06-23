@@ -18,5 +18,15 @@ var config = {
 testGen(swagger, config);
 ```
 
+##Commend Line Template Generating
+Choose assertion type for your test
+```shell
+swagger testgen --type <type>
+```
+
+Generate all the testing stub for your api
+```shell
+swagger testgen --all
+```
 ##License
 [MIT](/LICENSE)
