@@ -94,11 +94,11 @@ function testGenOperation(swagger, path, operation, config){
       config));
   }
 
-  var output = "describe('"+operation+"', function(){\n";
+  var output = "    describe('"+operation+"', function(){\n";
   for (test in result)
     output+=result[test]
 
-  output+="});\n"
+  output+="    });\n"
 
   return output;
 }
@@ -118,11 +118,11 @@ function testGenPath(swagger, path, config){
     result.push(testGenOperation(swagger, path, op, config));
   }
 
-  var output = "describe('"+path+"', function(){\n";
+  var output = "  describe('"+path+"', function(){\n";
   for (test in result)
     output+=result[test]
 
-  output+="});\n";
+  output+="  });\n";
 
   return output;
 }
@@ -139,11 +139,11 @@ function testGen(swagger, config){
 		result = [];
 
   var imports = "var should = require('chai').should,\n"
-    +"expect = require('chai').expect,\n"
-    +"assert = require('chai').assert,\n"
-    +"request = require('request'),\n"
-    +"supertest = require('supertest'),\n"
-    +"api = supertest('"+swagger.schemes[0]+"://"+swagger.host+"'); //supertest init\n\n";
+    +"  expect = require('chai').expect,\n"
+    +"  assert = require('chai').assert,\n"
+    +"  request = require('request'),\n"
+    +"  supertest = require('supertest'),\n"
+    +"  api = supertest('"+swagger.schemes[0]+"://"+swagger.host+"'); //supertest init\n\n";
 
   if (config.pathNames.length == 0)
     for (var path in paths)
@@ -182,7 +182,7 @@ function testGen(swagger, config){
         });
 
     for (var ndx in output)
-      console.log(output[ndx].test)
+      console.log(output[ndx].test);
   }
   
   return output;
