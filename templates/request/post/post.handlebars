@@ -8,7 +8,8 @@
           {{this.name}}:'DATA GOES HERE',
           {{/each}}
           }
-        }, function(error, res, body){
+        }, 
+        function(error, res, body){
           {{#compare assertion 'expect'}}
           expect(body).to.have.property('name');
           {{/compare}}

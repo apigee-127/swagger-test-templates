@@ -1,5 +1,6 @@
 var handlebars = require('handlebars'),
-	read = require('fs').readFileSync;
+	read = require('fs').readFileSync,
+  write = require('fs').writeFile;
 
 var swag = require('./test/minimal/swagger.json');
 
@@ -9,6 +10,7 @@ var config = {
     'testmodule':'request',
     'separate':true,
     'asynchronous':true
+    // ,'destination':'./test'
   };
 
 module.exports = {
@@ -155,15 +157,15 @@ function testGen(swagger, config){
       result.push(testGenPath(swagger, targets[path], config));
 
   // handling return format for 'separate' option
-  if (!config.separate){//one large file for entire test suite
+  if (!config.separate){//separate = false --> one large file for entire test suite
     var output = imports+"describe('"+swagger.info.title+"', function(){\n";
     for (test in result)
       output+=result[test]
 
     output+="});\n"; 
-    console.log(output); 
+    // console.log(output); 
   }
-  else {//separate file for each path test suite
+  else {//separate = true --> indiv file for each path test suite
     var output = [];
 
     if (config.pathNames.length == 0)
@@ -177,12 +179,27 @@ function testGen(swagger, config){
     for (var path in targets)
       if (paths.hasOwnProperty(targets[path]))
         output.push({
-          'name':targets[path],
+          'name':targets[path]+"Stub",
           'test':imports+result[path]
         });
 
-    for (var ndx in output)
-      console.log(output[ndx].test);
+    // for (var ndx in output)
+    //   console.log(output[ndx].test);
+  }
+
+  if (config.hasOwnProperty('destination')){
+    if (config.separate)
+      for (var test in output)
+        write(config.destination+"/"+output[test].name+"Stub.js", output[test].test, 
+          function(err){
+            if (err)
+              console.log(err);
+          });
+    else
+      write(config.destination+"/test.js", output, function(err){
+        if (err)
+          console.log(err);
+      });
   }
   
   return output;
