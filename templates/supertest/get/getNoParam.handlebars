@@ -1,0 +1,9 @@
+it({{description}}, function(done){
+	api.{{operation}}({{path}})
+	.set('Accept', 'application/json')
+	.expect({{responseCode}})
+	.end(function(err, res){
+		{{assertion}};
+		done();
+  })	
+});
