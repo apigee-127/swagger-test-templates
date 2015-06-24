@@ -1,58 +1,79 @@
 var handlebars = require('handlebars'),
-	fs = require('fs'),
+	read = require('fs').readFileSync,
   swag = require('./test/minimal/swagger.json');
 
-var getSource = "it('{{description}}', function(done){\n"+
-  "  api.{{operation}}('{{path}}')\n"+
-  "  .set('Accept', 'application/json')\n"+
-  "  .expect({{responseCode}})\n"+
-  "  .end(function(err, res){\n"+
-  "    {{assertion}};\n"+
-  "    done();\n"+
-  "  })\n"+
-"});\n",
-  output = [],
-  data,
+var getSource = read('./templates/supertest/get/getNoParam.handlebars','utf8'),
+  genGET = handlebars.compile(getSource),
   config = {
     'assertionFormat':'expect'
   };
 
+function testGenResponse(swagger, path, operation, response, config){
+  var result = [];
+
+  // if (swagger.paths[path][operation].hasOwnProperty('parameters'))
+  //   console.log(swagger.paths[path][operation]['parameters']);
+
+  var data = {
+    'operation':operation,
+    'path':path,
+    'responseCode':response,
+    'description':swagger.paths[path][operation]['responses'][response].description,
+    'assertion':config.assertionFormat
+  };
+  
+  if (operation == 'get')
+    console.log("----------- "+operation+" ------------")
+  else if (operation == 'post')
+    console.log("----------- "+operation+" ------------")
+  else if (operation == 'put')
+    console.log("----------- "+operation+" ------------")
+  else if (operation == 'delete')
+    console.log("----------- "+operation+" ------------")
+
+  // console.log(genGET(data));
+  result.push(genGET(data));
+
+  return result;
+}
+
+function testGenOperation(swagger, path, operation, config){
+  var responses = swagger.paths[path][operation]['responses'],
+    result = [];
+
+  for (res in responses){
+    result.concat(testGenResponse(swagger, 
+      path, 
+      operation, 
+      res, 
+      config));
+  }
+
+  return result;
+}
+
+function testGenPath(swagger, path, config){
+  var operations = swagger.paths[path],
+    result = [];
+
+  for (op in operations){
+    result.concat(testGenOperation(swagger, path, op, config));
+  }
+
+  return result
+}
 
 function testGen(swagger, config){
-  var genGET= handlebars.compile(getSource)
-
-	var title = swagger.info.title,
-		paths = swagger.paths,
-		path, op, response, parameters;
+	var paths = swagger['paths'],
+		output = [];
 
 	//loops over all paths
-	for (path in paths){
-		if (paths.hasOwnProperty(path)){
-
-      //loops over all operations defined in a path
-			for (op in paths[path]){
-
-				if (paths[path].hasOwnProperty(op)){
-
-          //loop over all defined operation response codes
-          for (response in paths[path][op]['responses']){
-            if (paths[path][op]['responses'].hasOwnProperty(response)){
-              data = {
-                'description':paths[path][op]['responses'][response].description,
-                'operation':op,
-                'path':path,
-                'responseCode':response,
-                'assertion':config.assertionFormat
-              };
-
-              output.push(genGET(data));
-              console.log(output[output.length-1]);
-            }
-          }
-				}
-			}
-		}
+	for (var path in paths){
+    output.concat(testGenPath(swagger, path, config));
 	}
+
+  console.log(output);
+  return output;
 }
 
 testGen(swag, config);
