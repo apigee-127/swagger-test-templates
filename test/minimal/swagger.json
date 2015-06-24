@@ -4,6 +4,11 @@
         "version": "0.0.0",
         "title": "Simple API"
     },
+    "host": "api.uber.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath":"/test",
     "paths": {
         "/": {
             "get": {
