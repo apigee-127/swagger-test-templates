@@ -6,7 +6,7 @@ var config = {
     'assertionFormat':'should',
     'pathNames':['/', '/user'],
     'testmodule':'request',
-    'separate':false,
+    'separate':true,
     'asynchronous':true
   };
 
@@ -133,6 +133,13 @@ function testGen(swagger, config){
     targets = config.pathNames,
 		result = [];
 
+  var imports = "var should = require('chai').should,\n"
+    +"expect = require('chai').expect,\n"
+    +"assert = require('chai').assert,\n"
+    +"request = require('request'),\n"
+    +"supertest = require('supertest'),\n"
+    +"api = supertest('"+swagger.schemes[0]+"://"+swagger.host+"'); //supertest init\n\n";
+
   if (config.pathNames.length == 0)
     for (var path in paths)
       result.push(testGenPath(swagger, path, config));
@@ -144,7 +151,7 @@ function testGen(swagger, config){
 
   // handling return format for 'separate' option
   if (!config.separate){//one large file for entire test suite
-    var output = "describe('"+swagger.info.title+"', function(){\n";
+    var output = imports+"describe('"+swagger.info.title+"', function(){\n";
     for (test in result)
       output+=result[test]
 
@@ -158,7 +165,7 @@ function testGen(swagger, config){
       for (var path in paths)
         output.push({
           'name':paths[path],
-          'test':result[path]
+          'test':imports+result[path]
         });
 
     //loops over specified paths
@@ -166,11 +173,11 @@ function testGen(swagger, config){
       if (paths.hasOwnProperty(targets[path]))
         output.push({
           'name':targets[path],
-          'test':result[path]
+          'test':imports+result[path]
         });
 
-    // for (var ndx in output)
-    //   console.log(output[ndx].test)
+    for (var ndx in output)
+      console.log(output[ndx].test)
   }
   
   return output;
