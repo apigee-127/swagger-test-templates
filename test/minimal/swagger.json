@@ -23,7 +23,7 @@
                 "parameters": [
                     {
                         "name": "latitude",
-                        "in": "query",
+                        "in": "body",
                         "description": "Latitude component of location.",
                         "required": true,
                         "type": "number",
