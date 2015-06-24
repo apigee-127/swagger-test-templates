@@ -1,4 +1,4 @@
-it('should be {{description}}', function(done){
+it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
   api.post('{{path}}')
   .set('Accept', 'application/json')
   .send({
@@ -17,6 +17,6 @@ it('should be {{description}}', function(done){
     {{#compare assertion 'assert'}}
       assert.property(res, 'name');
     {{/compare}}
-    done();
+    {{#if asynchronous}}done();{{/if}}
   });	
 });

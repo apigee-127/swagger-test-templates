@@ -5,7 +5,9 @@ var handlebars = require('handlebars'),
 var config = {
     'assertionFormat':'should',
     'pathNames':['/', '/user'],
-    'testmodules':'supertest'
+    'testmodule':'request',
+    'separate':false,
+    'asynchronous':true
   };
 
 /**
@@ -21,26 +23,26 @@ function testGenResponse(swagger, path, operation, response, config){
   var result, gen, source,
     // request payload
     data = {
-      //'path':path,
       'responseCode':response,
       'description':swagger.paths[path][operation]['responses'][response].description,
-      'assertion':config.assertionFormat
+      'assertion':config.assertionFormat,
+      'asynchronous':config.asynchronous
     };
 
   // adding body parameters to payload
   if (swagger.paths[path][operation].hasOwnProperty('parameters')){
     data.parameters = [];
 
-    // only adds body parameters to request
+    // only adds body parameters to request, ignores query params
     for (var param in swagger.paths[path][operation]['parameters'])
       if (swagger.paths[path][operation]['parameters'][param].in == 'body')
         data.parameters.push(swagger.paths[path][operation]['parameters'][param]);
   }
 
   // request url vs. supertest path
-  if (config.testmodules == 'request'){
+  if (config.testmodule == 'request'){
     data.url = swagger.schemes[0]+"://"+swagger.host+
-    (swagger.basePath != undefined?swagger.basePath:"")+path;
+      (swagger.basePath != undefined?swagger.basePath:"")+path;
   }
   else
     data.path = (swagger.basePath != undefined?swagger.basePath:"")+path
@@ -48,17 +50,15 @@ function testGenResponse(swagger, path, operation, response, config){
   // template source decision logic
   if (operation == 'get'){
     if (!data.hasOwnProperty('parameters') || data.parameters.length == 0){
-      source = read('./templates/'+config.testmodules
+      source = read('./templates/'+config.testmodule
         +'/get/get.handlebars','utf8');
     }    
   }
   else if (operation == 'post'){
-    source = read('./templates/'+config.testmodules
+    source = read('./templates/'+config.testmodule
       +'/post/post.handlebars', 'utf8');
   }
   else if (operation == 'put')
-    console.log("----------- "+operation+" ------------")
-  else if (operation == 'delete')
     console.log("----------- "+operation+" ------------")
 
   // compile template source and return test string
@@ -69,7 +69,7 @@ function testGenResponse(swagger, path, operation, response, config){
 }
 
 /**
- * Builds a set of unit test stubsfor all response codes of a 
+ * Builds a set of unit test stubs for all response codes of a 
  *  path's operation
  * @param  {json}
  * @param  {string}
@@ -142,13 +142,37 @@ function testGen(swagger, config){
     if (paths.hasOwnProperty(targets[path]))
       result.push(testGenPath(swagger, targets[path], config));
 
-  var output = "describe('"+swagger.info.title+"', function(){\n";
-  for (test in result)
-    output+=result[test]
+  // handling return format for 'separate' option
+  if (!config.separate){//one large file for entire test suite
+    var output = "describe('"+swagger.info.title+"', function(){\n";
+    for (test in result)
+      output+=result[test]
 
-  output+="});\n";
+    output+="});\n"; 
+    console.log(output); 
+  }
+  else {//separate file for each path test suite
+    var output = [];
 
-  console.log(output);
+    if (config.pathNames.length == 0)
+      for (var path in paths)
+        output.push({
+          'name':paths[path],
+          'test':result[path]
+        });
+
+    //loops over specified paths
+    for (var path in targets)
+      if (paths.hasOwnProperty(targets[path]))
+        output.push({
+          'name':targets[path],
+          'test':result[path]
+        });
+
+    // for (var ndx in output)
+    //   console.log(output[ndx].test)
+  }
+  
   return output;
 }
 
