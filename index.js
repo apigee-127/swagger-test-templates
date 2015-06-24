@@ -4,7 +4,8 @@ var handlebars = require('handlebars'),
 
 var config = {
     'assertionFormat':'should',
-    'paths':['/', '/user']
+    'pathNames':['/', '/user'],
+    'testmodules':'supertest'
   };
 
 /**
@@ -20,7 +21,7 @@ function testGenResponse(swagger, path, operation, response, config){
   var result, gen, source,
     // request payload
     data = {
-      'path':path,
+      //'path':path,
       'responseCode':response,
       'description':swagger.paths[path][operation]['responses'][response].description,
       'assertion':config.assertionFormat
@@ -35,15 +36,25 @@ function testGenResponse(swagger, path, operation, response, config){
       if (swagger.paths[path][operation]['parameters'][param].in == 'body')
         data.parameters.push(swagger.paths[path][operation]['parameters'][param]);
   }
-  
+
+  // request url vs. supertest path
+  if (config.testmodules == 'request'){
+    data.url = swagger.schemes[0]+"://"+swagger.host+
+    (swagger.basePath != undefined?swagger.basePath:"")+path;
+  }
+  else
+    data.path = (swagger.basePath != undefined?swagger.basePath:"")+path
+
   // template source decision logic
   if (operation == 'get'){
     if (!data.hasOwnProperty('parameters') || data.parameters.length == 0){
-      source = read('./templates/supertest/get/get.handlebars','utf8');
+      source = read('./templates/'+config.testmodules
+        +'/get/get.handlebars','utf8');
     }    
   }
   else if (operation == 'post'){
-    source = read('./templates/supertest/post/post.handlebars', 'utf8');
+    source = read('./templates/'+config.testmodules
+      +'/post/post.handlebars', 'utf8');
   }
   else if (operation == 'put')
     console.log("----------- "+operation+" ------------")
@@ -119,10 +130,10 @@ function testGenPath(swagger, path, config){
  */
 function testGen(swagger, config){
 	var paths = swagger['paths'],
-    targets = config.paths,
+    targets = config.pathNames,
 		result = [];
 
-  if (config.paths.length == 0)
+  if (config.pathNames.length == 0)
     for (var path in paths)
       result.push(testGenPath(swagger, path, config));
 
@@ -141,35 +152,38 @@ function testGen(swagger, config){
   return output;
 }
 
+/**
+ * @author doginthehat
+ * https://gist.github.com/doginthehat/1890659
+ */
 handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
  
-    if (arguments.length < 3)
-      throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
- 
-    var operator = options.hash.operator || "==";
-    
-    var operators = {
-      '==':   function(l,r) { return l == r; },
-      '===':  function(l,r) { return l === r; },
-      '!=':   function(l,r) { return l != r; },
-      '<':    function(l,r) { return l < r; },
-      '>':    function(l,r) { return l > r; },
-      '<=':   function(l,r) { return l <= r; },
-      '>=':   function(l,r) { return l >= r; },
-      'typeof': function(l,r) { return typeof l == r; }
-    }
- 
-    if (!operators[operator])
-      throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
- 
-    var result = operators[operator](lvalue,rvalue);
- 
-    if( result ) {
-      return options.fn(this);
-    } else {
-      return options.inverse(this);
-    }
-    
-  });
+  if (arguments.length < 3)
+    throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+  var operator = options.hash.operator || "==";
+  
+  var operators = {
+    '==':   function(l,r) { return l == r; },
+    '===':  function(l,r) { return l === r; },
+    '!=':   function(l,r) { return l != r; },
+    '<':    function(l,r) { return l < r; },
+    '>':    function(l,r) { return l > r; },
+    '<=':   function(l,r) { return l <= r; },
+    '>=':   function(l,r) { return l >= r; },
+    'typeof': function(l,r) { return typeof l == r; }
+  }
+
+  if (!operators[operator])
+    throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+  var result = operators[operator](lvalue,rvalue);
+
+  if( result )
+    return options.fn(this);
+  else 
+    return options.inverse(this);
+  
+});
 
 testGen(swag, config);
