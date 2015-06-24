@@ -11,6 +11,10 @@ var config = {
     'asynchronous':true
   };
 
+module.exports = {
+  testGen:testGen
+}
+
 /**
  * Builds a unit test stubs for the response code of a path's operation
  * @param  {json}
