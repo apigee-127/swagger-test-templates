@@ -1,6 +1,7 @@
 var handlebars = require('handlebars'),
-	read = require('fs').readFileSync,
-  swag = require('./test/minimal/swagger.json');
+	read = require('fs').readFileSync;
+
+var swag = require('./test/minimal/swagger.json');
 
 var config = {
     'assertionFormat':'should',
