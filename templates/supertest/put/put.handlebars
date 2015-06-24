@@ -1,0 +1,14 @@
+it('should be {{description}}', function(done){
+  api.put('{{path}}')
+  .set('Accept', 'application/json')
+  .send({
+    {{#each parameters}}
+    {{this.name}}:'DATA GOES HERE',
+    {{/each}}
+  })
+  .expect({{responseCode}})
+  .end(function(err, res){
+    {{assertion}};
+    done();
+  });
+});
