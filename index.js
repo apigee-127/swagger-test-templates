@@ -7,37 +7,15 @@ var config = {
     'paths':['/', '/user']
   };
 
-handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
- 
-    if (arguments.length < 3)
-      throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
- 
-    var operator = options.hash.operator || "==";
-    
-    var operators = {
-      '==':   function(l,r) { return l == r; },
-      '===':  function(l,r) { return l === r; },
-      '!=':   function(l,r) { return l != r; },
-      '<':    function(l,r) { return l < r; },
-      '>':    function(l,r) { return l > r; },
-      '<=':   function(l,r) { return l <= r; },
-      '>=':   function(l,r) { return l >= r; },
-      'typeof': function(l,r) { return typeof l == r; }
-    }
- 
-    if (!operators[operator])
-      throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
- 
-    var result = operators[operator](lvalue,rvalue);
- 
-    if( result ) {
-      return options.fn(this);
-    } else {
-      return options.inverse(this);
-    }
-    
-  });
-
+/**
+ * Builds a unit test stubs for the response code of a path's operation
+ * @param  {json}
+ * @param  {string}
+ * @param  {string}
+ * @param  {string}
+ * @param  {json}
+ * @return {string}
+ */
 function testGenResponse(swagger, path, operation, response, config){
   var result, gen, source,
     // request payload
@@ -79,6 +57,15 @@ function testGenResponse(swagger, path, operation, response, config){
   return result;
 }
 
+/**
+ * Builds a set of unit test stubsfor all response codes of a 
+ *  path's operation
+ * @param  {json}
+ * @param  {string}
+ * @param  {string}
+ * @param  {json}
+ * @return {string}
+ */
 function testGenOperation(swagger, path, operation, config){
   var responses = swagger.paths[path][operation]['responses'],
     result = [];
@@ -100,6 +87,13 @@ function testGenOperation(swagger, path, operation, config){
   return output;
 }
 
+/**
+ * Builds a set of unit test stubs for all of a path's operations
+ * @param  {json}
+ * @param  {string}
+ * @param  {json}
+ * @return {string}
+ */
 function testGenPath(swagger, path, config){
   var operations = swagger.paths[path],
     result = [];
@@ -117,6 +111,12 @@ function testGenPath(swagger, path, config){
   return output;
 }
 
+/**
+ * Builds unit test stubs for all paths specified by the configuration
+ * @param  {json}
+ * @param  {json}
+ * @return {string}
+ */
 function testGen(swagger, config){
 	var paths = swagger['paths'],
     targets = config.paths,
@@ -140,5 +140,36 @@ function testGen(swagger, config){
   console.log(output);
   return output;
 }
+
+handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+ 
+    if (arguments.length < 3)
+      throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+ 
+    var operator = options.hash.operator || "==";
+    
+    var operators = {
+      '==':   function(l,r) { return l == r; },
+      '===':  function(l,r) { return l === r; },
+      '!=':   function(l,r) { return l != r; },
+      '<':    function(l,r) { return l < r; },
+      '>':    function(l,r) { return l > r; },
+      '<=':   function(l,r) { return l <= r; },
+      '>=':   function(l,r) { return l >= r; },
+      'typeof': function(l,r) { return typeof l == r; }
+    }
+ 
+    if (!operators[operator])
+      throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+ 
+    var result = operators[operator](lvalue,rvalue);
+ 
+    if( result ) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
+    
+  });
 
 testGen(swag, config);
