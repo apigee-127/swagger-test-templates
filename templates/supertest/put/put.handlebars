@@ -1,4 +1,4 @@
-it('should be {{description}}', function(done){
+it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
   api.put('{{path}}')
   .set('Accept', 'application/json')
   .send({
@@ -8,7 +8,15 @@ it('should be {{description}}', function(done){
   })
   .expect({{responseCode}})
   .end(function(err, res){
-    {{assertion}};
-    done();
+    {{#compare assertion 'expect'}}
+      expect(res).to.have.property('name');
+    {{/compare}}
+    {{#compare assertion 'should'}}
+      res.should.have.property('name');
+    {{/compare}}
+    {{#compare assertion 'assert'}}
+      assert.property(res, 'name');
+    {{/compare}}
+    {{#if asynchronous}}done();{{/if}}
   });
 });
