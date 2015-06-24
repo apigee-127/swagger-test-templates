@@ -8,7 +8,15 @@ it('should be {{description}}', function(done){
   })
   .expect({{responseCode}})
   .end(function(err, res){
-    {{assertion}};
+    {{#compare assertion 'expect'}}
+      expect(res).to.have.property('name');
+    {{/compare}}
+    {{#compare assertion 'should'}}
+      res.should.have.property('name');
+    {{/compare}}
+    {{#compare assertion 'assert'}}
+      assert.property(res, 'name');
+    {{/compare}}
     done();
   });	
 });
