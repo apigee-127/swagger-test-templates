@@ -1,0 +1,23 @@
+it('should be {{description}}', function(done){
+  request({
+    url: '{{url}}'
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: {
+    {{#each parameters}}
+    {{this.name}}:'DATA GOES HERE',
+    {{/each}}
+    }
+  }, function(error, res, body){
+    {{#compare assertion 'expect'}}
+    expect(body).to.have.property('name');
+    {{/compare}}
+    {{#compare assertion 'should'}}
+    body.should.have.property('name');
+    {{/compare}}
+    {{#compare assertion 'assert'}}
+    assert.property(body, 'name');
+    {{/compare}}
+    done();
+  });
+});
