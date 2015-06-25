@@ -16,15 +16,8 @@ var config = {
   assertionFormat: 'should'
 };
 
-//generates test files following specified configuration
+// Generates test files following specified configuration
 testGen(swagger, config);
-```
-
-##Commend Line Template Generating
-To generate the tests for your API, if pathname is not provided it generates for all.
---assertion-format=should is also optional, options are should | expect | assert
-```shell
-swagger project generate-test {pahtname|*} --assertion-format=should
 ```
 
 ##License
