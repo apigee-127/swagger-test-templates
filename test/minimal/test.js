@@ -9,7 +9,8 @@ describe('minimal swagger', function(){
         var output = testGen(swagger, {
           'assertionFormat':'should',
           'pathNames':[],
-          'testmodule':'request'
+          'testmodule':'request',
+          'destination':'./test/minimal'
         });
 
         assert.isArray(output);
