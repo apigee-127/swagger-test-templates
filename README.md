@@ -12,8 +12,6 @@ var swagger = require('/path/to/swagger.json');
 var config = {
   destination: '/path/to/folder',
   assertionFormat: 'should',
-  separate:false,
-  asynchronous:true,
   testmodule:'supertest',
   pathNames:['/user', '/user/{id}']
 };

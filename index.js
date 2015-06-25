@@ -2,16 +2,14 @@ var handlebars = require('handlebars'),
 	read = require('fs').readFileSync,
   write = require('fs').writeFile;
 
-// var swag = require('./test/minimal/swagger.json');
+var swag = require('./test/minimal/swagger.json');
 
-// var config = {
-//     'assertionFormat':'should',
-//     'pathNames':['/', '/user'],
-//     'testmodule':'request',
-//     'separate':true,
-//     'asynchronous':true
-//     // ,'destination':'./test'
-//   };
+var config = {
+    'assertionFormat':'should',
+    'pathNames':['/', '/user'],
+    'testmodule':'request',
+    'destination':'./test/minimal'
+  };
 
 module.exports = {
   testGen:testGen
@@ -33,7 +31,7 @@ function testGenResponse(swagger, path, operation, response, config){
       'responseCode':response,
       'description':swagger.paths[path][operation]['responses'][response].description,
       'assertion':config.assertionFormat,
-      'asynchronous':config.asynchronous
+      'asynchronous':true
     };
 
   // adding body parameters to payload
@@ -98,7 +96,7 @@ function testGenOperation(swagger, path, operation, config){
       config));
   }
 
-  var output = "    describe('"+operation+"', function(){\n";
+  var output = "  describe('"+operation+"', function(){\n";
   for (test in result)
     output+=result[test]
 
@@ -122,7 +120,7 @@ function testGenPath(swagger, path, config){
     result.push(testGenOperation(swagger, path, op, config));
   }
 
-  var output = "  describe('"+path+"', function(){\n";
+  var output = "describe('"+path+"', function(){\n";
   for (test in result)
     output+=result[test]
 
@@ -140,7 +138,8 @@ function testGenPath(swagger, path, config){
 function testGen(swagger, config){
 	var paths = swagger['paths'],
     targets = config.pathNames,
-		result = [];
+		result = [],
+    output = [];
 
   var imports = "var should = require('chai').should,\n"
     +"  expect = require('chai').expect,\n"
@@ -158,50 +157,31 @@ function testGen(swagger, config){
     if (paths.hasOwnProperty(targets[path]))
       result.push(testGenPath(swagger, targets[path], config));
 
-  // handling return format for 'separate' option
-  if (!config.separate){//separate = false --> one large file for entire test suite
-    var output = imports+"describe('"+swagger.info.title+"', function(){\n";
-    for (test in result)
-      output+=result[test]
+  if (config.pathNames.length == 0)
+    for (var path in paths)
+      output.push({
+        'name':paths[path],
+        'test':imports+result[path]
+      });
 
-    output+="});\n"; 
-    // console.log(output); 
-  }
-  else {//separate = true --> indiv file for each path test suite
-    var output = [];
+  //loops over specified paths
+  for (var path in targets)
+    if (paths.hasOwnProperty(targets[path]))
+      output.push({
+        'name':targets[path]+"Stub.js",
+        'test':imports+result[path]
+      });
 
-    if (config.pathNames.length == 0)
-      for (var path in paths)
-        output.push({
-          'name':paths[path],
-          'test':imports+result[path]
-        });
-
-    //loops over specified paths
-    for (var path in targets)
-      if (paths.hasOwnProperty(targets[path]))
-        output.push({
-          'name':targets[path]+"Stub",
-          'test':imports+result[path]
-        });
-
-    // for (var ndx in output)
-    //   console.log(output[ndx].test);
-  }
+  // for (var ndx in output)
+  //   console.log(output[ndx].test);
 
   if (config.hasOwnProperty('destination')){
-    if (config.separate)
-      for (var test in output)
-        write(config.destination+"/"+output[test].name+"Stub.js", output[test].test, 
-          function(err){
-            if (err)
-              console.log(err);
-          });
-    else
-      write(config.destination+"/test.js", output, function(err){
-        if (err)
-          console.log(err);
-      });
+    for (var test in output)
+      write(config.destination+"/"+output[test].name, output[test].test, 
+        function(err){
+          if (err)
+            console.log(err);
+        });
   }
   
   return output;
@@ -241,4 +221,4 @@ handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
   
 });
 
-// testGen(swag, config);
+testGen(swag, config);
