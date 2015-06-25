@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive",
-    "pretest":"npm install"
+    "pretest": "npm install"
   },
   "repository": {
     "type": "git",
@@ -17,13 +17,26 @@
     "Test"
   ],
   "swagger-test-templates@1.0.0": [
-    {"name": "Mohsen Azimi", "email": "me@azimi.me", "url": "http://azimi.me"},
-    {"name": "Linjie Penjg", "email": "elsa.peng@hotmail.com"},
-    {"name": "Noah Dietz", "email": "noahdietz24@gmail.com"}
+    {
+      "name": "Mohsen Azimi",
+      "email": "me@azimi.me",
+      "url": "http://azimi.me"
+    },
+    {
+      "name": "Linjie Penjg",
+      "email": "elsa.peng@hotmail.com"
+    },
+    {
+      "name": "Noah Dietz",
+      "email": "noahdietz24@gmail.com"
+    }
   ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/apigee-127/swagger-test-templates/issues"
   },
-  "homepage": "https://github.com/apigee-127/swagger-test-templates#readme"
+  "homepage": "https://github.com/apigee-127/swagger-test-templates#readme",
+  "dependencies": {
+    "mocha-eslint": "^0.1.7"
+  }
 }

@@ -1,3 +1,5 @@
+'use strict';
+
 var handlebars = require('handlebars'),
 	read = require('fs').readFileSync,
   write = require('fs').writeFile;
@@ -12,8 +14,8 @@ var handlebars = require('handlebars'),
 //   };
 
 module.exports = {
-  testGen:testGen
-}
+  testGen: testGen
+};
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
