@@ -2,16 +2,16 @@ var handlebars = require('handlebars'),
 	read = require('fs').readFileSync,
   write = require('fs').writeFile;
 
-var swag = require('./test/minimal/swagger.json');
+// var swag = require('./test/minimal/swagger.json');
 
-var config = {
-    'assertionFormat':'should',
-    'pathNames':['/', '/user'],
-    'testmodule':'request',
-    'separate':true,
-    'asynchronous':true
-    // ,'destination':'./test'
-  };
+// var config = {
+//     'assertionFormat':'should',
+//     'pathNames':['/', '/user'],
+//     'testmodule':'request',
+//     'separate':true,
+//     'asynchronous':true
+//     // ,'destination':'./test'
+//   };
 
 module.exports = {
   testGen:testGen
@@ -65,8 +65,10 @@ function testGenResponse(swagger, path, operation, response, config){
     source = read('./templates/'+config.testmodule
       +'/post/post.handlebars', 'utf8');
   }
-  else if (operation == 'put')
-    console.log("----------- "+operation+" ------------")
+  else if (operation == 'put'){
+    source = read('./templates/'+config.testmodule
+      +'/put/put/handlebars', 'utf8');
+  }
 
   // compile template source and return test string
   gen = handlebars.compile(source);
@@ -239,4 +241,4 @@ handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
   
 });
 
-testGen(swag, config);
+// testGen(swag, config);
