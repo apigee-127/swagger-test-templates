@@ -1,6 +1,6 @@
 #swagger-test-templates
 
-Generate test code from a Swagger spec
+Generate test code stubs from a Swagger spec
 
 ###Note: This project is under development and is not ready yet
 
@@ -11,12 +11,18 @@ var testGen = require('swagger-test-templates');
 var swagger = require('/path/to/swagger.json');
 var config = {
   destination: '/path/to/folder',
-  assertionFormat: 'should'
+  assertionFormat: 'should',
+  separate:false,
+  asynchronous:true,
+  testmodule:'supertest',
+  pathNames:['/user', '/user/{id}']
 };
 
 //generates test files following specified configuration
 testGen(swagger, config);
 ```
+
+Then navigate to your destination folder to find your test files, fill in the data, and run your tests!
 
 ##Commend Line Interface
 Generate all tests for all paths, by default, it will use supertest module, expect assertion format, asynchronous function and generate all tests in one file
