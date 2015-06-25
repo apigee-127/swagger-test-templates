@@ -1,17 +1,17 @@
-      it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
-        api.get('{{path}}')
-        .set('Accept', 'application/json')
-        .expect({{responseCode}})
-        .end(function(err, res){
-          {{#compare assertion 'expect'}}
-            expect(res).to.have.property('name');
-          {{/compare}}
-          {{#compare assertion 'should'}}
-            res.should.have.property('name');
-          {{/compare}}
-          {{#compare assertion 'assert'}}
-            assert.property(res, 'name');
-          {{/compare}}
-          {{#if asynchronous}}done();{{/if}}
-        })	
-      });
+    it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
+      api.get('{{path}}')
+      .set('Accept', 'application/json')
+      .expect({{responseCode}})
+      .end(function(err, res){
+        {{#compare assertion 'expect'}}
+          expect(res).to.have.property('name');
+        {{/compare}}
+        {{#compare assertion 'should'}}
+          res.should.have.property('name');
+        {{/compare}}
+        {{#compare assertion 'assert'}}
+          assert.property(res, 'name');
+        {{/compare}}
+        {{#if asynchronous}}done();{{/if}}
+      })	
+    });

@@ -7,7 +7,7 @@ var swag = require('./test/minimal/swagger.json');
 var config = {
     'assertionFormat':'should',
     'pathNames':['/', '/user'],
-    'testmodule':'request',
+    'testmodule':'supertest',
     'destination':'./test/minimal'
   };
 
@@ -100,7 +100,7 @@ function testGenOperation(swagger, path, operation, config){
   for (test in result)
     output+=result[test]
 
-  output+="    });\n"
+  output+="  });\n"
 
   return output;
 }
@@ -124,7 +124,7 @@ function testGenPath(swagger, path, config){
   for (test in result)
     output+=result[test]
 
-  output+="  });\n";
+  output+="});\n";
 
   return output;
 }

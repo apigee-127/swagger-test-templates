@@ -1,19 +1,19 @@
-      it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
-        request({
-          url: '{{url}}'
-          method: 'GET',
-          headers: {'Content-Type': 'application/json'}
-          }, 
-          function(error, response, body){
-              {{#compare assertion 'expect'}}
-              expect(body).to.have.property('name');
-              {{/compare}}
-              {{#compare assertion 'should'}}
-              body.should.have.property('name');
-              {{/compare}}
-              {{#compare assertion 'assert'}}
-              assert.property(body, 'name');
-              {{/compare}}
-              {{#if asynchronous}}done();{{/if}}
-        });
+    it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
+      request({
+        url: '{{url}}'
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+      }, 
+      function(error, response, body){
+        {{#compare assertion 'expect'}}
+        expect(body).to.have.property('name');
+        {{/compare}}
+        {{#compare assertion 'should'}}
+        body.should.have.property('name');
+        {{/compare}}
+        {{#compare assertion 'assert'}}
+        assert.property(body, 'name');
+        {{/compare}}
+        {{#if asynchronous}}done();{{/if}}
       });
+    });

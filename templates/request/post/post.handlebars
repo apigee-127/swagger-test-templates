@@ -4,9 +4,9 @@
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           json: {
-          {{#each parameters}}
-          {{this.name}}:'DATA GOES HERE',
-          {{/each}}
+            {{#each parameters}}
+            {{this.name}}:'DATA GOES HERE',
+            {{/each}}
           }
         }, 
         function(error, res, body){
