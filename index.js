@@ -2,14 +2,14 @@ var handlebars = require('handlebars'),
 	read = require('fs').readFileSync,
   write = require('fs').writeFile;
 
-var swag = require('./test/minimal/swagger.json');
+// var swag = require('./test/minimal/swagger.json');
 
-var config = {
-    'assertionFormat':'should',
-    'pathNames':['/', '/user'],
-    'testmodule':'supertest',
-    'destination':'./test/minimal'
-  };
+// var config = {
+//     'assertionFormat':'should',
+//     'pathNames':['/', '/user'],
+//     'testmodule':'supertest',
+//     'destination':'./test/minimal'
+//   };
 
 module.exports = {
   testGen:testGen
@@ -221,4 +221,4 @@ handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
   
 });
 
-testGen(swag, config);
+// testGen(swag, config);
