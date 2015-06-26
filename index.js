@@ -90,7 +90,7 @@ function testGenOperation(swagger, path, operation, config){
   var responses = swagger.paths[path][operation]['responses'],
     result = [];
 
-  for (res in responses){
+  for (var res in responses){
     result.push(testGenResponse(swagger,
       path,
       operation,
@@ -99,7 +99,7 @@ function testGenOperation(swagger, path, operation, config){
   }
 
   var output = "  describe('"+operation+"', function() {\n";
-  for (test in result)
+  for (var test in result)
     output+=result[test]
 
   output+="  });\n"
@@ -118,12 +118,12 @@ function testGenPath(swagger, path, config){
   var operations = swagger.paths[path],
     result = [];
 
-  for (op in operations){
+  for (var op in operations){
     result.push(testGenOperation(swagger, path, op, config));
   }
 
   var output = "describe('"+path+"', function() {\n";
-  for (test in result)
+  for (var test in result)
     output+=result[test]
 
   output+="});\n";

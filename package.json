@@ -39,5 +39,11 @@
   "devDependencies": {
     "mocha": "^2.2.5",
     "mocha-eslint": "^0.1.7"
+  },
+  "dependencies": {
+    "chai": "^3.0.0",
+    "handlebars": "^3.0.3",
+    "mocha": "^2.2.5",
+    "mocha-eslint": "^0.1.7"
   }
 }
