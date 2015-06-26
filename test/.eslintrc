@@ -2,3 +2,6 @@
   extends: ../.eslintrc
   env:
     mocha: true
+
+  rules:
+  	no-unused-vars: [2, {"var":"local", "args":"none"}]
