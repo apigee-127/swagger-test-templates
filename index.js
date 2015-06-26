@@ -1,3 +1,5 @@
+'use strict';
+
 var handlebars = require('handlebars'),
 	read = require('fs').readFileSync,
   write = require('fs').writeFile;
@@ -57,7 +59,7 @@ function testGenResponse(swagger, path, operation, response, config){
     if (!data.hasOwnProperty('parameters') || data.parameters.length == 0){
       source = read('./templates/'+config.testmodule
         +'/get/get.handlebars','utf8');
-    }    
+    }
   }
   else if (operation == 'post'){
     source = read('./templates/'+config.testmodule
@@ -76,7 +78,7 @@ function testGenResponse(swagger, path, operation, response, config){
 }
 
 /**
- * Builds a set of unit test stubs for all response codes of a 
+ * Builds a set of unit test stubs for all response codes of a
  *  path's operation
  * @param  {json}
  * @param  {string}
@@ -89,10 +91,10 @@ function testGenOperation(swagger, path, operation, config){
     result = [];
 
   for (res in responses){
-    result.push(testGenResponse(swagger, 
-      path, 
-      operation, 
-      res, 
+    result.push(testGenResponse(swagger,
+      path,
+      operation,
+      res,
       config));
   }
 
@@ -157,9 +159,9 @@ function testGen(swagger, config){
       //loops over specified paths from config
       for (var path in targets)
         if (paths.hasOwnProperty(targets[path]))
-          result.push(testGenPath(swagger, targets[path], config));  
+          result.push(testGenPath(swagger, targets[path], config));
   }
-	
+
 
   if (config.pathNames.length == 0){
     for (var ndx in result)
@@ -181,22 +183,22 @@ function testGen(swagger, config){
         output.push({
           'name':(targets[path].replace('/', '_'))+"Stub.js",
           'test':imports+result[path]
-        });  
+        });
   }
-  
+
 
   // for (var ndx in output)
   //   console.log(output[ndx].test);
 
   if (config.hasOwnProperty('destination')){
     for (var test in output)
-      write(config.destination+"/"+output[test].name, output[test].test, 
+      write(config.destination+"/"+output[test].name, output[test].test,
         function(err){
           if (err)
             console.log(err);
         });
   }
-  
+
   return output;
 }
 
@@ -205,12 +207,12 @@ function testGen(swagger, config){
  * https://gist.github.com/doginthehat/1890659
  */
 handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
- 
+
   if (arguments.length < 3)
     throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
 
   var operator = options.hash.operator || "==";
-  
+
   var operators = {
     '==':   function(l,r) { return l == r; },
     '===':  function(l,r) { return l === r; },
@@ -229,9 +231,9 @@ handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
 
   if( result )
     return options.fn(this);
-  else 
+  else
     return options.inverse(this);
-  
+
 });
 
 // testGen(swag, config);
