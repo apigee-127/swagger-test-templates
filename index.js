@@ -172,7 +172,7 @@ function testGen(swagger, config){
     //build file names from paths
     var i = 0;
     for (var path in paths){
-      output[i].name = path+output[i++].name;
+      output[i].name = (path.replace('/','_'))+output[i++].name;
     }
   }
   else {

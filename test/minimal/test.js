@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 var testGen = require('../../index.js').testGen;
 var swagger = require('./swagger.json');
+var lint = require('mocha-eslint');
 
 describe('minimal swagger', function(){
 	describe('request-option', function(){
@@ -15,6 +16,12 @@ describe('minimal swagger', function(){
 
         assert.isArray(output);
         assert.lengthOf(output, 2);
+
+        var paths = []
+        for (var ndx in output)
+          paths.push(__dirname+"/"+output[ndx].name);
+
+        lint(paths, {});
         done();
       });
 
@@ -27,6 +34,12 @@ describe('minimal swagger', function(){
 
         assert.isArray(output);
         assert.lengthOf(output, 1);
+
+        var paths = []
+        for (var ndx in output)
+          paths.push(__dirname+"/"+output[ndx].name);
+
+        lint(paths, {});
         done();
       });
 		});
@@ -43,6 +56,12 @@ describe('minimal swagger', function(){
 
         assert.isArray(output);
         assert.lengthOf(output, 2);
+
+        var paths = []
+        for (var ndx in output)
+          paths.push(__dirname+"/"+output[ndx].name);
+
+        lint(paths, {});
         done();
       });
 
@@ -55,6 +74,12 @@ describe('minimal swagger', function(){
 
         assert.isArray(output);
         assert.lengthOf(output, 1);
+
+        var paths = []
+        for (var ndx in output)
+          paths.push(__dirname+"/"+output[ndx].name);
+
+        lint(paths, {});
         done();
       });
 		});
