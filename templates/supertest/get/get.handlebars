@@ -1,4 +1,4 @@
-    it('should be {{description}}', function({{#if asynchronous}}done{{/if}}) {
+    it('should be {{description}}', function(done) {
       api.get('{{path}}')
       .set('Accept', 'application/json')
       .expect({{responseCode}})
@@ -12,6 +12,6 @@
         {{#compare assertion 'assert'}}
         chai.assert.property(res, 'name');
         {{/compare}}
-        {{#if asynchronous}}done();{{/if}}
+        done();
       });
     });

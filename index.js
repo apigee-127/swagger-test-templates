@@ -1,20 +1,36 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Apigee Corporation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 'use strict';
 
-var handlebars = require('handlebars'),
-	read = require('fs').readFileSync,
-  write = require('fs').writeFile;
-
-// var swag = require('./test/minimal/swagger.json');
-
-// var config = {
-//     'assertionFormat': 'should',
-//     'pathNames': ['/', '/user'],
-//     'testmodule': 'supertest',
-//     'destination': './test/minimal'
-//   };
+var handlebars = require('handlebars');
+var read = require('fs').readFileSync;
+var write = require('fs').writeFile;
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
+ * @private
  * @param  {json} swagger swagger file containing API
  * @param  {string} path API path to generate tests for
  * @param  {string} operation operation of the path to generate tests for
@@ -23,13 +39,12 @@ var handlebars = require('handlebars'),
  * @returns {string} generated test for response type
  */
 function testGenResponse(swagger, path, operation, response, config) {
-  var result, gen, source, param,
+  var result, templateFn, source, param,
     // request payload
     data = {
       'responseCode': response,
       'description': swagger.paths[path][operation].responses[response].description,
-      'assertion': config.assertionFormat,
-      'asynchronous': true
+      'assertion': config.assertionFormat
     };
 
   // adding body parameters to payload
@@ -67,8 +82,8 @@ function testGenResponse(swagger, path, operation, response, config) {
   }
 
   // compile template source and return test string
-  gen = handlebars.compile(source);
-  result = gen(data);
+  templateFn = handlebars.compile(source);
+  result = templateFn(data);
 
   return result;
 }
@@ -76,6 +91,7 @@ function testGenResponse(swagger, path, operation, response, config) {
 /**
  * Builds a set of unit test stubs for all response codes of a
  *  path's operation
+ * @private
  * @param  {json} swagger swagger file containing API
  * @param  {string} path API path to generate tests for
  * @param  {string} operation operation of the path to generate tests for
@@ -111,6 +127,7 @@ function testGenOperation(swagger, path, operation, config) {
 
 /**
  * Builds a set of unit test stubs for all of a path's operations
+ * @private
  * @param  {json} swagger swagger file containing API
  * @param  {string} path API path to generate tests for
  * @param  {json} config configuration for testGen
@@ -141,6 +158,7 @@ function testGenPath(swagger, path, config) {
 
 /**
  * Builds unit test stubs for all paths specified by the configuration
+ * @public
  * @param  {json} swagger swagger file containing API
  * @param  {json} config configuration for testGen
  * @returns {string|Array} set of all tests for a swagger API
@@ -186,7 +204,6 @@ function testGen(swagger, config) {
     }
 
     // build file names from paths
-
     for (path in paths) {
       if (paths.hasOwnProperty(path)) {
         output[i].name = (path.replace('/', '_')) + output[i++].name;
@@ -202,10 +219,6 @@ function testGen(swagger, config) {
         });
       }
   }
-
-
-  // for (var ndx in output)
-  //   console.log(output[ndx].test);
 
   function logError(err) {
     if (err) {
@@ -277,5 +290,3 @@ handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
   }
 
 });
-
-// testGen(swag, config);

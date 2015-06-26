@@ -1,4 +1,4 @@
-    it('should be {{description}}', function({{#if asynchronous}}done{{/if}}) {
+    it('should be {{description}}', function(done) {
       request({
         url: '{{url}}',
         method: 'GET',
@@ -14,6 +14,6 @@
         {{#compare assertion 'assert'}}
         chai.assert.property(body, 'name');
         {{/compare}}
-        {{#if asynchronous}}done();{{/if}}
+        done();
       });
     });
