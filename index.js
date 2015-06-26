@@ -96,7 +96,7 @@ function testGenOperation(swagger, path, operation, config){
       config));
   }
 
-  var output = "  describe('"+operation+"', function(){\n";
+  var output = "  describe('"+operation+"', function() {\n";
   for (test in result)
     output+=result[test]
 
@@ -120,7 +120,7 @@ function testGenPath(swagger, path, config){
     result.push(testGenOperation(swagger, path, op, config));
   }
 
-  var output = "describe('"+path+"', function(){\n";
+  var output = "describe('"+path+"', function() {\n";
   for (test in result)
     output+=result[test]
 
@@ -141,12 +141,11 @@ function testGen(swagger, config){
 		result = [],
     output = [];
 
-  var imports = "var should = require('chai').should,\n"
-    +"  expect = require('chai').expect,\n"
-    +"  assert = require('chai').assert,\n"
+  var imports = "'use strict';\n\n"
+    +"var chai = require('chai'),\n"
     +"  request = require('request'),\n"
-    +"  supertest = require('supertest'),\n"
-    +"  api = supertest('"+swagger.schemes[0]+"://"+swagger.host+"'); //supertest init\n\n";
+    +"  supertest = require('supertest');\n"
+    +"var api = supertest('"+swagger.schemes[0]+"://"+swagger.host+"'); // supertest init\n\n";
 
   if (config.pathNames.length == 0){
     // builds tests for all paths in API
@@ -180,7 +179,7 @@ function testGen(swagger, config){
     for (var path in targets)
       if (paths.hasOwnProperty(targets[path]))
         output.push({
-          'name':targets[path]+"Stub.js",
+          'name':(targets[path].replace('/', '_'))+"Stub.js",
           'test':imports+result[path]
         });  
   }

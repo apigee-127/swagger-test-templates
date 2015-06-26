@@ -1,21 +1,21 @@
-    it('should be {{description}}', function({{#if asynchronous}}done{{/if}}){
+    it('should be {{description}}', function({{#if asynchronous}}done{{/if}}) {
       api.put('{{path}}')
       .set('Accept', 'application/json')
       .send({
         {{#each parameters}}
-        {{this.name}}:'DATA GOES HERE',
+        {{this.name}}: 'DATA GOES HERE',
         {{/each}}
       })
       .expect({{responseCode}})
-      .end(function(err, res){
+      .end(function(err, res) {
         {{#compare assertion 'expect'}}
-          expect(res).to.have.property('name');
+        chai.expect(res).to.have.property('name');
         {{/compare}}
         {{#compare assertion 'should'}}
-          res.should.have.property('name');
+        res.should.have.property('name');
         {{/compare}}
         {{#compare assertion 'assert'}}
-          assert.property(res, 'name');
+        chai.assert.property(res, 'name');
         {{/compare}}
         {{#if asynchronous}}done();{{/if}}
       });
