@@ -3,7 +3,7 @@
       .set('Accept', 'application/json')
       .send({
         {{#each parameters}}
-        {{this.name}}: 'DATA GOES HERE',
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
         {{/each}}
       })
       .expect({{responseCode}})
