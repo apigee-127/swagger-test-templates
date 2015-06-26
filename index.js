@@ -148,29 +148,43 @@ function testGen(swagger, config){
     +"  supertest = require('supertest'),\n"
     +"  api = supertest('"+swagger.schemes[0]+"://"+swagger.host+"'); //supertest init\n\n";
 
-  if (config.pathNames.length == 0)
-    for (var path in paths)
+  if (config.pathNames.length == 0){
+    // builds tests for all paths in API
+    for (var path in paths){
       result.push(testGenPath(swagger, path, config));
+    }
+  }
+  else {
+      //loops over specified paths from config
+      for (var path in targets)
+        if (paths.hasOwnProperty(targets[path]))
+          result.push(testGenPath(swagger, targets[path], config));  
+  }
+	
 
-	//loops over specified paths
-	for (var path in targets)
-    if (paths.hasOwnProperty(targets[path]))
-      result.push(testGenPath(swagger, targets[path], config));
-
-  if (config.pathNames.length == 0)
-    for (var path in paths)
+  if (config.pathNames.length == 0){
+    for (var ndx in result)
       output.push({
-        'name':paths[path],
-        'test':imports+result[path]
+        'name':"Stub.js",
+        'test':imports+result[ndx]
       });
 
-  //loops over specified paths
-  for (var path in targets)
-    if (paths.hasOwnProperty(targets[path]))
-      output.push({
-        'name':targets[path]+"Stub.js",
-        'test':imports+result[path]
-      });
+    //build file names from paths
+    var i = 0;
+    for (var path in paths){
+      output[i].name = path+output[i++].name;
+    }
+  }
+  else {
+    //loops over specified paths
+    for (var path in targets)
+      if (paths.hasOwnProperty(targets[path]))
+        output.push({
+          'name':targets[path]+"Stub.js",
+          'test':imports+result[path]
+        });  
+  }
+  
 
   // for (var ndx in output)
   //   console.log(output[ndx].test);
