@@ -38,12 +38,10 @@
   "homepage": "https://github.com/apigee-127/swagger-test-templates#readme",
   "devDependencies": {
     "mocha": "^2.2.5",
-    "mocha-eslint": "^0.1.7"
+    "mocha-eslint": "^0.1.7",
+    "chai": "^3.0.0"
   },
   "dependencies": {
-    "chai": "^3.0.0",
-    "handlebars": "^3.0.3",
-    "mocha": "^2.2.5",
-    "mocha-eslint": "^0.1.7"
+    "handlebars": "^3.0.3"
   }
 }
