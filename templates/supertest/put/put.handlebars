@@ -8,15 +8,15 @@
       })
       .expect({{responseCode}})
       .end(function(err, res) {
-        {{#compare assertion 'expect'}}
+        {{#is assertion 'expect'}}
         chai.expect(res).to.have.property('name');
-        {{/compare}}
-        {{#compare assertion 'should'}}
+        {{/is}}
+        {{#is assertion 'should'}}
         res.should.have.property('name');
-        {{/compare}}
-        {{#compare assertion 'assert'}}
+        {{/is}}
+        {{#is assertion 'assert'}}
         chai.assert.property(res, 'name');
-        {{/compare}}
+        {{/is}}
         done();
       });
     });

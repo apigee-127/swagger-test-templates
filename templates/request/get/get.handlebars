@@ -5,15 +5,15 @@
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
-        {{#compare assertion 'expect'}}
+        {{#is assertion 'expect'}}
         chai.expect(body).to.have.property('name');
-        {{/compare}}
-        {{#compare assertion 'should'}}
+        {{/is}}
+        {{#is assertion 'should'}}
         body.should.have.property('name');
-        {{/compare}}
-        {{#compare assertion 'assert'}}
+        {{/is}}
+        {{#is assertion 'assert'}}
         chai.assert.property(body, 'name');
-        {{/compare}}
+        {{/is}}
         done();
       });
     });

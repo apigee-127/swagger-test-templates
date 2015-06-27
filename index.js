@@ -241,52 +241,13 @@ module.exports = {
   testGen: testGen
 };
 
-// https://gist.github.com/doginthehat/1890659
-handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
-
-  if (arguments.length < 3) {
-    throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
-  }
-
-  var operator = options.hash.operator || '==';
-
-  var operators = {
-    '==': function(l, r) {
-      return l === r;
-    },
-    '===': function(l, r) {
-      return l === r;
-    },
-    '!=': function(l, r) {
-      return l !== r;
-    },
-    '<': function(l, r) {
-      return l < r;
-    },
-    '>': function(l, r) {
-      return l > r;
-    },
-    '<=': function(l, r) {
-      return l <= r;
-    },
-    '>=': function(l, r) {
-      return l >= r;
-    },
-    'typeof': function(l, r) {
-      return typeof l === r;
+// http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/
+handlebars.registerHelper('is', function(lvalue, rvalue, options) {
+    if (arguments.length < 3)
+        throw new Error("Handlebars Helper 'is' needs 2 parameters");
+    if( lvalue!=rvalue ) {
+        return options.inverse(this);
+    } else {
+        return options.fn(this);
     }
-  };
-
-  if (!operators[operator]) {
-    throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
-  }
-
-  var result = operators[operator](lvalue, rvalue);
-
-  if (result) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
-
 });
