@@ -62,7 +62,7 @@ function testGenResponse(swagger, path, operation, response, config) {
   }
 
   // request url case
-  if (config.testmodule === 'request') {
+  if (config.testModule === 'request') {
     data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
       + '://' + (swagger.host !== undefined ? swagger.host : 'localhost:10010');
   }
@@ -70,8 +70,10 @@ function testGenResponse(swagger, path, operation, response, config) {
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // compile template source and return test string
+  source = read('./templates/' + config.testModule
+        + '/' + operation + '/' + operation + '.handlebars', 'utf8');
   var templatePath = join('./templates',
-    config.testmodule,
+    config.testModule,
     operation,
     operation + '.handlebars');
 
@@ -139,7 +141,7 @@ function testGenPath(swagger, path, config) {
   data = {
     'description': path,
     'assertion': config.assertionFormat,
-    'testmodule': config.testmodule,
+    'testmodule': config.testModule,
     'scheme': (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     'host': (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     'tests': result
@@ -159,7 +161,7 @@ function testGenPath(swagger, path, config) {
  */
 function testGen(swagger, config) {
 	var paths = swagger.paths,
-    targets = config.pathNames,
+    targets = config.pathName,
 		result = [],
     output = [],
     path,
@@ -173,7 +175,7 @@ function testGen(swagger, config) {
   source = read('templates/outerDescribe.handlebars', 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
-  if (config.pathNames.length === 0) {
+  if (config.pathName.length === 0) {
     // builds tests for all paths in API
     for (path in paths) {
       if (paths.hasOwnProperty(path)) {
@@ -190,7 +192,7 @@ function testGen(swagger, config) {
   }
 
   // no specified paths to build, so build all of them
-  if (config.pathNames.length === 0) {
+  if (config.pathName.length === 0) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({

@@ -32,12 +32,12 @@ var read = require('fs').readFileSync;
 
 describe('minimal swagger', function() {
 	describe('request-option', function() {
-		describe('pathNames-option', function() {
+		describe('pathName-option', function() {
 
       var output1 = testGen(swagger, {
         'assertionFormat': 'should',
-        'pathNames': [],
-        'testmodule': 'request'
+        'pathName': [],
+        'testModule': 'request'
       });
 
       var paths1 = [], ndx;
@@ -46,7 +46,7 @@ describe('minimal swagger', function() {
           paths1.push(__dirname +'/compare/output1' + output1[ndx].name);
         }
 
-			it ('should still generate all paths from empty pathNames option with should', function() {
+			it ('should still generate all paths from empty pathName option with should', function() {
         assert.isArray(output1);
         assert.lengthOf(output1, 2);
 
@@ -62,8 +62,8 @@ describe('minimal swagger', function() {
 
       var output2 = testGen(swagger, {
         'assertionFormat': 'should',
-        'pathNames': ['/'],
-        'testmodule': 'request'
+        'pathName': ['/'],
+        'testModule': 'request'
       });
 
       var paths2 = [], ndx;
@@ -72,7 +72,7 @@ describe('minimal swagger', function() {
         paths2.push(__dirname +'/compare/output2' + output2[ndx].name);
       }
 
-      it ('should generate specified paths from pathNames option with should', function() {
+      it ('should generate specified paths from pathName option with should', function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
 
@@ -90,8 +90,8 @@ describe('minimal swagger', function() {
     describe('asertionFormat-option', function(){
       var output5 = testGen(swagger, {
         'assertionFormat': 'assert',
-        'pathNames': [],
-        'testmodule': 'request'
+        'pathName': [],
+        'testModule': 'request'
       });
 
       var paths5 = [], ndx;
@@ -116,8 +116,8 @@ describe('minimal swagger', function() {
 
       var output6 = testGen(swagger, {
         'assertionFormat': 'expect',
-        'pathNames': [],
-        'testmodule': 'request'
+        'pathName': [],
+        'testModule': 'request'
       });
 
       var paths6 = [], ndx;
@@ -143,12 +143,12 @@ describe('minimal swagger', function() {
 	});
 
 	describe('supertest-option', function() {
-		describe('pathNames-option', function() {
+		describe('pathName-option', function() {
 
       var output3 = testGen(swagger, {
         'assertionFormat': 'should',
-        'pathNames': [],
-        'testmodule': 'supertest'
+        'pathName': [],
+        'testModule': 'supertest'
       });
 
       var paths3 = [], ndx;
@@ -157,7 +157,7 @@ describe('minimal swagger', function() {
         paths3.push(__dirname +'/compare/output3' + output3[ndx].name);
       }
 
-      it ('should still generate all paths from empty pathNames option with should', function() {
+      it ('should still generate all paths from empty pathName option with should', function() {
 
         assert.isArray(output3);
         assert.lengthOf(output3, 2);
@@ -174,8 +174,8 @@ describe('minimal swagger', function() {
 
       var output4 = testGen(swagger, {
         'assertionFormat': 'should',
-        'pathNames': ['/'],
-        'testmodule': 'supertest'
+        'pathName': ['/'],
+        'testModule': 'supertest'
       });
 
       var paths4 = [], ndx;
@@ -184,7 +184,7 @@ describe('minimal swagger', function() {
         paths4.push(__dirname +'/compare/output4' + output4[ndx].name);
       }
 
-      it ('should generate specified paths from pathNames option with should', function() {
+      it ('should generate specified paths from pathName option with should', function() {
 
         assert.isArray(output4);
         assert.lengthOf(output4, 1);
@@ -203,8 +203,8 @@ describe('minimal swagger', function() {
     describe('assertionFormat-option', function(){
       var output7 = testGen(swagger, {
         'assertionFormat': 'assert',
-        'pathNames': [],
-        'testmodule': 'supertest'
+        'pathName': [],
+        'testModule': 'supertest'
       });
 
       var paths7 = [], ndx;
@@ -230,8 +230,8 @@ describe('minimal swagger', function() {
 
       var output8 = testGen(swagger, {
         'assertionFormat': 'expect',
-        'pathNames': [],
-        'testmodule': 'supertest'
+        'pathName': [],
+        'testModule': 'supertest'
       });
 
       var paths8 = [], ndx;
