@@ -44,13 +44,12 @@ function testGenResponse(swagger, path, operation, response, config) {
     data = {
       'responseCode': response,
       'description': swagger.paths[path][operation].responses[response].description,
-      'assertion': config.assertionFormat
+      'assertion': config.assertionFormat,
+      'parameters': []
     };
 
   // adding body parameters to payload
   if (swagger.paths[path][operation].hasOwnProperty('parameters')) {
-    data.parameters = [];
-
     // only adds body parameters to request, ignores query params
     for (param in swagger.paths[path][operation].parameters) {
       if (swagger.paths[path][operation].parameters[param].in === 'body') {
@@ -67,21 +66,9 @@ function testGenResponse(swagger, path, operation, response, config) {
     data.path = (swagger.basePath !== undefined ? swagger.basePath : '') + path;
   }
 
-  // template source decision logic
-  if (operation === 'get') {
-    if (!data.hasOwnProperty('parameters') || data.parameters.length === 0) {
-      source = read('./templates/' + config.testmodule
-        + '/get/get.handlebars', 'utf8');
-    }
-  } else if (operation === 'post') {
-    source = read('./templates/' + config.testmodule
-      + '/post/post.handlebars', 'utf8');
-  } else if (operation === 'put') {
-    source = read('./templates/' + config.testmodule
-      + '/put/put/handlebars', 'utf8');
-  }
-
   // compile template source and return test string
+  source = read('./templates/' + config.testmodule
+        + '/' + operation + '/' + operation + '.handlebars', 'utf8');
   templateFn = handlebars.compile(source);
   result = templateFn(data);
 
