@@ -59,7 +59,7 @@ function testGenResponse(swagger, path, operation, response, config) {
   }
 
   // request url vs. supertest path
-  if (config.testmodule === 'request') {
+  if (config.testModule === 'request') {
     data.url = swagger.schemes[0] + '://' + swagger.host +
       (swagger.basePath !== undefined ? swagger.basePath : '') + path;
   } else {
@@ -67,7 +67,7 @@ function testGenResponse(swagger, path, operation, response, config) {
   }
 
   // compile template source and return test string
-  source = read('./templates/' + config.testmodule
+  source = read('./templates/' + config.testModule
         + '/' + operation + '/' + operation + '.handlebars', 'utf8');
   templateFn = handlebars.compile(source);
   result = templateFn(data);
@@ -152,7 +152,7 @@ function testGenPath(swagger, path, config) {
  */
 function testGen(swagger, config) {
 	var paths = swagger.paths,
-    targets = config.pathNames,
+    targets = config.pathName,
 		result = [],
     output = [],
     path, ndx, test, i = 0;
@@ -163,7 +163,7 @@ function testGen(swagger, config) {
     + "  supertest = require('supertest');\n"
     + "var api = supertest('" + swagger.schemes[0] + '://' + swagger.host + "'); // supertest init\n\n";
 
-  if (config.pathNames.length === 0) {
+  if (config.pathName.length === 0) {
     // builds tests for all paths in API
     for (path in paths) {
       if (paths.hasOwnProperty(path)) {
@@ -180,7 +180,7 @@ function testGen(swagger, config) {
   }
 
 
-  if (config.pathNames.length === 0) {
+  if (config.pathName.length === 0) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
