@@ -14,7 +14,7 @@ var request = require('request');
 {{/is}}
 {{#is testmodule 'supertest'}}
 var supertest = require('supertest');
-var api = supertest('" + {{scheme}} + '://' + {{host}} + "'); // supertest init;
+var api = supertest('{{scheme}}://{{host}}'); // supertest init;
 {{/is}}
 
 describe('{{description}}', function(){

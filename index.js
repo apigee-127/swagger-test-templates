@@ -26,7 +26,6 @@
 
 var handlebars = require('handlebars');
 var read = require('fs').readFileSync;
-var write = require('fs').writeFile;
 var join = require('path').join;
 var innerDescribeFn, outerDescribeFn;
 
@@ -48,7 +47,8 @@ function testGenResponse(swagger, path, operation, response, config) {
       'description': (response + ' ' +
         swagger.paths[path][operation].responses[response].description),
       'assertion': config.assertionFormat,
-      'parameters': []
+      'parameters': [],
+      'path':''
     };
 
   // adding body parameters to payload
@@ -94,7 +94,7 @@ function testGenResponse(swagger, path, operation, response, config) {
  */
 function testGenOperation(swagger, path, operation, config) {
   var responses = swagger.paths[path][operation].responses,
-    result = [], res, test;
+    result = [], res;
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {
@@ -137,6 +137,7 @@ function testGenPath(swagger, path, config) {
 
   var output,
   data = {
+    'description':path,
     'assertion': config.assertionFormat,
     'testmodule': config.testmodule,
     'scheme': (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
@@ -161,9 +162,13 @@ function testGen(swagger, config) {
     targets = config.pathNames,
 		result = [],
     output = [],
-    path, ndx, test, i = 0, data;
+    path,
+    ndx,
+    test,
+    i = 0,
+    source;
 
-  var source = read('templates/innerDescribe.handlebars', 'utf8');
+  source = read('templates/innerDescribe.handlebars', 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   source = read('templates/outerDescribe.handlebars', 'utf8');
@@ -185,6 +190,7 @@ function testGen(swagger, config) {
       }
   }
 
+  // no specified paths to build, so build all of them
   if (config.pathNames.length === 0) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
@@ -195,7 +201,7 @@ function testGen(swagger, config) {
       }
     }
 
-    // build file names from paths
+    // build file names with paths
     for (path in paths) {
       if (paths.hasOwnProperty(path)) {
         output[i].name = (path.replace('/', '_')) + output[i++].name;
@@ -210,20 +216,6 @@ function testGen(swagger, config) {
           'test': result[path]
         });
       }
-  }
-
-  function logError(err) {
-    if (err) {
-      console.log(err);
-    }
-  }
-
-  if (config.hasOwnProperty('destination')) {
-    for (test in output) {
-      if (output.hasOwnProperty(test)) {
-        write(config.destination + '/' + output[test].name, output[test].test, logError);
-      }
-    }
   }
 
   return output;
