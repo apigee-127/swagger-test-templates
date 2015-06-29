@@ -30,12 +30,6 @@ var swagger = require('./swagger.json');
 var lint = require('mocha-eslint');
 var read = require('fs').readFileSync;
 
-function logError(err) {
-  if (err) {
-    console.log(err);
-  }
-}
-
 describe('minimal swagger', function() {
 	describe('request-option', function() {
 		describe('pathNames-option', function() {
