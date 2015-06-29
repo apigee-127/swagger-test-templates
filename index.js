@@ -27,6 +27,7 @@
 var handlebars = require('handlebars');
 var read = require('fs').readFileSync;
 var write = require('fs').writeFile;
+var join = require('path').join;
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
@@ -43,7 +44,8 @@ function testGenResponse(swagger, path, operation, response, config) {
     // request payload
     data = {
       'responseCode': response,
-      'description': swagger.paths[path][operation].responses[response].description,
+      'description': response + ' ' +
+        swagger.paths[path][operation].responses[response].description,
       'assertion': config.assertionFormat,
       'parameters': []
     };
@@ -67,8 +69,12 @@ function testGenResponse(swagger, path, operation, response, config) {
   }
 
   // compile template source and return test string
-  source = read('./templates/' + config.testmodule
-        + '/' + operation + '/' + operation + '.handlebars', 'utf8');
+  var templatePath = join('./templates',
+    config.testmodule,
+    operation,
+    operation + '.handlebars');
+
+  source = read(templatePath, 'utf8');
   templateFn = handlebars.compile(source);
   result = templateFn(data);
 
@@ -230,9 +236,11 @@ module.exports = {
 
 // http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/
 handlebars.registerHelper('is', function(lvalue, rvalue, options) {
-    if (arguments.length < 3)
+    if (arguments.length < 3) {
         throw new Error("Handlebars Helper 'is' needs 2 parameters");
-    if( lvalue!=rvalue ) {
+    }
+
+    if (lvalue !== rvalue) {
         return options.inverse(this);
     } else {
         return options.fn(this);
