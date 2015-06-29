@@ -4,7 +4,7 @@
   "description": "Generate test code from a Swagger spec",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive",
+    "test": "mocha test/minimal/test.js",
     "pretest": "npm install"
   },
   "repository": {
