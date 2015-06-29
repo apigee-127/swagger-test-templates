@@ -28,6 +28,7 @@ var handlebars = require('handlebars');
 var read = require('fs').readFileSync;
 var write = require('fs').writeFile;
 var join = require('path').join;
+var innerDescribeFn, outerDescribeFn;
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
@@ -44,8 +45,8 @@ function testGenResponse(swagger, path, operation, response, config) {
     // request payload
     data = {
       'responseCode': response,
-      'description': response + ' ' +
-        swagger.paths[path][operation].responses[response].description,
+      'description': (response + ' ' +
+        swagger.paths[path][operation].responses[response].description),
       'assertion': config.assertionFormat,
       'parameters': []
     };
@@ -60,13 +61,13 @@ function testGenResponse(swagger, path, operation, response, config) {
     }
   }
 
-  // request url vs. supertest path
+  // request url case
   if (config.testmodule === 'request') {
-    data.url = swagger.schemes[0] + '://' + swagger.host +
-      (swagger.basePath !== undefined ? swagger.basePath : '') + path;
-  } else {
-    data.path = (swagger.basePath !== undefined ? swagger.basePath : '') + path;
+    data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
+      + '://' + (swagger.host !== undefined ? swagger.host : 'localhost:10010');
   }
+
+  data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // compile template source and return test string
   var templatePath = join('./templates',
@@ -105,15 +106,13 @@ function testGenOperation(swagger, path, operation, config) {
     }
   }
 
-  var output = "  describe('" + operation + "', function() {\n";
+  var output,
+  data = {
+    'description': operation,
+    'tests': result
+  };
 
-  for (test in result) {
-    if (result.hasOwnProperty(test)) {
-      output += result[test];
-    }
-  }
-
-  output += '  });\n';
+  output = innerDescribeFn(data);
 
   return output;
 }
@@ -136,15 +135,16 @@ function testGenPath(swagger, path, config) {
     }
   }
 
-  var output = "describe('" + path + "', function() {\n", test;
+  var output,
+  data = {
+    'assertion': config.assertionFormat,
+    'testmodule': config.testmodule,
+    'scheme': (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
+    'host': (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
+    'tests': result
+  };
 
-  for (test in result) {
-    if (result.hasOwnProperty(test)) {
-      output += result[test];
-    }
-  }
-
-  output += '});\n';
+  output = outerDescribeFn(data);
 
   return output;
 }
@@ -161,13 +161,13 @@ function testGen(swagger, config) {
     targets = config.pathNames,
 		result = [],
     output = [],
-    path, ndx, test, i = 0;
+    path, ndx, test, i = 0, data;
 
-  var imports = "'use strict';\n\n"
-    + "var chai = require('chai'),\n"
-    + "  request = require('request'),\n"
-    + "  supertest = require('supertest');\n"
-    + "var api = supertest('" + swagger.schemes[0] + '://' + swagger.host + "'); // supertest init\n\n";
+  var source = read('templates/innerDescribe.handlebars', 'utf8');
+  innerDescribeFn = handlebars.compile(source, {noEscape: true});
+
+  source = read('templates/outerDescribe.handlebars', 'utf8');
+  outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   if (config.pathNames.length === 0) {
     // builds tests for all paths in API
@@ -185,13 +185,12 @@ function testGen(swagger, config) {
       }
   }
 
-
   if (config.pathNames.length === 0) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
         'name': 'Stub.js',
-        'test': imports + result[ndx]
+        'test': result[ndx]
         });
       }
     }
@@ -208,7 +207,7 @@ function testGen(swagger, config) {
       if (paths.hasOwnProperty(targets[path])) {
         output.push({
           'name': (targets[path].replace('/', '_')) + 'Stub.js',
-          'test': imports + result[path]
+          'test': result[path]
         });
       }
   }

@@ -1,24 +1,24 @@
-      it('should be {{description}}', function(done) {
-        request({
-          url: '{{url}}',
-          method: 'PUT',
-          headers: {'Content-Type': 'application/json'},
-          json: {
-            {{#each parameters}}
-            {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-            {{/each}}
-          }
-        },
-        function(error, res, body) {
-          {{#is assertion 'expect'}}
-          chai.expect(body).to.have.property('name');
-          {{/is}}
-          {{#is assertion 'should'}}
-          body.should.have.property('name');
-          {{/is}}
-          {{#is assertion 'assert'}}
-          chai.assert.property(body, 'name');
-          {{/is}}
-          done();
-        });
+  it('should be {{description}}', function(done) {
+      request({
+        url: '{{path}}',
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        json: {
+          {{#each parameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
+      },
+      function(error, res, body) {
+        {{#is assertion 'expect'}}
+        chai.expect(body).to.have.property('name');
+        {{/is}}
+        {{#is assertion 'should'}}
+        body.should.have.property('name');
+        {{/is}}
+        {{#is assertion 'assert'}}
+        chai.assert.property(body, 'name');
+        {{/is}}
+        done();
       });
+    });
