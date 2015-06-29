@@ -29,84 +29,92 @@ var testGen = require('../../index.js').testGen;
 var swagger = require('./swagger.json');
 var lint = require('mocha-eslint');
 
-describe('minimal swagger', function(){
-	describe('request-option', function(){
-		describe('pathNames-option', function(){
-			it ('should still generate all paths from empty pathNames option', function(done){
-        var output = testGen(swagger, {
-          'assertionFormat':'should',
-          'pathNames':[],
-          'testmodule':'request'
-           ,'destination':'./test/minimal'
-        });
+describe('minimal swagger', function() {
+	describe('request-option', function() {
+		describe('pathNames-option', function() {
 
-        assert.isArray(output);
-        assert.lengthOf(output, 2);
-
-        var paths = []
-        for (var ndx in output)
-          paths.push(__dirname+"/"+output[ndx].name);
-
-        lint(paths, {});
-        done();
+      var output1 = testGen(swagger, {
+        'assertionFormat': 'should',
+        'pathNames': [],
+        'testmodule': 'request'
+         ,'destination': './test/minimal' // need to remove this
       });
 
-      it ('should generate specified paths from pathNames option', function(done){
-        var output = testGen(swagger, {
-          'assertionFormat':'should',
-          'pathNames':['/'],
-          'testmodule':'request'
-        });
+      var paths = [], ndx;
 
-        assert.isArray(output);
-        assert.lengthOf(output, 1);
+        for (ndx in output1) {
+          paths.push(__dirname + '/' + output1[ndx].name);
+        }
 
-        var paths = []
-        for (var ndx in output)
-          paths.push(__dirname+"/"+output[ndx].name);
+			it ('should still generate all paths from empty pathNames option', function() {
+        assert.isArray(output1);
+        assert.lengthOf(output1, 2);
 
         lint(paths, {});
-        done();
+      });
+
+      var output2 = testGen(swagger, {
+        'assertionFormat': 'should',
+        'pathNames': ['/'],
+        'testmodule': 'request'
+      });
+
+      var paths = [], ndx;
+
+      for (ndx in output2) {
+        paths.push(__dirname + '/' + output2[ndx].name);
+      }
+
+      it ('should generate specified paths from pathNames option', function() {
+        assert.isArray(output2);
+        assert.lengthOf(output2, 1);
+
+        lint(paths, {});
       });
 		});
 	});
 
-	describe('supertest-option', function(){
-		describe('pathNames-option', function(){
-      it ('should still generate all paths from empty pathNames option', function(done){
-        var output = testGen(swagger, {
-          'assertionFormat':'should',
-          'pathNames':[],
-          'testmodule':'supertest'
-        });
+	describe('supertest-option', function() {
+		describe('pathNames-option', function() {
 
-        assert.isArray(output);
-        assert.lengthOf(output, 2);
-
-        var paths = []
-        for (var ndx in output)
-          paths.push(__dirname+"/"+output[ndx].name);
-
-        lint(paths, {});
-        done();
+      var output1 = testGen(swagger, {
+        'assertionFormat': 'should',
+        'pathNames': [],
+        'testmodule': 'supertest'
       });
 
-      it ('should generate specified paths from pathNames option', function(done){
-        var output = testGen(swagger, {
-          'assertionFormat':'should',
-          'pathNames':['/'],
-          'testmodule':'supertest'
-        });
+      var paths = [], ndx;
 
-        assert.isArray(output);
-        assert.lengthOf(output, 1);
+      for (ndx in output1) {
+        paths.push(__dirname + '/' + output1[ndx].name);
+      }
 
-        var paths = []
-        for (var ndx in output)
-          paths.push(__dirname+"/"+output[ndx].name);
+      it ('should still generate all paths from empty pathNames option', function() {
+
+        assert.isArray(output1);
+        assert.lengthOf(output1, 2);
 
         lint(paths, {});
-        done();
+      });
+
+      var output2 = testGen(swagger, {
+        'assertionFormat': 'should',
+        'pathNames': ['/'],
+        'testmodule': 'supertest'
+      });
+
+      it ('should generate specified paths from pathNames option', function() {
+
+        assert.isArray(output2);
+        assert.lengthOf(output2, 1);
+
+        var paths = [], ndx;
+
+        for (ndx in output2) {
+          paths.push(__dirname + '/' + output2[ndx].name);
+        }
+
+        lint(paths, {});
       });
 		});
 	});
