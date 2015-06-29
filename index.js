@@ -48,7 +48,7 @@ function testGenResponse(swagger, path, operation, response, config) {
         swagger.paths[path][operation].responses[response].description),
       'assertion': config.assertionFormat,
       'parameters': [],
-      'path':''
+      'path': ''
     };
 
   // adding body parameters to payload
@@ -137,7 +137,7 @@ function testGenPath(swagger, path, config) {
 
   var output,
   data = {
-    'description':path,
+    'description': path,
     'assertion': config.assertionFormat,
     'testmodule': config.testmodule,
     'scheme': (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
@@ -164,7 +164,6 @@ function testGen(swagger, config) {
     output = [],
     path,
     ndx,
-    test,
     i = 0,
     source;
 

@@ -28,7 +28,7 @@ var assert = require('chai').assert;
 var testGen = require('../../index.js').testGen;
 var swagger = require('./swagger.json');
 var lint = require('mocha-eslint');
-var write = require('fs').writeFile;
+var read = require('fs').readFileSync;
 
 function logError(err) {
   if (err) {
@@ -49,13 +49,19 @@ describe('minimal swagger', function() {
       var paths1 = [], ndx;
 
         for (ndx in output1) {
-          write(__dirname +'/compare/output1' + output1[ndx].name, output1[ndx].test, logError);
           paths1.push(__dirname +'/compare/output1' + output1[ndx].name);
         }
 
 			it ('should still generate all paths from empty pathNames option with should', function() {
         assert.isArray(output1);
         assert.lengthOf(output1, 2);
+
+        var generatedCode;
+
+        for (ndx in paths1) {
+          generatedCode = read(paths1[ndx], 'utf8');
+          assert.equal(output1[ndx].test, generatedCode);
+        }
 
         lint(paths1, {});
       });
@@ -69,13 +75,19 @@ describe('minimal swagger', function() {
       var paths2 = [], ndx;
 
       for (ndx in output2) {
-        write(__dirname +'/compare/output2' + output2[ndx].name, output2[ndx].test, logError);
         paths2.push(__dirname +'/compare/output2' + output2[ndx].name);
       }
 
       it ('should generate specified paths from pathNames option with should', function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
+
+        var generatedCode;
+
+        for (ndx in paths2) {
+          generatedCode = read(paths2[ndx], 'utf8');
+          assert.equal(output2[ndx].test, generatedCode);
+        }
 
         lint(paths2, {});
       });
@@ -91,13 +103,19 @@ describe('minimal swagger', function() {
       var paths5 = [], ndx;
 
         for (ndx in output5) {
-          write(__dirname +'/compare/output5' + output5[ndx].name, output5[ndx].test, logError);
           paths5.push(__dirname +'/compare/output5' + output5[ndx].name);
         }
 
       it ('should still generate all paths with assert', function() {
         assert.isArray(output5);
         assert.lengthOf(output5, 2);
+
+        var generatedCode;
+
+        for (ndx in paths5) {
+          generatedCode = read(paths5[ndx], 'utf8');
+          assert.equal(output5[ndx].test, generatedCode);
+        }
 
         lint(paths5, {});
       });
@@ -111,13 +129,19 @@ describe('minimal swagger', function() {
       var paths6 = [], ndx;
 
         for (ndx in output6) {
-          write(__dirname +'/compare/output6' + output6[ndx].name, output6[ndx].test, logError);
           paths6.push(__dirname +'/compare/output6' + output6[ndx].name);
         }
 
       it ('should still generate all paths with except', function() {
         assert.isArray(output6);
         assert.lengthOf(output6, 2);
+
+        var generatedCode;
+
+        for (ndx in paths6) {
+          generatedCode = read(paths6[ndx], 'utf8');
+          assert.equal(output6[ndx].test, generatedCode);
+        }
 
         lint(paths6, {});
       });
@@ -136,7 +160,6 @@ describe('minimal swagger', function() {
       var paths3 = [], ndx;
 
       for (ndx in output3) {
-        write(__dirname +'/compare/output3' + output3[ndx].name, output3[ndx].test, logError);
         paths3.push(__dirname +'/compare/output3' + output3[ndx].name);
       }
 
@@ -144,6 +167,13 @@ describe('minimal swagger', function() {
 
         assert.isArray(output3);
         assert.lengthOf(output3, 2);
+
+        var generatedCode;
+
+        for (ndx in paths3) {
+          generatedCode = read(paths3[ndx], 'utf8');
+          assert.equal(output3[ndx].test, generatedCode);
+        }
 
         lint(paths3, {});
       });
@@ -154,16 +184,22 @@ describe('minimal swagger', function() {
         'testmodule': 'supertest'
       });
 
+      var paths4 = [], ndx;
+
+      for (ndx in output4) {
+        paths4.push(__dirname +'/compare/output4' + output4[ndx].name);
+      }
+
       it ('should generate specified paths from pathNames option with should', function() {
 
         assert.isArray(output4);
         assert.lengthOf(output4, 1);
 
-        var paths4 = [], ndx;
+        var generatedCode;
 
-        for (ndx in output4) {
-          write(__dirname +'/compare/output4' + output4[ndx].name, output4[ndx].test, logError);
-          paths4.push(__dirname +'/compare/output4' + output4[ndx].name);
+        for (ndx in paths4) {
+          generatedCode = read(paths4[ndx], 'utf8');
+          assert.equal(output4[ndx].test, generatedCode);
         }
 
         lint(paths4, {});
@@ -180,7 +216,6 @@ describe('minimal swagger', function() {
       var paths7 = [], ndx;
 
       for (ndx in output7) {
-        write(__dirname +'/compare/output7' + output7[ndx].name, output7[ndx].test, logError);
         paths7.push(__dirname +'/compare/output7' + output7[ndx].name);
       }
 
@@ -188,6 +223,13 @@ describe('minimal swagger', function() {
 
         assert.isArray(output7);
         assert.lengthOf(output7, 2);
+
+        var generatedCode;
+
+        for (ndx in paths7) {
+          generatedCode = read(paths7[ndx], 'utf8');
+          assert.equal(output7[ndx].test, generatedCode);
+        }
 
         lint(paths7, {});
       });
@@ -201,7 +243,6 @@ describe('minimal swagger', function() {
       var paths8 = [], ndx;
 
       for (ndx in output8) {
-        write(__dirname +'/compare/output8' + output8[ndx].name, output8[ndx].test, logError);
         paths8.push(__dirname +'/compare/output8' + output8[ndx].name);
       }
 
@@ -209,6 +250,13 @@ describe('minimal swagger', function() {
 
         assert.isArray(output8);
         assert.lengthOf(output8, 2);
+
+        var generatedCode;
+
+        for (ndx in paths8) {
+          generatedCode = read(paths8[ndx], 'utf8');
+          assert.equal(output8[ndx].test, generatedCode);
+        }
 
         lint(paths8, {});
       });
