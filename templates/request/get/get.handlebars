@@ -7,6 +7,7 @@
       function(error, response, body) {
         if (error) {
           done(error);
+          return;
         }
 
         {{#is assertion 'expect'}}
