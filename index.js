@@ -27,7 +27,8 @@
 var handlebars = require('handlebars');
 var read = require('fs').readFileSync;
 var join = require('path').join;
-var innerDescribeFn, outerDescribeFn;
+var innerDescribeFn;
+var outerDescribeFn;
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
@@ -40,9 +41,11 @@ var innerDescribeFn, outerDescribeFn;
  * @returns {string} generated test for response type
  */
 function testGenResponse(swagger, path, operation, response, config) {
-  var result, templateFn, source, param,
-    // request payload
-    data = {
+  var result;
+  var templateFn;
+  var source;
+  var param;
+  var data = { // request payload
       'responseCode': response,
       'description': (response + ' ' +
         swagger.paths[path][operation].responses[response].description),
@@ -94,8 +97,9 @@ function testGenResponse(swagger, path, operation, response, config) {
  * @returns {string|Array} set of all tests for a path's operation
  */
 function testGenOperation(swagger, path, operation, config) {
-  var responses = swagger.paths[path][operation].responses,
-    result = [], res;
+  var responses = swagger.paths[path][operation].responses;
+  var result = [];
+  var res;
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {
@@ -107,8 +111,8 @@ function testGenOperation(swagger, path, operation, config) {
     }
   }
 
-  var output,
-  data = {
+  var output;
+  var data = {
     'description': operation,
     'tests': result
   };
@@ -127,8 +131,9 @@ function testGenOperation(swagger, path, operation, config) {
  * @returns {string|Array} set of all tests for a path
  */
 function testGenPath(swagger, path, config) {
-  var operations = swagger.paths[path],
-    result = [], op;
+  var operations = swagger.paths[path];
+  var result = [];
+  var op;
 
   for (op in operations) {
     if (operations.hasOwnProperty(op)) {
@@ -136,8 +141,8 @@ function testGenPath(swagger, path, config) {
     }
   }
 
-  var output,
-  data = {
+  var output;
+  var data = {
     'description': path,
     'assertion': config.assertionFormat,
     'testmodule': config.testModule,
@@ -159,14 +164,14 @@ function testGenPath(swagger, path, config) {
  * @returns {string|Array} set of all tests for a swagger API
  */
 function testGen(swagger, config) {
-	var paths = swagger.paths,
-    targets = config.pathName,
-		result = [],
-    output = [],
-    path,
-    ndx,
-    i = 0,
-    source;
+	var paths = swagger.paths;
+  var targets = config.pathName;
+	var result = [];
+  var output = [];
+  var path;
+  var ndx;
+  var i = 0;
+  var source;
 
   source = read('templates/innerDescribe.handlebars', 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});

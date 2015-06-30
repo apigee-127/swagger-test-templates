@@ -46,7 +46,8 @@ describe('robust swagger', function() {
         'testModule': 'request'
       });
 
-      var paths1 = [], ndx;
+      var paths1 = [];
+      var ndx;
 
         for (ndx in output1) {
           if (output1 !== undefined) {
@@ -116,7 +117,8 @@ describe('robust swagger', function() {
         'testModule': 'request'
       });
 
-      var paths5 = [], ndx;
+      var paths5 = [];
+      var ndx;
 
         for (ndx in output5) {
           if (output5 !== undefined) {
@@ -189,7 +191,8 @@ describe('robust swagger', function() {
         'testModule': 'supertest'
       });
 
-      var paths3 = [], ndx;
+      var paths3 = [];
+      var ndx;
 
       for (ndx in output3) {
         if (output3) {
@@ -261,7 +264,8 @@ describe('robust swagger', function() {
         'testModule': 'supertest'
       });
 
-      var paths7 = [], ndx;
+      var paths7 = [];
+      var ndx;
 
       for (ndx in output7) {
         if (output7 !== undefined) {
