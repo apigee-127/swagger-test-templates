@@ -20,7 +20,7 @@
     no-multiple-empty-lines: 2
     no-nested-ternary: 2
     no-path-concat: 2
-    quotes: [2, "single", "avoid-escape"]
+    quotes: [2, "single"]
     radix: 2
     space-after-keywords: [2, "always"]
     space-before-blocks: [2, "always"]
