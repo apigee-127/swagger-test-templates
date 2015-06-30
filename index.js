@@ -70,8 +70,7 @@ function testGenResponse(swagger, path, operation, response, config) {
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // compile template source and return test string
-  source = read('./templates/' + config.testModule
-        + '/' + operation + '/' + operation + '.handlebars', 'utf8');
+  source = read(join('templates', config.testModule, operation, operation + '.handlebars'), 'utf8');
   var templatePath = join('./templates',
     config.testModule,
     operation,
