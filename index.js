@@ -46,12 +46,12 @@ function testGenResponse(swagger, path, operation, response, config) {
   var source;
   var param;
   var data = { // request payload
-      'responseCode': response,
-      'description': (response + ' ' +
+      responseCode: response,
+      description: (response + ' ' +
         swagger.paths[path][operation].responses[response].description),
-      'assertion': config.assertionFormat,
-      'parameters': [],
-      'path': ''
+      assertion: config.assertionFormat,
+      parameters: [],
+      path: ''
     };
 
   // adding body parameters to payload
@@ -113,8 +113,8 @@ function testGenOperation(swagger, path, operation, config) {
 
   var output;
   var data = {
-    'description': operation,
-    'tests': result
+    description: operation,
+    tests: result
   };
 
   output = innerDescribeFn(data);
@@ -143,12 +143,12 @@ function testGenPath(swagger, path, config) {
 
   var output;
   var data = {
-    'description': path,
-    'assertion': config.assertionFormat,
-    'testmodule': config.testModule,
-    'scheme': (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
-    'host': (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
-    'tests': result
+    description: path,
+    assertion: config.assertionFormat,
+    testmodule: config.testModule,
+    scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
+    host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
+    tests: result
   };
 
   output = outerDescribeFn(data);
@@ -200,8 +200,8 @@ function testGen(swagger, config) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
-        'name': '_Stub.js',
-        'test': result[ndx]
+        name: '_Stub.js',
+        test: result[ndx]
         });
       }
     }
@@ -217,8 +217,8 @@ function testGen(swagger, config) {
     for (path in targets)
       if (paths.hasOwnProperty(targets[path])) {
         output.push({
-          'name': (targets[path].replace(/\//g, '_')) + '_Stub.js',
-          'test': result[path]
+          name: (targets[path].replace(/\//g, '_')) + '_Stub.js',
+          test: result[path]
         });
       }
   }

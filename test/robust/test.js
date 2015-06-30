@@ -41,9 +41,9 @@ describe('robust swagger', function() {
     describe('pathName-option', function() {
 
       var output1 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': [],
-        'testModule': 'request'
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'request'
       });
 
       var paths1 = [];
@@ -76,9 +76,9 @@ describe('robust swagger', function() {
       });
 
       var output2 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': ['/'],
-        'testModule': 'request'
+        assertionFormat: 'should',
+        pathName: ['/'],
+        testModule: 'request'
       });
 
       var paths2 = [];
@@ -112,9 +112,9 @@ describe('robust swagger', function() {
 
     describe('asertionFormat-option', function() {
       var output5 = testGen(swagger, {
-        'assertionFormat': 'assert',
-        'pathName': [],
-        'testModule': 'request'
+        assertionFormat: 'assert',
+        pathName: [],
+        testModule: 'request'
       });
 
       var paths5 = [];
@@ -147,9 +147,9 @@ describe('robust swagger', function() {
       });
 
       var output6 = testGen(swagger, {
-        'assertionFormat': 'expect',
-        'pathName': [],
-        'testModule': 'request'
+        assertionFormat: 'expect',
+        pathName: [],
+        testModule: 'request'
       });
 
       var paths6 = [];
@@ -186,9 +186,9 @@ describe('robust swagger', function() {
     describe('pathName-option', function() {
 
       var output3 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': [],
-        'testModule': 'supertest'
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest'
       });
 
       var paths3 = [];
@@ -222,9 +222,9 @@ describe('robust swagger', function() {
       });
 
       var output4 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': ['/'],
-        'testModule': 'supertest'
+        assertionFormat: 'should',
+        pathName: ['/'],
+        testModule: 'supertest'
       });
 
       var paths4 = [];
@@ -259,9 +259,9 @@ describe('robust swagger', function() {
 
     describe('assertionFormat-option', function() {
       var output7 = testGen(swagger, {
-        'assertionFormat': 'assert',
-        'pathName': [],
-        'testModule': 'supertest'
+        assertionFormat: 'assert',
+        pathName: [],
+        testModule: 'supertest'
       });
 
       var paths7 = [];
@@ -295,9 +295,9 @@ describe('robust swagger', function() {
       });
 
       var output8 = testGen(swagger, {
-        'assertionFormat': 'expect',
-        'pathName': [],
-        'testModule': 'supertest'
+        assertionFormat: 'expect',
+        pathName: [],
+        testModule: 'supertest'
       });
 
       var paths8 = [];

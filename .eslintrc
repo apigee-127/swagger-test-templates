@@ -32,3 +32,4 @@
     valid-jsdoc: [2, {"requireReturn": false, "prefer": {"return": "returns"}}]
     wrap-iife: 2
     one-var: [2, "never"]
+    quote-props: [2, "as-needed"]
