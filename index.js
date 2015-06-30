@@ -27,7 +27,8 @@
 var handlebars = require('handlebars');
 var read = require('fs').readFileSync;
 var join = require('path').join;
-var innerDescribeFn, outerDescribeFn;
+var innerDescribeFn;
+var outerDescribeFn;
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
@@ -40,15 +41,17 @@ var innerDescribeFn, outerDescribeFn;
  * @returns {string} generated test for response type
  */
 function testGenResponse(swagger, path, operation, response, config) {
-  var result, templateFn, source, param,
-    // request payload
-    data = {
-      'responseCode': response,
-      'description': (response + ' ' +
+  var result;
+  var templateFn;
+  var source;
+  var param;
+  var data = { // request payload
+      responseCode: response,
+      description: (response + ' ' +
         swagger.paths[path][operation].responses[response].description),
-      'assertion': config.assertionFormat,
-      'parameters': [],
-      'path': ''
+      assertion: config.assertionFormat,
+      parameters: [],
+      path: ''
     };
 
   // adding body parameters to payload
@@ -70,7 +73,8 @@ function testGenResponse(swagger, path, operation, response, config) {
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // compile template source and return test string
-  source = read(join('templates', config.testModule, operation, operation + '.handlebars'), 'utf8');
+  source = read(join('templates', config.testModule, operation, operation
+    + '.handlebars'), 'utf8');
   var templatePath = join('./templates',
     config.testModule,
     operation,
@@ -94,8 +98,9 @@ function testGenResponse(swagger, path, operation, response, config) {
  * @returns {string|Array} set of all tests for a path's operation
  */
 function testGenOperation(swagger, path, operation, config) {
-  var responses = swagger.paths[path][operation].responses,
-    result = [], res;
+  var responses = swagger.paths[path][operation].responses;
+  var result = [];
+  var res;
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {
@@ -107,10 +112,10 @@ function testGenOperation(swagger, path, operation, config) {
     }
   }
 
-  var output,
-  data = {
-    'description': operation,
-    'tests': result
+  var output;
+  var data = {
+    description: operation,
+    tests: result
   };
 
   output = innerDescribeFn(data);
@@ -127,8 +132,9 @@ function testGenOperation(swagger, path, operation, config) {
  * @returns {string|Array} set of all tests for a path
  */
 function testGenPath(swagger, path, config) {
-  var operations = swagger.paths[path],
-    result = [], op;
+  var operations = swagger.paths[path];
+  var result = [];
+  var op;
 
   for (op in operations) {
     if (operations.hasOwnProperty(op)) {
@@ -136,14 +142,14 @@ function testGenPath(swagger, path, config) {
     }
   }
 
-  var output,
-  data = {
-    'description': path,
-    'assertion': config.assertionFormat,
-    'testmodule': config.testModule,
-    'scheme': (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
-    'host': (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
-    'tests': result
+  var output;
+  var data = {
+    description: path,
+    assertion: config.assertionFormat,
+    testmodule: config.testModule,
+    scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
+    host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
+    tests: result
   };
 
   output = outerDescribeFn(data);
@@ -159,14 +165,14 @@ function testGenPath(swagger, path, config) {
  * @returns {string|Array} set of all tests for a swagger API
  */
 function testGen(swagger, config) {
-	var paths = swagger.paths,
-    targets = config.pathName,
-		result = [],
-    output = [],
-    path,
-    ndx,
-    i = 0,
-    source;
+  var paths = swagger.paths;
+  var targets = config.pathName;
+  var result = [];
+  var output = [];
+  var path;
+  var ndx;
+  var i = 0;
+  var source;
 
   source = read('templates/innerDescribe.handlebars', 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
@@ -182,12 +188,12 @@ function testGen(swagger, config) {
       }
     }
   } else {
-      // loops over specified paths from config
-      for (path in targets) {
-        if (paths.hasOwnProperty(targets[path])) {
-          result.push(testGenPath(swagger, targets[path], config));
-        }
+    // loops over specified paths from config
+    for (path in targets) {
+      if (paths.hasOwnProperty(targets[path])) {
+        result.push(testGenPath(swagger, targets[path], config));
       }
+    }
   }
 
   // no specified paths to build, so build all of them
@@ -195,8 +201,8 @@ function testGen(swagger, config) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
-        'name': '_Stub.js',
-        'test': result[ndx]
+        name: '_Stub.js',
+        test: result[ndx]
         });
       }
     }
@@ -212,8 +218,8 @@ function testGen(swagger, config) {
     for (path in targets)
       if (paths.hasOwnProperty(targets[path])) {
         output.push({
-          'name': (targets[path].replace(/\//g, '_')) + '_Stub.js',
-          'test': result[path]
+          name: (targets[path].replace(/\//g, '_')) + '_Stub.js',
+          test: result[path]
         });
       }
   }
@@ -225,15 +231,15 @@ module.exports = {
   testGen: testGen
 };
 
-// http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/
+// http://goo.gl/LFoiYG
 handlebars.registerHelper('is', function(lvalue, rvalue, options) {
-    if (arguments.length < 3) {
-        throw new Error("Handlebars Helper 'is' needs 2 parameters");
-    }
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper \'is\' needs 2 parameters');
+  }
 
-    if (lvalue !== rvalue) {
-        return options.inverse(this);
-    } else {
-        return options.fn(this);
-    }
+  if (lvalue !== rvalue) {
+    return options.inverse(this);
+  } else {
+    return options.fn(this);
+  }
 });

@@ -14,13 +14,13 @@
         }
 
         {{#is assertion 'expect'}}
-          expect(res).to.have.property('name');
+        expect(res).to.have.property('name');
         {{/is}}
         {{#is assertion 'should'}}
-          res.should.have.property('name');
+        res.should.have.property('name');
         {{/is}}
         {{#is assertion 'assert'}}
-          assert.property(res, 'name');
+        assert.property(res, 'name');
         {{/is}}
         done();
       });

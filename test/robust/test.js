@@ -37,24 +37,25 @@ rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('robust swagger', function() {
-	describe('request-option', function() {
+  describe('request-option', function() {
     describe('pathName-option', function() {
 
       var output1 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': [],
-        'testModule': 'request'
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'request'
       });
 
-      var paths1 = [], ndx;
+      var paths1 = [];
+      var ndx;
 
-        for (ndx in output1) {
-          if (output1 !== undefined) {
-            paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
-          }
+      for (ndx in output1) {
+        if (output1 !== undefined) {
+          paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
         }
+      }
 
-      it('should still generate all paths from empty pathName option with should', function() {
+      it('should create all paths w/empty pathName flag w/should', function() {
         assert.isArray(output1);
         assert.lengthOf(output1, 2);
 
@@ -75,9 +76,9 @@ describe('robust swagger', function() {
       });
 
       var output2 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': ['/'],
-        'testModule': 'request'
+        assertionFormat: 'should',
+        pathName: ['/'],
+        testModule: 'request'
       });
 
       var paths2 = [];
@@ -88,7 +89,7 @@ describe('robust swagger', function() {
         }
       }
 
-      it('should generate specified paths from pathName option with should', function() {
+      it('should crea specified paths from pathName flag w/should', function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
 
@@ -111,18 +112,19 @@ describe('robust swagger', function() {
 
     describe('asertionFormat-option', function() {
       var output5 = testGen(swagger, {
-        'assertionFormat': 'assert',
-        'pathName': [],
-        'testModule': 'request'
+        assertionFormat: 'assert',
+        pathName: [],
+        testModule: 'request'
       });
 
-      var paths5 = [], ndx;
+      var paths5 = [];
+      var ndx;
 
-        for (ndx in output5) {
-          if (output5 !== undefined) {
-            paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
-          }
+      for (ndx in output5) {
+        if (output5 !== undefined) {
+          paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
         }
+      }
 
       it('should still generate all paths with assert', function() {
         assert.isArray(output5);
@@ -145,18 +147,18 @@ describe('robust swagger', function() {
       });
 
       var output6 = testGen(swagger, {
-        'assertionFormat': 'expect',
-        'pathName': [],
-        'testModule': 'request'
+        assertionFormat: 'expect',
+        pathName: [],
+        testModule: 'request'
       });
 
       var paths6 = [];
 
-        for (ndx in output6) {
-          if (output6 !== undefined) {
-            paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
-          }
+      for (ndx in output6) {
+        if (output6 !== undefined) {
+          paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
         }
+      }
 
       it('should still generate all paths with except', function() {
         assert.isArray(output6);
@@ -184,12 +186,13 @@ describe('robust swagger', function() {
     describe('pathName-option', function() {
 
       var output3 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': [],
-        'testModule': 'supertest'
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest'
       });
 
-      var paths3 = [], ndx;
+      var paths3 = [];
+      var ndx;
 
       for (ndx in output3) {
         if (output3) {
@@ -197,7 +200,7 @@ describe('robust swagger', function() {
         }
       }
 
-      it('should still generate all paths from empty pathName option with should', function() {
+      it('should create all paths w/empty pathName flag w/should', function() {
 
         assert.isArray(output3);
         assert.lengthOf(output3, 2);
@@ -219,9 +222,9 @@ describe('robust swagger', function() {
       });
 
       var output4 = testGen(swagger, {
-        'assertionFormat': 'should',
-        'pathName': ['/'],
-        'testModule': 'supertest'
+        assertionFormat: 'should',
+        pathName: ['/'],
+        testModule: 'supertest'
       });
 
       var paths4 = [];
@@ -232,7 +235,7 @@ describe('robust swagger', function() {
         }
       }
 
-      it('should generate specified paths from pathName option with should', function() {
+      it('should create specified paths in pathName flag w/should', function() {
 
         assert.isArray(output4);
         assert.lengthOf(output4, 1);
@@ -256,12 +259,13 @@ describe('robust swagger', function() {
 
     describe('assertionFormat-option', function() {
       var output7 = testGen(swagger, {
-        'assertionFormat': 'assert',
-        'pathName': [],
-        'testModule': 'supertest'
+        assertionFormat: 'assert',
+        pathName: [],
+        testModule: 'supertest'
       });
 
-      var paths7 = [], ndx;
+      var paths7 = [];
+      var ndx;
 
       for (ndx in output7) {
         if (output7 !== undefined) {
@@ -291,9 +295,9 @@ describe('robust swagger', function() {
       });
 
       var output8 = testGen(swagger, {
-        'assertionFormat': 'expect',
-        'pathName': [],
-        'testModule': 'supertest'
+        assertionFormat: 'expect',
+        pathName: [],
+        testModule: 'supertest'
       });
 
       var paths8 = [];
