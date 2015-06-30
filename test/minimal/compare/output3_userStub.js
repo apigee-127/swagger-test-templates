@@ -12,6 +12,11 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
         res.should.have.property('name');
         done();
       });
@@ -22,6 +27,11 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
         res.should.have.property('name');
         done();
       });
@@ -32,6 +42,11 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
         res.should.have.property('name');
         done();
       });
@@ -48,6 +63,11 @@ describe('/user', function() {
       })
       .expect(200)
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
           res.should.have.property('name');
         done();
       });
@@ -61,6 +81,11 @@ describe('/user', function() {
       })
       .expect(400)
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
           res.should.have.property('name');
         done();
       });
@@ -74,6 +99,11 @@ describe('/user', function() {
       })
       .expect(500)
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
           res.should.have.property('name');
         done();
       });

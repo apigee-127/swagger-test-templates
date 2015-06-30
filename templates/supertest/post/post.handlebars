@@ -8,14 +8,19 @@
       })
       .expect({{responseCode}})
       .end(function(err, res) {
+        if (err) {
+          console.log(err);
+          done();
+        }
+
         {{#is assertion 'expect'}}
-          chai.expect(res).to.have.property('name');
+          expect(res).to.have.property('name');
         {{/is}}
         {{#is assertion 'should'}}
           res.should.have.property('name');
         {{/is}}
         {{#is assertion 'assert'}}
-          chai.assert.property(res, 'name');
+          assert.property(res, 'name');
         {{/is}}
         done();
       });

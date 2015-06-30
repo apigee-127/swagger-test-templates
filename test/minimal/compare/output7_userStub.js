@@ -11,7 +11,12 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        chai.assert.property(res, 'name');
+        if (err) {
+          console.log(err);
+          done();
+        }
+
+        assert.property(res, 'name');
         done();
       });
     });
@@ -21,7 +26,12 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
-        chai.assert.property(res, 'name');
+        if (err) {
+          console.log(err);
+          done();
+        }
+
+        assert.property(res, 'name');
         done();
       });
     });
@@ -31,7 +41,12 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
-        chai.assert.property(res, 'name');
+        if (err) {
+          console.log(err);
+          done();
+        }
+
+        assert.property(res, 'name');
         done();
       });
     });
@@ -47,7 +62,12 @@ describe('/user', function() {
       })
       .expect(200)
       .end(function(err, res) {
-          chai.assert.property(res, 'name');
+        if (err) {
+          console.log(err);
+          done();
+        }
+
+          assert.property(res, 'name');
         done();
       });
     });
@@ -60,7 +80,12 @@ describe('/user', function() {
       })
       .expect(400)
       .end(function(err, res) {
-          chai.assert.property(res, 'name');
+        if (err) {
+          console.log(err);
+          done();
+        }
+
+          assert.property(res, 'name');
         done();
       });
     });
@@ -73,7 +98,12 @@ describe('/user', function() {
       })
       .expect(500)
       .end(function(err, res) {
-          chai.assert.property(res, 'name');
+        if (err) {
+          console.log(err);
+          done();
+        }
+
+          assert.property(res, 'name');
         done();
       });
     });

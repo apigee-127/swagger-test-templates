@@ -13,6 +13,11 @@ describe('/', function() {
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         body.should.have.property('name');
         done();
       });
@@ -25,6 +30,11 @@ describe('/', function() {
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         body.should.have.property('name');
         done();
       });
@@ -37,6 +47,11 @@ describe('/', function() {
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         body.should.have.property('name');
         done();
       });
@@ -55,6 +70,11 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         body.should.have.property('name');
         done();
       });
@@ -70,6 +90,11 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         body.should.have.property('name');
         done();
       });
@@ -85,6 +110,11 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         body.should.have.property('name');
         done();
       });

@@ -5,14 +5,19 @@
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
+        if (error) {
+          console.log(error);
+          done();
+        }
+
         {{#is assertion 'expect'}}
-        chai.expect(body).to.have.property('name');
+        expect(body).to.have.property('name');
         {{/is}}
         {{#is assertion 'should'}}
         body.should.have.property('name');
         {{/is}}
         {{#is assertion 'assert'}}
-        chai.assert.property(body, 'name');
+        assert.property(body, 'name');
         {{/is}}
         done();
       });

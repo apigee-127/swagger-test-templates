@@ -12,7 +12,12 @@ describe('/user', function() {
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
-        chai.expect(body).to.have.property('name');
+        if (error) {
+          console.log(error);
+          done();
+        }
+
+        expect(body).to.have.property('name');
         done();
       });
     });
@@ -24,7 +29,12 @@ describe('/user', function() {
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
-        chai.expect(body).to.have.property('name');
+        if (error) {
+          console.log(error);
+          done();
+        }
+
+        expect(body).to.have.property('name');
         done();
       });
     });
@@ -36,7 +46,12 @@ describe('/user', function() {
         headers: {'Content-Type': 'application/json'}
       },
       function(error, response, body) {
-        chai.expect(body).to.have.property('name');
+        if (error) {
+          console.log(error);
+          done();
+        }
+
+        expect(body).to.have.property('name');
         done();
       });
     });
@@ -54,7 +69,12 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        chai.expect(body).to.have.property('name');
+        if (error) {
+          console.log(error);
+          done();
+        }
+
+        expect(body).to.have.property('name');
         done();
       });
     });
@@ -69,7 +89,12 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        chai.expect(body).to.have.property('name');
+        if (error) {
+          console.log(error);
+          done();
+        }
+
+        expect(body).to.have.property('name');
         done();
       });
     });
@@ -84,7 +109,12 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        chai.expect(body).to.have.property('name');
+        if (error) {
+          console.log(error);
+          done();
+        }
+
+        expect(body).to.have.property('name');
         done();
       });
     });
