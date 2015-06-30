@@ -14,6 +14,7 @@ describe('/', function() {
       function(error, response, body) {
         if (error) {
           done(error);
+          return;
         }
 
         expect(body).to.have.property('name');
@@ -30,6 +31,7 @@ describe('/', function() {
       function(error, response, body) {
         if (error) {
           done(error);
+          return;
         }
 
         expect(body).to.have.property('name');
@@ -46,6 +48,7 @@ describe('/', function() {
       function(error, response, body) {
         if (error) {
           done(error);
+          return;
         }
 
         expect(body).to.have.property('name');
@@ -68,6 +71,7 @@ describe('/', function() {
       function(error, res, body) {
         if (error) {
           done(error);
+          return;
         }
 
         expect(body).to.have.property('name');
@@ -87,6 +91,7 @@ describe('/', function() {
       function(error, res, body) {
         if (error) {
           done(error);
+          return;
         }
 
         expect(body).to.have.property('name');
@@ -106,6 +111,7 @@ describe('/', function() {
       function(error, res, body) {
         if (error) {
           done(error);
+          return;
         }
 
         expect(body).to.have.property('name');

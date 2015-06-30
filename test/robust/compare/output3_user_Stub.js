@@ -14,6 +14,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         res.should.have.property('name');
@@ -28,6 +29,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         res.should.have.property('name');
@@ -42,6 +44,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         res.should.have.property('name');
@@ -62,6 +65,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
           res.should.have.property('name');
@@ -79,6 +83,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
           res.should.have.property('name');
@@ -96,6 +101,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
           res.should.have.property('name');

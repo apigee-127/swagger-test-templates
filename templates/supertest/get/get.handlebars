@@ -5,6 +5,7 @@
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         {{#is assertion 'expect'}}

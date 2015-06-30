@@ -14,6 +14,7 @@ describe('/', function() {
       function(error, response, body) {
         if (error) {
           done(error);
+          return;
         }
 
         assert.property(body, 'name');

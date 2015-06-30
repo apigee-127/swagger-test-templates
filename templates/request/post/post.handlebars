@@ -12,6 +12,7 @@
       function(error, res, body) {
         if (error) {
           done(error);
+          return;
         }
 
         {{#is assertion 'expect'}}
