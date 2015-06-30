@@ -55,7 +55,7 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should still generate all paths from empty pathName option with should', function() {
+      it('should create all paths w/empty pathName flag w/should', function() {
         assert.isArray(output1);
         assert.lengthOf(output1, 1);
 
@@ -89,7 +89,7 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should generate specified paths from pathName option with should', function() {
+      it('should crea specified paths from pathName flag w/should', function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
 
@@ -200,7 +200,7 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should still generate all paths from empty pathName option with should', function() {
+      it('should create all paths w/empty pathName flag w/should', function() {
 
         assert.isArray(output3);
         assert.lengthOf(output3, 1);
@@ -235,7 +235,7 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should generate specified paths from pathName option with should', function() {
+      it('should create specified paths in pathName flag w/should', function() {
 
         assert.isArray(output4);
         assert.lengthOf(output4, 1);

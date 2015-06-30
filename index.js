@@ -73,7 +73,8 @@ function testGenResponse(swagger, path, operation, response, config) {
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // compile template source and return test string
-  source = read(join('templates', config.testModule, operation, operation + '.handlebars'), 'utf8');
+  source = read(join('templates', config.testModule, operation, operation
+    + '.handlebars'), 'utf8');
   var templatePath = join('./templates',
     config.testModule,
     operation,
@@ -230,7 +231,7 @@ module.exports = {
   testGen: testGen
 };
 
-// http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/
+// http://goo.gl/LFoiYG
 handlebars.registerHelper('is', function(lvalue, rvalue, options) {
   if (arguments.length < 3) {
     throw new Error('Handlebars Helper \'is\' needs 2 parameters');

@@ -34,3 +34,4 @@
     wrap-iife: 2
     one-var: [2, "never"]
     quote-props: [2, "as-needed"]
+    max-len: [2, 80, 2]
