@@ -1,6 +1,6 @@
 #swagger-test-templates
 
-[![Build Status](https://travis-ci.org/apigee-127/apigee-node-project-template.svg?branch=master)](https://travis-ci.org/apigee-127/apigee-node-project-template)
+[![Build Status](https://travis-ci.org/apigee-127/swagger-test-templates.svg?branch=master)](https://travis-ci.org/apigee-127/swagger-test-templates)
 
 > Generate test code from a [Swagger](http://swagger.io) spec
 
