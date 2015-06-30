@@ -13,6 +13,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         assert.property(res, 'name');
