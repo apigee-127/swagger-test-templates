@@ -1,0 +1,26 @@
+  it('should be {{description}}', function(done) {
+      api.put('{{path}}')
+      .set('Accept', 'application/json')
+      .send({
+        {{#each parameters}}
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      .expect({{responseCode}})
+      .end(function(err, res) {
+        if (err) {
+          done(err);
+        }
+
+        {{#is assertion 'expect'}}
+        expect(res).to.have.property('name');
+        {{/is}}
+        {{#is assertion 'should'}}
+        res.should.have.property('name');
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.property(res, 'name');
+        {{/is}}
+        done();
+      });
+    });

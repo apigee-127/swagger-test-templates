@@ -1,0 +1,23 @@
+  it('should be {{description}}', function(done) {
+      request({
+        url: '{{path}}',
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+      },
+      function(error, response, body) {
+        if (error) {
+          done(error);
+        }
+
+        {{#is assertion 'expect'}}
+        expect(body).to.have.property('name');
+        {{/is}}
+        {{#is assertion 'should'}}
+        body.should.have.property('name');
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.property(body, 'name');
+        {{/is}}
+        done();
+      });
+    });

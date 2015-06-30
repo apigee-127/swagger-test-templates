@@ -4,7 +4,8 @@
   "description": "Generate test code from a Swagger spec",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/*/test.js",
+    "pretest": "npm install"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,13 @@
   },
   "homepage": "https://github.com/apigee-127/swagger-test-templates#readme",
   "devDependencies": {
+    "chai": "^3.0.0",
+    "eslint": "^0.24.0",
+    "js-yaml": "^3.3.1",
     "mocha": "^2.2.5",
     "mocha-eslint": "^0.1.7"
+  },
+  "dependencies": {
+    "handlebars": "^3.0.3"
   }
 }

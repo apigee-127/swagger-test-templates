@@ -1,0 +1,28 @@
+  it('should be {{description}}', function(done) {
+      request({
+        url: '{{path}}',
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        json: {
+          {{#each parameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
+      },
+      function(error, res, body) {
+        if (error) {
+          done(error);
+        }
+
+        {{#is assertion 'expect'}}
+        expect(body).to.have.property('name');
+        {{/is}}
+        {{#is assertion 'should'}}
+        body.should.have.property('name');
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.property(body, 'name');
+        {{/is}}
+        done();
+      });
+    });
