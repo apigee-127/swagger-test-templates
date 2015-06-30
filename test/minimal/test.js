@@ -32,7 +32,6 @@ var yaml = require('js-yaml');
 var join = require('path').join;
 var rules;
 var read = require('fs').readFileSync;
-var write = require('fs').writeFileSync;
 
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
@@ -51,7 +50,6 @@ describe('minimal swagger', function() {
 
         for (ndx in output1) {
           if (output1 !== undefined) {
-            write(join(__dirname, '/compare/output1' + output1[ndx].name), output1[ndx].test);
             paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
           }
         }
@@ -86,7 +84,6 @@ describe('minimal swagger', function() {
 
       for (ndx in output2) {
         if (output2 !== undefined) {
-          write(join(__dirname, '/compare/output2' + output2[ndx].name), output2[ndx].test);
           paths2.push(join(__dirname, '/compare/output2' + output2[ndx].name));
         }
       }
@@ -123,7 +120,6 @@ describe('minimal swagger', function() {
 
         for (ndx in output5) {
           if (output5 !== undefined) {
-            write(join(__dirname, '/compare/output5' + output5[ndx].name), output5[ndx].test);
             paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
           }
         }
@@ -158,7 +154,6 @@ describe('minimal swagger', function() {
 
         for (ndx in output6) {
           if (output6 !== undefined) {
-            write(join(__dirname, '/compare/output6' + output6[ndx].name), output6[ndx].test);
             paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
           }
         }
@@ -198,7 +193,6 @@ describe('minimal swagger', function() {
 
       for (ndx in output3) {
         if (output3) {
-          write(join(__dirname, '/compare/output3' + output3[ndx].name), output3[ndx].test);
           paths3.push(join(__dirname, '/compare/output3' + output3[ndx].name));
         }
       }
@@ -234,7 +228,6 @@ describe('minimal swagger', function() {
 
       for (ndx in output4) {
         if (output4 !== undefined) {
-          write(join(__dirname, '/compare/output4' + output4[ndx].name), output4[ndx].test);
           paths4.push(join(__dirname, '/compare/output4' + output4[ndx].name));
         }
       }
@@ -272,7 +265,6 @@ describe('minimal swagger', function() {
 
       for (ndx in output7) {
         if (output7 !== undefined) {
-          write(join(__dirname, '/compare/output7' + output7[ndx].name), output7[ndx].test);
           paths7.push(join(__dirname, '/compare/output7' + output7[ndx].name));
         }
       }
@@ -308,7 +300,6 @@ describe('minimal swagger', function() {
 
       for (ndx in output8) {
         if (paths8 !== undefined) {
-          write(join(__dirname, '/compare/output8' + output8[ndx].name), output8[ndx].test);
           paths8.push(join(__dirname, '/compare/output8' + output8[ndx].name));
         }
       }

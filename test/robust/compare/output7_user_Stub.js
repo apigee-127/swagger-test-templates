@@ -13,6 +13,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         assert.property(res, 'name');
@@ -27,6 +28,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         assert.property(res, 'name');
@@ -41,6 +43,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
         assert.property(res, 'name');
@@ -61,6 +64,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
           assert.property(res, 'name');
@@ -78,6 +82,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
           assert.property(res, 'name');
@@ -95,6 +100,7 @@ describe('/user', function() {
       .end(function(err, res) {
         if (err) {
           done(err);
+          return;
         }
 
           assert.property(res, 'name');
