@@ -36,7 +36,7 @@ var read = require('fs').readFileSync;
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
-describe('robust swagger', function() {
+describe('minimal swagger', function() {
 	describe('request-option', function() {
 		describe('pathName-option', function() {
 
@@ -54,7 +54,7 @@ describe('robust swagger', function() {
 
 			it ('should still generate all paths from empty pathName option with should', function() {
         assert.isArray(output1);
-        assert.lengthOf(output1, 1);
+        assert.lengthOf(output1, 2);
 
         var generatedCode;
 
@@ -114,7 +114,7 @@ describe('robust swagger', function() {
 
       it ('should still generate all paths with assert', function() {
         assert.isArray(output5);
-        assert.lengthOf(output5, 1);
+        assert.lengthOf(output5, 2);
 
         var generatedCode;
 
@@ -142,7 +142,7 @@ describe('robust swagger', function() {
 
       it ('should still generate all paths with except', function() {
         assert.isArray(output6);
-        assert.lengthOf(output6, 1);
+        assert.lengthOf(output6, 2);
 
         var generatedCode;
 
@@ -176,7 +176,7 @@ describe('robust swagger', function() {
       it ('should still generate all paths from empty pathName option with should', function() {
 
         assert.isArray(output3);
-        assert.lengthOf(output3, 1);
+        assert.lengthOf(output3, 2);
 
         var generatedCode;
 
@@ -236,7 +236,7 @@ describe('robust swagger', function() {
       it ('should still generate all paths with assert', function() {
 
         assert.isArray(output7);
-        assert.lengthOf(output7, 1);
+        assert.lengthOf(output7, 2);
 
         var generatedCode;
 
@@ -265,7 +265,7 @@ describe('robust swagger', function() {
       it ('should still generate all paths with expect', function() {
 
         assert.isArray(output8);
-        assert.lengthOf(output8, 1);
+        assert.lengthOf(output8, 2);
 
         var generatedCode;
 
