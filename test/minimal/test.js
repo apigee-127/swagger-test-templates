@@ -29,10 +29,11 @@ var testGen = require('../../index.js').testGen;
 var swagger = require('./swagger.json');
 var linter = require('eslint').linter;
 var yaml = require('js-yaml');
+var join = require('path').join;
 var rules;
 var read = require('fs').readFileSync;
 
-rules = yaml.safeLoad(read(__dirname + '/../../.eslintrc', 'utf8'));
+rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('minimal swagger', function() {
@@ -48,7 +49,7 @@ describe('minimal swagger', function() {
       var paths1 = [], ndx;
 
         for (ndx in output1) {
-          paths1.push(__dirname +'/compare/output1' + output1[ndx].name);
+          paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
         }
 
 			it ('should still generate all paths from empty pathName option with should', function() {
@@ -58,8 +59,10 @@ describe('minimal swagger', function() {
         var generatedCode;
 
         for (ndx in paths1) {
-          generatedCode = read(paths1[ndx], 'utf8');
-          assert.equal(output1[ndx].test, generatedCode);
+          if (output1.hasOwnProperty(ndx)) {
+            generatedCode = read(paths1[ndx], 'utf8');
+            assert.equal(output1[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output1) {
@@ -73,10 +76,10 @@ describe('minimal swagger', function() {
         'testModule': 'request'
       });
 
-      var paths2 = [], ndx;
+      var paths2 = [];
 
       for (ndx in output2) {
-        paths2.push(__dirname +'/compare/output2' + output2[ndx].name);
+        paths2.push(join(__dirname, '/compare/output2' + output2[ndx].name));
       }
 
       it ('should generate specified paths from pathName option with should', function() {
@@ -96,7 +99,7 @@ describe('minimal swagger', function() {
       });
 		});
 
-    describe('asertionFormat-option', function(){
+    describe('asertionFormat-option', function() {
       var output5 = testGen(swagger, {
         'assertionFormat': 'assert',
         'pathName': [],
@@ -106,7 +109,7 @@ describe('minimal swagger', function() {
       var paths5 = [], ndx;
 
         for (ndx in output5) {
-          paths5.push(__dirname +'/compare/output5' + output5[ndx].name);
+          paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
         }
 
       it ('should still generate all paths with assert', function() {
@@ -131,10 +134,10 @@ describe('minimal swagger', function() {
         'testModule': 'request'
       });
 
-      var paths6 = [], ndx;
+      var paths6 = [];
 
         for (ndx in output6) {
-          paths6.push(__dirname +'/compare/output6' + output6[ndx].name);
+          paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
         }
 
       it ('should still generate all paths with except', function() {
@@ -167,7 +170,7 @@ describe('minimal swagger', function() {
       var paths3 = [], ndx;
 
       for (ndx in output3) {
-        paths3.push(__dirname +'/compare/output3' + output3[ndx].name);
+        paths3.push(join(__dirname, '/compare/output3' + output3[ndx].name));
       }
 
       it ('should still generate all paths from empty pathName option with should', function() {
@@ -193,10 +196,10 @@ describe('minimal swagger', function() {
         'testModule': 'supertest'
       });
 
-      var paths4 = [], ndx;
+      var paths4 = [];
 
       for (ndx in output4) {
-        paths4.push(__dirname +'/compare/output4' + output4[ndx].name);
+        paths4.push(join(__dirname, '/compare/output4' + output4[ndx].name));
       }
 
       it ('should generate specified paths from pathName option with should', function() {
@@ -217,7 +220,7 @@ describe('minimal swagger', function() {
       });
 		});
 
-    describe('assertionFormat-option', function(){
+    describe('assertionFormat-option', function() {
       var output7 = testGen(swagger, {
         'assertionFormat': 'assert',
         'pathName': [],
@@ -227,7 +230,7 @@ describe('minimal swagger', function() {
       var paths7 = [], ndx;
 
       for (ndx in output7) {
-        paths7.push(__dirname +'/compare/output7' + output7[ndx].name);
+        paths7.push(join(__dirname, '/compare/output7' + output7[ndx].name));
       }
 
       it ('should still generate all paths with assert', function() {
@@ -253,10 +256,10 @@ describe('minimal swagger', function() {
         'testModule': 'supertest'
       });
 
-      var paths8 = [], ndx;
+      var paths8 = [];
 
       for (ndx in output8) {
-        paths8.push(__dirname +'/compare/output8' + output8[ndx].name);
+        paths8.push(join(__dirname, '/compare/output8' + output8[ndx].name));
       }
 
       it ('should still generate all paths with expect', function() {
