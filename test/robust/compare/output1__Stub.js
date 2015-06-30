@@ -14,8 +14,7 @@ describe('/', function() {
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         body.should.have.property('name');
@@ -31,8 +30,7 @@ describe('/', function() {
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         body.should.have.property('name');
@@ -48,8 +46,7 @@ describe('/', function() {
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         body.should.have.property('name');
@@ -71,8 +68,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         body.should.have.property('name');
@@ -91,8 +87,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         body.should.have.property('name');
@@ -111,8 +106,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         body.should.have.property('name');

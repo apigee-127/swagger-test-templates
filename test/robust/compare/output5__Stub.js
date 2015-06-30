@@ -13,8 +13,7 @@ describe('/', function() {
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         assert.property(body, 'name');
@@ -30,8 +29,7 @@ describe('/', function() {
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         assert.property(body, 'name');
@@ -47,8 +45,7 @@ describe('/', function() {
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         assert.property(body, 'name');
@@ -70,8 +67,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         assert.property(body, 'name');
@@ -90,8 +86,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         assert.property(body, 'name');
@@ -110,8 +105,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         assert.property(body, 'name');

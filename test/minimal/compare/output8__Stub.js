@@ -12,8 +12,7 @@ describe('/', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) {
-          console.log(err);
-          done();
+          done(err);
         }
 
         expect(res).to.have.property('name');

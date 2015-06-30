@@ -6,8 +6,7 @@
       },
       function(error, response, body) {
         if (error) {
-          console.log(error);
-          done();
+          done(error);
         }
 
         {{#is assertion 'expect'}}

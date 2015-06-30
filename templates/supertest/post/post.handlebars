@@ -9,8 +9,7 @@
       .expect({{responseCode}})
       .end(function(err, res) {
         if (err) {
-          console.log(err);
-          done();
+          done(err);
         }
 
         {{#is assertion 'expect'}}
