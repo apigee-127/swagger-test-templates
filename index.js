@@ -196,7 +196,7 @@ function testGen(swagger, config) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
-        'name': 'Stub.js',
+        'name': '_Stub.js',
         'test': result[ndx]
         });
       }
@@ -205,7 +205,7 @@ function testGen(swagger, config) {
     // build file names with paths
     for (path in paths) {
       if (paths.hasOwnProperty(path)) {
-        output[i].name = (path.replace('/', '_')) + output[i++].name;
+        output[i].name = (path.replace(/\//g, '_')) + output[i++].name;
       }
     }
   } else {
@@ -213,7 +213,7 @@ function testGen(swagger, config) {
     for (path in targets)
       if (paths.hasOwnProperty(targets[path])) {
         output.push({
-          'name': (targets[path].replace('/', '_')) + 'Stub.js',
+          'name': (targets[path].replace(/\//g, '_')) + '_Stub.js',
           'test': result[path]
         });
       }
