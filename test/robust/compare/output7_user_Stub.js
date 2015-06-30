@@ -63,7 +63,7 @@ describe('/user', function() {
           done(err);
         }
 
-          assert.property(res, 'name');
+        assert.property(res, 'name');
         done();
       });
     });
@@ -80,7 +80,7 @@ describe('/user', function() {
           done(err);
         }
 
-          assert.property(res, 'name');
+        assert.property(res, 'name');
         done();
       });
     });
@@ -97,7 +97,7 @@ describe('/user', function() {
           done(err);
         }
 
-          assert.property(res, 'name');
+        assert.property(res, 'name');
         done();
       });
     });

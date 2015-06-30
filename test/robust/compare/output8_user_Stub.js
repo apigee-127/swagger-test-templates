@@ -63,7 +63,7 @@ describe('/user', function() {
           done(err);
         }
 
-          expect(res).to.have.property('name');
+        expect(res).to.have.property('name');
         done();
       });
     });
@@ -80,7 +80,7 @@ describe('/user', function() {
           done(err);
         }
 
-          expect(res).to.have.property('name');
+        expect(res).to.have.property('name');
         done();
       });
     });
@@ -97,7 +97,7 @@ describe('/user', function() {
           done(err);
         }
 
-          expect(res).to.have.property('name');
+        expect(res).to.have.property('name');
         done();
       });
     });

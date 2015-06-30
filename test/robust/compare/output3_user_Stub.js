@@ -64,7 +64,7 @@ describe('/user', function() {
           done(err);
         }
 
-          res.should.have.property('name');
+        res.should.have.property('name');
         done();
       });
     });
@@ -81,7 +81,7 @@ describe('/user', function() {
           done(err);
         }
 
-          res.should.have.property('name');
+        res.should.have.property('name');
         done();
       });
     });
@@ -98,7 +98,7 @@ describe('/user', function() {
           done(err);
         }
 
-          res.should.have.property('name');
+        res.should.have.property('name');
         done();
       });
     });

@@ -37,7 +37,7 @@ rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('robust swagger', function() {
-	describe('request-option', function() {
+  describe('request-option', function() {
     describe('pathName-option', function() {
 
       var output1 = testGen(swagger, {
@@ -49,11 +49,11 @@ describe('robust swagger', function() {
       var paths1 = [];
       var ndx;
 
-        for (ndx in output1) {
-          if (output1 !== undefined) {
-            paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
-          }
+      for (ndx in output1) {
+        if (output1 !== undefined) {
+          paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
         }
+      }
 
       it('should still generate all paths from empty pathName option with should', function() {
         assert.isArray(output1);
@@ -120,11 +120,11 @@ describe('robust swagger', function() {
       var paths5 = [];
       var ndx;
 
-        for (ndx in output5) {
-          if (output5 !== undefined) {
-            paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
-          }
+      for (ndx in output5) {
+        if (output5 !== undefined) {
+          paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
         }
+      }
 
       it('should still generate all paths with assert', function() {
         assert.isArray(output5);
@@ -154,11 +154,11 @@ describe('robust swagger', function() {
 
       var paths6 = [];
 
-        for (ndx in output6) {
-          if (output6 !== undefined) {
-            paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
-          }
+      for (ndx in output6) {
+        if (output6 !== undefined) {
+          paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
         }
+      }
 
       it('should still generate all paths with except', function() {
         assert.isArray(output6);

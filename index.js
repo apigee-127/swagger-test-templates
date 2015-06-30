@@ -164,9 +164,9 @@ function testGenPath(swagger, path, config) {
  * @returns {string|Array} set of all tests for a swagger API
  */
 function testGen(swagger, config) {
-	var paths = swagger.paths;
+  var paths = swagger.paths;
   var targets = config.pathName;
-	var result = [];
+  var result = [];
   var output = [];
   var path;
   var ndx;
@@ -187,12 +187,12 @@ function testGen(swagger, config) {
       }
     }
   } else {
-      // loops over specified paths from config
-      for (path in targets) {
-        if (paths.hasOwnProperty(targets[path])) {
-          result.push(testGenPath(swagger, targets[path], config));
-        }
+    // loops over specified paths from config
+    for (path in targets) {
+      if (paths.hasOwnProperty(targets[path])) {
+        result.push(testGenPath(swagger, targets[path], config));
       }
+    }
   }
 
   // no specified paths to build, so build all of them
@@ -232,13 +232,13 @@ module.exports = {
 
 // http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/
 handlebars.registerHelper('is', function(lvalue, rvalue, options) {
-    if (arguments.length < 3) {
-        throw new Error('Handlebars Helper \'is\' needs 2 parameters');
-    }
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper \'is\' needs 2 parameters');
+  }
 
-    if (lvalue !== rvalue) {
-        return options.inverse(this);
-    } else {
-        return options.fn(this);
-    }
+  if (lvalue !== rvalue) {
+    return options.inverse(this);
+  } else {
+    return options.fn(this);
+  }
 });
