@@ -36,7 +36,7 @@ var read = require('fs').readFileSync;
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
-describe('robust swagger', function() {
+describe('minimal swagger', function() {
 	describe('request-option', function() {
 		describe('pathName-option', function() {
 
@@ -49,10 +49,12 @@ describe('robust swagger', function() {
       var paths1 = [], ndx;
 
         for (ndx in output1) {
-          paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
+          if (output1 !== undefined) {
+            paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
+          }
         }
 
-			it ('should still generate all paths from empty pathName option with should', function() {
+			it('should still generate all paths from empty pathName option with should', function() {
         assert.isArray(output1);
         assert.lengthOf(output1, 1);
 
@@ -66,7 +68,9 @@ describe('robust swagger', function() {
         }
 
         for (ndx in output1) {
-          assert.lengthOf(linter.verify(output1[ndx].test, rules), 0);
+          if (output1 !== undefined) {
+            assert.lengthOf(linter.verify(output1[ndx].test, rules), 0);
+          }
         }
       });
 
@@ -79,22 +83,28 @@ describe('robust swagger', function() {
       var paths2 = [];
 
       for (ndx in output2) {
-        paths2.push(join(__dirname, '/compare/output2' + output2[ndx].name));
+        if (output2 !== undefined) {
+          paths2.push(join(__dirname, '/compare/output2' + output2[ndx].name));
+        }
       }
 
-      it ('should generate specified paths from pathName option with should', function() {
+      it('should generate specified paths from pathName option with should', function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
 
         var generatedCode;
 
         for (ndx in paths2) {
-          generatedCode = read(paths2[ndx], 'utf8');
-          assert.equal(output2[ndx].test, generatedCode);
+          if (paths2 !== undefined) {
+            generatedCode = read(paths2[ndx], 'utf8');
+            assert.equal(output2[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output2) {
-          assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+          if (output2 !== undefined) {
+            assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+          }
         }
       });
 		});
@@ -109,22 +119,28 @@ describe('robust swagger', function() {
       var paths5 = [], ndx;
 
         for (ndx in output5) {
-          paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
+          if (output5 !== undefined) {
+            paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
+          }
         }
 
-      it ('should still generate all paths with assert', function() {
+      it('should still generate all paths with assert', function() {
         assert.isArray(output5);
         assert.lengthOf(output5, 1);
 
         var generatedCode;
 
         for (ndx in paths5) {
-          generatedCode = read(paths5[ndx], 'utf8');
-          assert.equal(output5[ndx].test, generatedCode);
+          if (paths5 !== undefined) {
+            generatedCode = read(paths5[ndx], 'utf8');
+            assert.equal(output5[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output5) {
-          assert.lengthOf(linter.verify(output5[ndx].test, rules), 0);
+          if (output5 !== undefined) {
+            assert.lengthOf(linter.verify(output5[ndx].test, rules), 0);
+          }
         }
       });
 
@@ -137,22 +153,28 @@ describe('robust swagger', function() {
       var paths6 = [];
 
         for (ndx in output6) {
-          paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
+          if (output6 !== undefined) {
+            paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
+          }
         }
 
-      it ('should still generate all paths with except', function() {
+      it('should still generate all paths with except', function() {
         assert.isArray(output6);
         assert.lengthOf(output6, 1);
 
         var generatedCode;
 
         for (ndx in paths6) {
-          generatedCode = read(paths6[ndx], 'utf8');
-          assert.equal(output6[ndx].test, generatedCode);
+          if (paths6 !== undefined) {
+            generatedCode = read(paths6[ndx], 'utf8');
+            assert.equal(output6[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output6) {
-          assert.lengthOf(linter.verify(output6[ndx].test, rules), 0);
+          if (output6 !== undefined) {
+            assert.lengthOf(linter.verify(output6[ndx].test, rules), 0);
+          }
         }
       });
     });
@@ -170,10 +192,12 @@ describe('robust swagger', function() {
       var paths3 = [], ndx;
 
       for (ndx in output3) {
-        paths3.push(join(__dirname, '/compare/output3' + output3[ndx].name));
+        if (output3) {
+          paths3.push(join(__dirname, '/compare/output3' + output3[ndx].name));
+        }
       }
 
-      it ('should still generate all paths from empty pathName option with should', function() {
+      it('should still generate all paths from empty pathName option with should', function() {
 
         assert.isArray(output3);
         assert.lengthOf(output3, 1);
@@ -181,12 +205,16 @@ describe('robust swagger', function() {
         var generatedCode;
 
         for (ndx in paths3) {
-          generatedCode = read(paths3[ndx], 'utf8');
-          assert.equal(output3[ndx].test, generatedCode);
+          if (paths3 !== undefined) {
+            generatedCode = read(paths3[ndx], 'utf8');
+            assert.equal(output3[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output3) {
-          assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
+          if (output3 !== undefined) {
+            assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
+          }
         }
       });
 
@@ -199,10 +227,12 @@ describe('robust swagger', function() {
       var paths4 = [];
 
       for (ndx in output4) {
-        paths4.push(join(__dirname, '/compare/output4' + output4[ndx].name));
+        if (output4 !== undefined) {
+          paths4.push(join(__dirname, '/compare/output4' + output4[ndx].name));
+        }
       }
 
-      it ('should generate specified paths from pathName option with should', function() {
+      it('should generate specified paths from pathName option with should', function() {
 
         assert.isArray(output4);
         assert.lengthOf(output4, 1);
@@ -210,12 +240,16 @@ describe('robust swagger', function() {
         var generatedCode;
 
         for (ndx in paths4) {
-          generatedCode = read(paths4[ndx], 'utf8');
-          assert.equal(output4[ndx].test, generatedCode);
+          if (paths4 !== undefined) {
+            generatedCode = read(paths4[ndx], 'utf8');
+            assert.equal(output4[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output4) {
-          assert.lengthOf(linter.verify(output4[ndx].test, rules), 0);
+          if (output4 !== undefined) {
+            assert.lengthOf(linter.verify(output4[ndx].test, rules), 0);
+          }
         }
       });
 		});
@@ -230,10 +264,12 @@ describe('robust swagger', function() {
       var paths7 = [], ndx;
 
       for (ndx in output7) {
-        paths7.push(join(__dirname, '/compare/output7' + output7[ndx].name));
+        if (output7 !== undefined) {
+          paths7.push(join(__dirname, '/compare/output7' + output7[ndx].name));
+        }
       }
 
-      it ('should still generate all paths with assert', function() {
+      it('should still generate all paths with assert', function() {
 
         assert.isArray(output7);
         assert.lengthOf(output7, 1);
@@ -241,12 +277,16 @@ describe('robust swagger', function() {
         var generatedCode;
 
         for (ndx in paths7) {
-          generatedCode = read(paths7[ndx], 'utf8');
-          assert.equal(output7[ndx].test, generatedCode);
+          if (paths7 !== undefined) {
+            generatedCode = read(paths7[ndx], 'utf8');
+            assert.equal(output7[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output7) {
-          assert.lengthOf(linter.verify(output7[ndx].test, rules), 0);
+          if (output7 !== undefined) {
+            assert.lengthOf(linter.verify(output7[ndx].test, rules), 0);
+          }
         }
       });
 
@@ -259,10 +299,12 @@ describe('robust swagger', function() {
       var paths8 = [];
 
       for (ndx in output8) {
-        paths8.push(join(__dirname, '/compare/output8' + output8[ndx].name));
+        if (paths8 !== undefined) {
+          paths8.push(join(__dirname, '/compare/output8' + output8[ndx].name));
+        }
       }
 
-      it ('should still generate all paths with expect', function() {
+      it('should still generate all paths with expect', function() {
 
         assert.isArray(output8);
         assert.lengthOf(output8, 1);
@@ -270,12 +312,16 @@ describe('robust swagger', function() {
         var generatedCode;
 
         for (ndx in paths8) {
-          generatedCode = read(paths8[ndx], 'utf8');
-          assert.equal(output8[ndx].test, generatedCode);
+          if (paths8 !== undefined) {
+            generatedCode = read(paths8[ndx], 'utf8');
+            assert.equal(output8[ndx].test, generatedCode);
+          }
         }
 
         for (ndx in output8) {
-          assert.lengthOf(linter.verify(output8[ndx].test, rules), 0);
+          if (output8 !== undefined) {
+            assert.lengthOf(linter.verify(output8[ndx].test, rules), 0);
+          }
         }
       });
     });
