@@ -1,9 +1,10 @@
 'use strict';
 var chai = require('chai');
+
 chai.should();
 var request = require('request');
 
-describe('/', function(){
+describe('/', function() {
   describe('get', function() {
     it('should be 200 OK', function(done) {
       request({

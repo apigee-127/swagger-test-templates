@@ -27,8 +27,13 @@
 var assert = require('chai').assert;
 var testGen = require('../../index.js').testGen;
 var swagger = require('./swagger.json');
-var lint = require('mocha-eslint');
+var linter = require('eslint').linter;
+var yaml = require('js-yaml');
+var rules;
 var read = require('fs').readFileSync;
+
+rules = yaml.safeLoad(read(__dirname + '/../../.eslintrc', 'utf8'));
+rules.env = {mocha: true};
 
 describe('minimal swagger', function() {
 	describe('request-option', function() {
@@ -57,7 +62,9 @@ describe('minimal swagger', function() {
           assert.equal(output1[ndx].test, generatedCode);
         }
 
-        lint(paths1, {});
+        for (ndx in output1) {
+          assert.lengthOf(linter.verify(output1[ndx].test, rules), 0);
+        }
       });
 
       var output2 = testGen(swagger, {
@@ -83,7 +90,9 @@ describe('minimal swagger', function() {
           assert.equal(output2[ndx].test, generatedCode);
         }
 
-        lint(paths2, {});
+        for (ndx in output2) {
+          assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+        }
       });
 		});
 
@@ -111,7 +120,9 @@ describe('minimal swagger', function() {
           assert.equal(output5[ndx].test, generatedCode);
         }
 
-        lint(paths5, {});
+        for (ndx in output5) {
+          assert.lengthOf(linter.verify(output5[ndx].test, rules), 0);
+        }
       });
 
       var output6 = testGen(swagger, {
@@ -137,7 +148,9 @@ describe('minimal swagger', function() {
           assert.equal(output6[ndx].test, generatedCode);
         }
 
-        lint(paths6, {});
+        for (ndx in output6) {
+          assert.lengthOf(linter.verify(output6[ndx].test, rules), 0);
+        }
       });
     });
 	});
@@ -169,7 +182,9 @@ describe('minimal swagger', function() {
           assert.equal(output3[ndx].test, generatedCode);
         }
 
-        lint(paths3, {});
+        for (ndx in output3) {
+          assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
+        }
       });
 
       var output4 = testGen(swagger, {
@@ -196,7 +211,9 @@ describe('minimal swagger', function() {
           assert.equal(output4[ndx].test, generatedCode);
         }
 
-        lint(paths4, {});
+        for (ndx in output4) {
+          assert.lengthOf(linter.verify(output4[ndx].test, rules), 0);
+        }
       });
 		});
 
@@ -225,7 +242,9 @@ describe('minimal swagger', function() {
           assert.equal(output7[ndx].test, generatedCode);
         }
 
-        lint(paths7, {});
+        for (ndx in output7) {
+          assert.lengthOf(linter.verify(output7[ndx].test, rules), 0);
+        }
       });
 
       var output8 = testGen(swagger, {
@@ -252,7 +271,9 @@ describe('minimal swagger', function() {
           assert.equal(output8[ndx].test, generatedCode);
         }
 
-        lint(paths8, {});
+        for (ndx in output8) {
+          assert.lengthOf(linter.verify(output8[ndx].test, rules), 0);
+        }
       });
     });
 	});

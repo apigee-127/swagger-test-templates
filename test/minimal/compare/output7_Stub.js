@@ -4,7 +4,7 @@ var assert = chai.assert;
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
 
-describe('/', function(){
+describe('/', function() {
   describe('get', function() {
     it('should be 200 OK', function(done) {
       api.get('/test/')

@@ -4,6 +4,7 @@ var chai = require('chai');
 var expect = chai.expect;
 {{/is}}
 {{#is assertion 'should'}}
+
 chai.should();
 {{/is}}
 {{#is assertion 'assert'}}
@@ -17,7 +18,7 @@ var supertest = require('supertest');
 var api = supertest('{{scheme}}://{{host}}'); // supertest init;
 {{/is}}
 
-describe('{{description}}', function(){
+describe('{{description}}', function() {
 {{#each tests}}
   {{this}}
 {{/each}}

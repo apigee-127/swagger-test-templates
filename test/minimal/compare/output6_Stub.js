@@ -3,7 +3,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var request = require('request');
 
-describe('/', function(){
+describe('/', function() {
   describe('get', function() {
     it('should be 200 OK', function(done) {
       request({
