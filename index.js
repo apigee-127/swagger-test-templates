@@ -29,6 +29,8 @@ var read = require('fs').readFileSync;
 var join = require('path').join;
 var innerDescribeFn;
 var outerDescribeFn;
+var schemaTemp;
+var noResponseDefinitions = true;
 
 /**
  * Builds a unit test stubs for the response code of a path's operation
@@ -51,8 +53,17 @@ function testGenResponse(swagger, path, operation, response, config) {
         swagger.paths[path][operation].responses[response].description),
       assertion: config.assertionFormat,
       parameters: [],
-      path: ''
+      path: '',
+      noSchema: true
     };
+
+  if (swagger.paths[path][operation].responses[response]
+    .hasOwnProperty('schema')) {
+    data.noSchema = false;
+    noResponseDefinitions = false;
+    data.schema = swagger.paths[path][operation].responses[response].schema;
+    data.schema = JSON.stringify(data.schema, null, 2);
+  }
 
   // adding body parameters to payload
   if (swagger.paths[path][operation].hasOwnProperty('parameters')) {
@@ -137,6 +148,8 @@ function testGenPath(swagger, path, config) {
   var op;
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
 
+  noResponseDefinitions = true;
+
   for (op in operations) {
     if (operations.hasOwnProperty(op) && validOps.indexOf(op) >= 0) {
       result.push(testGenOperation(swagger, path, op, config));
@@ -150,7 +163,8 @@ function testGenPath(swagger, path, config) {
     testmodule: config.testModule,
     scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
-    tests: result
+    tests: result,
+    noResponseDefinitions: noResponseDefinitions
   };
 
   output = outerDescribeFn(data);
@@ -174,6 +188,10 @@ function testGen(swagger, config) {
   var ndx;
   var i = 0;
   var source;
+
+  source = read('templates/schema.handlebars', 'utf8');
+  schemaTemp = handlebars.compile(source, {noEscape: true});
+  handlebars.registerPartial('schema-partial', schemaTemp);
 
   source = read('templates/innerDescribe.handlebars', 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});

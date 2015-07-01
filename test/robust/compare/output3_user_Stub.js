@@ -8,6 +8,7 @@ var api = supertest('https://api.uber.com'); // supertest init;
 describe('/user', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
+
       api.get('/test/user')
       .set('Accept', 'application/json')
       .expect(200)
@@ -17,12 +18,13 @@ describe('/user', function() {
           return;
         }
 
-        res.should.have.property('name');
+        res.should.equal(null);
         done();
       });
     });
 
     it('should respond with 400 NOT OK', function(done) {
+
       api.get('/test/user')
       .set('Accept', 'application/json')
       .expect(400)
@@ -32,12 +34,13 @@ describe('/user', function() {
           return;
         }
 
-        res.should.have.property('name');
+        res.should.equal(null);
         done();
       });
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
+
       api.get('/test/user')
       .set('Accept', 'application/json')
       .expect(500)
@@ -47,7 +50,7 @@ describe('/user', function() {
           return;
         }
 
-        res.should.have.property('name');
+        res.should.equal(null);
         done();
       });
     });
@@ -56,6 +59,7 @@ describe('/user', function() {
 
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
+
       api.post('/test/user')
       .set('Accept', 'application/json')
       .send({
@@ -68,12 +72,13 @@ describe('/user', function() {
           return;
         }
 
-        res.should.have.property('name');
+        res.should.equal(null);
         done();
       });
     });
 
     it('should respond with 400 NOT OK', function(done) {
+
       api.post('/test/user')
       .set('Accept', 'application/json')
       .send({
@@ -86,12 +91,13 @@ describe('/user', function() {
           return;
         }
 
-        res.should.have.property('name');
+        res.should.equal(null);
         done();
       });
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
+
       api.post('/test/user')
       .set('Accept', 'application/json')
       .send({
@@ -104,7 +110,7 @@ describe('/user', function() {
           return;
         }
 
-        res.should.have.property('name');
+        res.should.equal(null);
         done();
       });
     });

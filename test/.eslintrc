@@ -2,3 +2,5 @@
   extends: ../.eslintrc
   env:
     mocha: true
+  rules:
+    no-unused-expressions: false

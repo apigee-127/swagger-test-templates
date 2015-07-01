@@ -14,13 +14,50 @@
             "get": {
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "NOT OK"
+                        "description": "NOT OK",
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "meta": "string",
+                                "data": "number"
+                            }
+                        }
                     },
                     "500": {
-                        "description": "SERVER ERROR"
+                        "description": "SERVER ERROR",
+                        "schema": {
+                            "properties": {
+                                "meta":"string",
+                                "data":"number",
+                                "UserObj": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "username": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -45,13 +82,33 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "NOT OK"
+                        "description": "NOT OK",
+                        "schema": {
+                            "type": "number"
+                        }
                     },
                     "500": {
-                        "description": "SERVER ERROR"
+                        "description": "SERVER ERROR",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -99,6 +156,19 @@
                     "500": {
                         "description": "SERVER ERROR"
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         }

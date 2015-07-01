@@ -7,6 +7,7 @@ var request = require('request');
 describe('/user', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
+
       request({
         url: 'https://api.uber.com/test/user',
         method: 'GET',
@@ -18,12 +19,13 @@ describe('/user', function() {
           return;
         }
 
-        body.should.have.property('name');
+        body.should.equal(null);
         done();
       });
     });
 
     it('should respond with 400 NOT OK', function(done) {
+
       request({
         url: 'https://api.uber.com/test/user',
         method: 'GET',
@@ -35,12 +37,13 @@ describe('/user', function() {
           return;
         }
 
-        body.should.have.property('name');
+        body.should.equal(null);
         done();
       });
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
+
       request({
         url: 'https://api.uber.com/test/user',
         method: 'GET',
@@ -52,7 +55,7 @@ describe('/user', function() {
           return;
         }
 
-        body.should.have.property('name');
+        body.should.equal(null);
         done();
       });
     });
@@ -61,6 +64,7 @@ describe('/user', function() {
 
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
+
       request({
         url: 'https://api.uber.com/test/user',
         method: 'POST',
@@ -75,12 +79,13 @@ describe('/user', function() {
           return;
         }
 
-        body.should.have.property('name');
+        body.should.equal(null);
         done();
       });
     });
 
     it('should respond with 400 NOT OK', function(done) {
+
       request({
         url: 'https://api.uber.com/test/user',
         method: 'POST',
@@ -95,12 +100,13 @@ describe('/user', function() {
           return;
         }
 
-        body.should.have.property('name');
+        body.should.equal(null);
         done();
       });
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
+
       request({
         url: 'https://api.uber.com/test/user',
         method: 'POST',
@@ -115,7 +121,7 @@ describe('/user', function() {
           return;
         }
 
-        body.should.have.property('name');
+        body.should.equal(null);
         done();
       });
     });
