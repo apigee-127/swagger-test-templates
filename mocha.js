@@ -21,7 +21,7 @@ function addTest(file) {
 fs.readdirSync(testDir).filter(function(file) {
   if (fs.statSync(path.join(testDir, file)).isDirectory()) {
     directories.push(path.join(testDir, file));
-  } else if (file.substr(-7) === 'test.js') {
+  } else if (isTest(file)) {
     mocha.addFile(path.join(testDir, file));
   }
 });
@@ -31,7 +31,7 @@ var ndx;
 for (ndx in directories) {
   if (directories[ndx] !== undefined) {
     dir = directories[ndx];
-    fs.readdirSync(directories[ndx]).filter(isTest)
+    fs.readdirSync(dir).filter(isTest)
     .forEach(addTest);
   }
 }
