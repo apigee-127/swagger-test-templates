@@ -2,7 +2,7 @@
       request({
         url: '{{path}}',
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': '{{contentType}}'},
         json: {
           {{#each parameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}

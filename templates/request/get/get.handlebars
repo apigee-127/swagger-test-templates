@@ -2,7 +2,7 @@
       request({
         url: '{{path}}',
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': '{{contentType}}'}
       },
       function(error, response, body) {
         if (error) {

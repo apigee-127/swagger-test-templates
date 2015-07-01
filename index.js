@@ -51,6 +51,7 @@ function testGenResponse(swagger, path, operation, response, config) {
         swagger.paths[path][operation].responses[response].description),
       assertion: config.assertionFormat,
       parameters: [],
+      contentType: swagger.consumes,
       path: ''
     };
 
@@ -64,6 +65,10 @@ function testGenResponse(swagger, path, operation, response, config) {
     }
   }
 
+  if (swagger.paths[path][operation].hasOwnProperty('consumes')) {
+    data.contentType = swagger.paths[path][operation].consumes;
+  }
+
   // request url case
   if (config.testModule === 'request') {
     data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
@@ -73,9 +78,9 @@ function testGenResponse(swagger, path, operation, response, config) {
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // compile template source and return test string
-  source = read(join('templates', config.testModule, operation, operation
+  source = read(join(__dirname, '/templates', config.testModule, operation, operation
     + '.handlebars'), 'utf8');
-  var templatePath = join('./templates',
+  var templatePath = join(__dirname, '/templates',
     config.testModule,
     operation,
     operation + '.handlebars');
@@ -175,10 +180,10 @@ function testGen(swagger, config) {
   var i = 0;
   var source;
 
-  source = read('templates/innerDescribe.handlebars', 'utf8');
+  source = read(join(__dirname, '/templates/innerDescribe.handlebars'), 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
 
-  source = read('templates/outerDescribe.handlebars', 'utf8');
+  source = read(join(__dirname + '/templates/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   if (config.pathName.length === 0) {

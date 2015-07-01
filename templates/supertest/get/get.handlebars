@@ -1,6 +1,6 @@
   it('should be {{description}}', function(done) {
       api.get('{{path}}')
-      .set('Accept', 'application/json')
+      .set('Accept', '{{contentType}}')
       .expect({{responseCode}})
       .end(function(err, res) {
         if (err) {
