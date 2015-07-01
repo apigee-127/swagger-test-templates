@@ -33,6 +33,160 @@ var schemaTemp;
 var noResponseDefinitions = true;
 
 /**
+ * To check if it is an empty array or undefined
+ * @private
+ * @param  {array/object} val an array to be checked
+ * @returns {boolean} return true is the array is not empty nor undefined
+ */
+function isEmpty(val) {
+  return val == null || val.length <= 0;
+}
+
+/**
+ * Populate property of the swagger project
+ * @private
+ * @param  {json} swagger swagger file containing API
+ * @param  {string} path API path to generate tests for
+ * @param  {string} operation operation of the path to generate tests for
+ * @param  {string} response response type of operation of current path
+ * @param  {json} config configuration for testGen
+ * @returns {json} return all the properties information
+ */
+function getData(swagger, path, operation, response, config) {
+  var param;
+  var type;
+  var childProperty = swagger.paths[path];
+  var grandProperty = swagger.paths[path][operation];
+  var data = { // request payload
+    responseCode: response,
+    description: (response + ' ' +
+    swagger.paths[path][operation].responses[response].description),
+    assertion: config.assertionFormat,
+    noSchema: true,
+    bodyParameters: [],
+    queryParameters: [],
+    headerParameters: [],
+    pathParameters: [],
+    formParameters: [],
+    contentType: isEmpty(swagger.consumes) ?
+      'application/json' : swagger.consumes[0],
+    returnType: isEmpty(swagger.produces) ?
+      'application/json' : swagger.produces[0],
+    security: swagger.security,
+    path: ''
+  };
+
+  // deal with parameters in path level
+  if (childProperty.hasOwnProperty('parameters')) {
+    // process different parameters
+    for (param in childProperty.parameters) {
+      if (childProperty.parameters.hasOwnProperty(param)) {
+        type = childProperty.parameters[param];
+        switch (type.in) {
+          case 'query':
+            data.queryParameters.push(type);
+            break;
+          case 'path':
+            data.pathParameters.push(type);
+            break;
+          case 'header':
+            data.headerParameters.push(type);
+            break;
+          case 'formData':
+            data.formParameters.push(type);
+            break;
+          default:
+        }
+      }
+    }
+  }
+
+  // deal with parameters in operation level
+  if (grandProperty.hasOwnProperty('parameters')) {
+    // only adds body parameters to request, ignores query params
+    for (param in grandProperty.parameters) {
+      if (grandProperty.parameters.hasOwnProperty(param)) {
+        type = grandProperty.parameters[param];
+        switch (type.in) {
+          case 'query':
+            data.queryParameters.push(type);
+            break;
+          case 'header':
+            data.headerParameters.push(type);
+            break;
+          case 'path':
+            data.pathParameters.push(type);
+            break;
+          case 'formData':
+            data.formParameters.push(type);
+            break;
+          case 'body':
+            data.bodyParameters.push(type);
+            break;
+          default:
+        }
+      }
+    }
+  }
+
+  if (grandProperty.responses[response]
+      .hasOwnProperty('schema')) {
+    data.noSchema = false;
+    noResponseDefinitions = false;
+    data.schema = grandProperty.responses[response].schema;
+    data.schema = JSON.stringify(data.schema, null, 2);
+  }
+
+  // deal with consumes and produces in path level
+  if (childProperty.hasOwnProperty('consumes')) {
+    data.contentType = swagger.paths[path][operation].consumes[0];
+  }
+  if (childProperty.hasOwnProperty('produces')) {
+    data.returnType = swagger.paths[path][operation].produces[0];
+  }
+  if (childProperty.hasOwnProperty('security')) {
+    data.returnType = swagger.paths[path][operation].security;
+  }
+
+  // deal with consumes and produces in operation level
+  if (grandProperty.hasOwnProperty('consumes')) {
+    data.contentType = swagger.paths[path][operation].consumes[0];
+  }
+  if (grandProperty.hasOwnProperty('produces')) {
+    data.returnType = swagger.paths[path][operation].produces[0];
+  }
+  if (grandProperty.hasOwnProperty('security')) {
+    data.returnType = swagger.paths[path][operation].security;
+  }
+
+  // request url case
+  if (config.testModule === 'request') {
+    data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
+      + '://' + (swagger.host !== undefined ? swagger.host : 'localhost:10010');
+  }
+
+  data.path += (((swagger.basePath !== undefined) && (swagger.basePath !== '/'))
+      ? swagger.basePath : '') + path;
+
+  // supertest url add query
+  var queryToAdd = '';
+
+  if (config.testModule === 'supertest') {
+    if (data.queryParameters.length > 0) {
+      data.path += '?';
+      data.queryParameters.forEach(function(element) {
+        queryToAdd = element.name + '=DATA&';
+        data.path += queryToAdd;
+      });
+      data.path = data.path.substring(0,
+        data.path.lastIndexOf('&'));
+    }
+  }
+
+  return data;
+}
+
+/**
  * Builds a unit test stubs for the response code of a path's operation
  * @private
  * @param  {json} swagger swagger file containing API
@@ -46,55 +200,18 @@ function testGenResponse(swagger, path, operation, response, config) {
   var result;
   var templateFn;
   var source;
-  var param;
-  var data = { // request payload
-      responseCode: response,
-      description: (response + ' ' +
-        swagger.paths[path][operation].responses[response].description),
-      assertion: config.assertionFormat,
-      parameters: [],
-      path: '',
-      noSchema: true
-    };
+  var data;
 
-  if (swagger.paths[path][operation].responses[response]
-    .hasOwnProperty('schema')) {
-    data.noSchema = false;
-    noResponseDefinitions = false;
-    data.schema = swagger.paths[path][operation].responses[response].schema;
-    data.schema = JSON.stringify(data.schema, null, 2);
-  }
-
-  // adding body parameters to payload
-  if (swagger.paths[path][operation].hasOwnProperty('parameters')) {
-    // only adds body parameters to request, ignores query params
-    for (param in swagger.paths[path][operation].parameters) {
-      if (swagger.paths[path][operation].parameters[param].in === 'body') {
-        data.parameters.push(swagger.paths[path][operation].parameters[param]);
-      }
-    }
-  }
-
-  // request url case
-  if (config.testModule === 'request') {
-    data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
-      + '://' + (swagger.host !== undefined ? swagger.host : 'localhost:10010');
-  }
-
-  data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
+  // get the data
+  data = getData(swagger, path, operation, response, config);
 
   // compile template source and return test string
-  source = read(join('templates', config.testModule, operation, operation
-    + '.handlebars'), 'utf8');
-  var templatePath = join('./templates',
-    config.testModule,
-    operation,
-    operation + '.handlebars');
+  var templatePath = join(__dirname, '/templates',
+    config.testModule, operation, operation + '.handlebars');
 
   source = read(templatePath, 'utf8');
   templateFn = handlebars.compile(source, {noEscape: true});
   result = templateFn(data);
-
   return result;
 }
 
@@ -115,11 +232,10 @@ function testGenOperation(swagger, path, operation, config) {
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {
-      result.push(testGenResponse(swagger,
-        path,
-        operation,
-        res,
-        config));
+      if (responses.hasOwnProperty(res)) {
+        result.push(testGenResponse(
+          swagger, path, operation, res, config));
+      }
     }
   }
 
@@ -128,6 +244,7 @@ function testGenOperation(swagger, path, operation, config) {
     description: operation,
     tests: result
   };
+
 
   output = innerDescribeFn(data);
 
@@ -143,16 +260,16 @@ function testGenOperation(swagger, path, operation, config) {
  * @returns {string|Array} set of all tests for a path
  */
 function testGenPath(swagger, path, config) {
-  var operations = swagger.paths[path];
+  var childProperty = swagger.paths[path];
   var result = [];
-  var op;
+  var property;
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
 
-  noResponseDefinitions = true;
-
-  for (op in operations) {
-    if (operations.hasOwnProperty(op) && validOps.indexOf(op) >= 0) {
-      result.push(testGenOperation(swagger, path, op, config));
+  for (property in childProperty) {
+    if (childProperty.hasOwnProperty(property)
+      && validOps.indexOf(property) >= 0) {
+      result.push(
+        testGenOperation(swagger, path, property, config));
     }
   }
 
@@ -168,7 +285,7 @@ function testGenPath(swagger, path, config) {
   };
 
   output = outerDescribeFn(data);
-
+  noResponseDefinitions = true;
   return output;
 }
 
@@ -192,11 +309,9 @@ function testGen(swagger, config) {
   source = read('templates/schema.handlebars', 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
-
-  source = read('templates/innerDescribe.handlebars', 'utf8');
+  source = read(join(__dirname, '/templates/innerDescribe.handlebars'), 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
-
-  source = read('templates/outerDescribe.handlebars', 'utf8');
+  source = read(join(__dirname, '/templates/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   if (config.pathName.length === 0) {
@@ -220,8 +335,8 @@ function testGen(swagger, config) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
-        name: '_Stub.js',
-        test: result[ndx]
+          name: '_Stub.js',
+          test: result[ndx]
         });
       }
     }

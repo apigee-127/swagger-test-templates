@@ -22,20 +22,19 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       request({
         url: 'https://api.uber.com/test/',
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json'
+        }
       },
-      function(error, response, body) {
+      function(error, res, body) {
         if (error) {
           done(error);
           return;
         }
-
         validator.validate(body, schema).should.be.true;
-
         done();
       });
     });
@@ -50,20 +49,19 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       request({
         url: 'https://api.uber.com/test/',
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json'
+        }
       },
-      function(error, response, body) {
+      function(error, res, body) {
         if (error) {
           done(error);
           return;
         }
-
         validator.validate(body, schema).should.be.true;
-
         done();
       });
     });
@@ -90,20 +88,19 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       request({
         url: 'https://api.uber.com/test/',
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json'
+        }
       },
-      function(error, response, body) {
+      function(error, res, body) {
         if (error) {
           done(error);
           return;
         }
-
         validator.validate(body, schema).should.be.true;
-
         done();
       });
     });
@@ -128,11 +125,15 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       request({
         url: 'https://api.uber.com/test/',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json'
+        },
         json: {
           latitude: 'DATA GOES HERE'
         }
@@ -142,9 +143,7 @@ describe('/', function() {
           done(error);
           return;
         }
-
         validator.validate(body, schema).should.be.true;
-
         done();
       });
     });
@@ -155,11 +154,15 @@ describe('/', function() {
         "type": "number"
       };
       /*eslint-enable*/
-
       request({
         url: 'https://api.uber.com/test/',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json'
+        },
         json: {
           latitude: 'DATA GOES HERE'
         }
@@ -169,9 +172,7 @@ describe('/', function() {
           done(error);
           return;
         }
-
         validator.validate(body, schema).should.be.true;
-
         done();
       });
     });
@@ -182,11 +183,15 @@ describe('/', function() {
         "type": "string"
       };
       /*eslint-enable*/
-
       request({
         url: 'https://api.uber.com/test/',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json'
+        },
         json: {
           latitude: 'DATA GOES HERE'
         }
@@ -196,9 +201,7 @@ describe('/', function() {
           done(error);
           return;
         }
-
         validator.validate(body, schema).should.be.true;
-
         done();
       });
     });
