@@ -39,3 +39,4 @@
     dot-notation: 2
     new-cap: 2
     eol-last: 2
+    no-process-exit: false
