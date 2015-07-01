@@ -81,7 +81,7 @@ function testGenResponse(swagger, path, operation, response, config) {
     operation + '.handlebars');
 
   source = read(templatePath, 'utf8');
-  templateFn = handlebars.compile(source);
+  templateFn = handlebars.compile(source, {noEscape: true});
   result = templateFn(data);
 
   return result;
@@ -135,9 +135,10 @@ function testGenPath(swagger, path, config) {
   var operations = swagger.paths[path];
   var result = [];
   var op;
+  var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
 
   for (op in operations) {
-    if (operations.hasOwnProperty(op)) {
+    if (operations.hasOwnProperty(op) && validOps.indexOf(op) >= 0) {
       result.push(testGenOperation(swagger, path, op, config));
     }
   }
