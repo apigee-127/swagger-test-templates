@@ -1,6 +1,6 @@
   it('should respond with {{description}}', function(done) {
       api.put('{{path}}')
-      .set('Accept', 'application/json')
+      .set('Accept', '{{contentType}}')
       .send({
         {{#each parameters}}
         {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
