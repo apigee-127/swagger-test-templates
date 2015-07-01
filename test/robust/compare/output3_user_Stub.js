@@ -7,7 +7,7 @@ var api = supertest('https://api.uber.com'); // supertest init;
 
 describe('/user', function() {
   describe('get', function() {
-    it('should be 200 OK', function(done) {
+    it('should respond with 200 OK', function(done) {
       api.get('/test/user')
       .set('Accept', 'application/json')
       .expect(200)
@@ -22,7 +22,7 @@ describe('/user', function() {
       });
     });
 
-    it('should be 400 NOT OK', function(done) {
+    it('should respond with 400 NOT OK', function(done) {
       api.get('/test/user')
       .set('Accept', 'application/json')
       .expect(400)
@@ -37,7 +37,7 @@ describe('/user', function() {
       });
     });
 
-    it('should be 500 SERVER ERROR', function(done) {
+    it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/test/user')
       .set('Accept', 'application/json')
       .expect(500)
@@ -55,7 +55,7 @@ describe('/user', function() {
   });
 
   describe('post', function() {
-    it('should be 200 OK', function(done) {
+    it('should respond with 200 OK', function(done) {
       api.post('/test/user')
       .set('Accept', 'application/json')
       .send({
@@ -73,7 +73,7 @@ describe('/user', function() {
       });
     });
 
-    it('should be 400 NOT OK', function(done) {
+    it('should respond with 400 NOT OK', function(done) {
       api.post('/test/user')
       .set('Accept', 'application/json')
       .send({
@@ -91,7 +91,7 @@ describe('/user', function() {
       });
     });
 
-    it('should be 500 SERVER ERROR', function(done) {
+    it('should respond with 500 SERVER ERROR', function(done) {
       api.post('/test/user')
       .set('Accept', 'application/json')
       .send({
