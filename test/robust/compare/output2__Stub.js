@@ -6,7 +6,7 @@ var request = require('request');
 
 describe('/', function() {
   describe('get', function() {
-    it('should be 200 OK', function(done) {
+    it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/test/',
         method: 'GET',
@@ -23,7 +23,7 @@ describe('/', function() {
       });
     });
 
-    it('should be 400 NOT OK', function(done) {
+    it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/test/',
         method: 'GET',
@@ -40,7 +40,7 @@ describe('/', function() {
       });
     });
 
-    it('should be 500 SERVER ERROR', function(done) {
+    it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/test/',
         method: 'GET',
@@ -60,7 +60,7 @@ describe('/', function() {
   });
 
   describe('post', function() {
-    it('should be 200 OK', function(done) {
+    it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/test/',
         method: 'POST',
@@ -80,7 +80,7 @@ describe('/', function() {
       });
     });
 
-    it('should be 400 NOT OK', function(done) {
+    it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/test/',
         method: 'POST',
@@ -100,7 +100,7 @@ describe('/', function() {
       });
     });
 
-    it('should be 500 SERVER ERROR', function(done) {
+    it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/test/',
         method: 'POST',
