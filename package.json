@@ -4,7 +4,7 @@
   "description": "Generate test code from a Swagger spec",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*/test.js",
+    "test": "node mocha.js",
     "pretest": "npm install"
   },
   "repository": {
@@ -41,7 +41,8 @@
     "eslint": "^0.24.0",
     "js-yaml": "^3.3.1",
     "mocha": "^2.2.5",
-    "mocha-eslint": "^0.1.7"
+    "mocha-eslint": "^0.1.7",
+    "walk": "^2.3.9"
   },
   "dependencies": {
     "handlebars": "^3.0.3"
