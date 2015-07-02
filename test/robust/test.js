@@ -32,7 +32,6 @@ var yaml = require('js-yaml');
 var join = require('path').join;
 var rules;
 var read = require('fs').readFileSync;
-var write = require('fs').writeFileSync;
 
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
@@ -64,7 +63,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths1) {
           if (output1.hasOwnProperty(ndx)) {
-            write(paths1[ndx], output1[ndx].test, 'utf8');
             generatedCode = read(paths1[ndx], 'utf8');
             assert.equal(output1[ndx].test, generatedCode);
           }
@@ -99,7 +97,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths2) {
           if (paths2 !== undefined) {
-            write(paths2[ndx], output2[ndx].test, 'utf8');
             generatedCode = read(paths2[ndx], 'utf8');
             assert.equal(output2[ndx].test, generatedCode);
           }
@@ -137,7 +134,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths5) {
           if (paths5 !== undefined) {
-            write(paths5[ndx], output5[ndx].test, 'utf8');
             generatedCode = read(paths5[ndx], 'utf8');
             assert.equal(output5[ndx].test, generatedCode);
           }
@@ -172,7 +168,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths6) {
           if (paths6 !== undefined) {
-            write(paths6[ndx], output6[ndx].test, 'utf8');
             generatedCode = read(paths6[ndx], 'utf8');
             assert.equal(output6[ndx].test, generatedCode);
           }
@@ -214,7 +209,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths3) {
           if (paths3 !== undefined) {
-            write(paths3[ndx], output3[ndx].test, 'utf8');
             generatedCode = read(paths3[ndx], 'utf8');
             assert.equal(output3[ndx].test, generatedCode);
           }
@@ -250,7 +244,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths4) {
           if (paths4 !== undefined) {
-            write(paths4[ndx], output4[ndx].test, 'utf8');
             generatedCode = read(paths4[ndx], 'utf8');
             assert.equal(output4[ndx].test, generatedCode);
           }
@@ -289,7 +282,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths7) {
           if (paths7 !== undefined) {
-            write(paths7[ndx], output7[ndx].test, 'utf8');
             generatedCode = read(paths7[ndx], 'utf8');
             assert.equal(output7[ndx].test, generatedCode);
           }
@@ -325,7 +317,6 @@ describe('robust swagger', function() {
 
         for (ndx in paths8) {
           if (paths8 !== undefined) {
-            write(paths8[ndx], output8[ndx].test, 'utf8');
             generatedCode = read(paths8[ndx], 'utf8');
             assert.equal(output8[ndx].test, generatedCode);
           }

@@ -8,7 +8,7 @@ var api = supertest('http://localhost:10010'); // supertest init;
 describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
-      api.get('')
+      api.get('/')
       .set('Accept', '')
       .set({
       })
