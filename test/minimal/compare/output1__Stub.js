@@ -16,7 +16,7 @@ describe('/', function() {
           'Content-Type': '',
           'Custom-Header': {
         }}},
-      function(error, res, body) {
+      function(error, response, body) {
         if (error) {
           done(error);
           return;

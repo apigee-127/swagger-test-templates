@@ -14,7 +14,7 @@
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
         }}},
-      function(error, res, body) {
+      function(error, response, body) {
         if (error) {
           done(error);
           return;
