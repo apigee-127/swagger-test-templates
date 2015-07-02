@@ -40,7 +40,7 @@ var outerDescribeFn;
  * @param  {json} config configuration for testGen
  * @returns {string} generated test for response type
  */
-function testGenResponse(swagger, path, operation, response, config) {
+function testGenResponse(swagger, path, operation, response, config, parameters_array) {
   var result;
   var templateFn;
   var source;
@@ -50,7 +50,11 @@ function testGenResponse(swagger, path, operation, response, config) {
       description: (response + ' ' +
         swagger.paths[path][operation].responses[response].description),
       assertion: config.assertionFormat,
-      parameters: [],
+      bodyParameters: parameters_array.bodyParameters,
+      queryParameters: parameters_array.queryParameters,
+      headerParameters: parameters_array.headerParameters,
+      pathParameters: parameters_array.pathParameters,
+      formParameters: parameters_array.formParameters,
       contentType: swagger.consumes,
       path: ''
     };
@@ -60,7 +64,15 @@ function testGenResponse(swagger, path, operation, response, config) {
     // only adds body parameters to request, ignores query params
     for (param in swagger.paths[path][operation].parameters) {
       if (swagger.paths[path][operation].parameters[param].in === 'body') {
-        data.parameters.push(swagger.paths[path][operation].parameters[param]);
+        data.bodyParameters.push(swagger.paths[path][operation].parameters[param]);
+      } else if (swagger.paths[path][operation].parameters[param].in === 'query') {
+        data.queryParameters.push(swagger.paths[path][operation].parameters[param]);
+      } else if (swagger.paths[path][operation].parameters[param].in === 'form') {
+        data.formParameters.push(swagger.paths[path][operation].parameters[param]);
+      } else if (swagger.paths[path][operation].parameters[param].in === 'path') {
+        data.pathParameters.push(swagger.paths[path][operation].parameters[param]);
+      } else if (swagger.paths[path][operation].parameters[param].in === 'header') {
+        data.headerParameters.push(swagger.paths[path][operation].parameters[param]);
       }
     }
   }
@@ -76,6 +88,15 @@ function testGenResponse(swagger, path, operation, response, config) {
   }
 
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
+
+  // supertest url add query
+  if (config.testModule === 'supertest') {
+    for (var query in data.queryParameters) {
+      var queryToAdd = query.name + '=' + 'DATA' + '&';
+      data.path += queryToAdd;
+    }
+    data.path = data.path.substring(0, data.path.lastIndexOf('&'));
+  }
 
   // compile template source and return test string
   source = read(join(__dirname, '/templates', config.testModule, operation, operation
@@ -102,7 +123,7 @@ function testGenResponse(swagger, path, operation, response, config) {
  * @param  {json} config configuration for testGen
  * @returns {string|Array} set of all tests for a path's operation
  */
-function testGenOperation(swagger, path, operation, config) {
+function testGenOperation(swagger, path, operation, config, parameters) {
   var responses = swagger.paths[path][operation].responses;
   var result = [];
   var res;
@@ -113,7 +134,7 @@ function testGenOperation(swagger, path, operation, config) {
         path,
         operation,
         res,
-        config));
+        config, parameters));
     }
   }
 
@@ -137,14 +158,38 @@ function testGenOperation(swagger, path, operation, config) {
  * @returns {string|Array} set of all tests for a path
  */
 function testGenPath(swagger, path, config) {
-  var operations = swagger.paths[path];
+  var parameters = {
+    queryParameters: [],
+    bodyParameters: [],
+    headerParameters: [],
+    formParameters: [],
+    pathParameters: []
+  };
+  var childProperty = swagger.paths[path];
   var result = [];
-  var op;
+  var cp;
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
 
-  for (op in operations) {
-    if (operations.hasOwnProperty(op) && validOps.indexOf(op) >= 0) {
-      result.push(testGenOperation(swagger, path, op, config));
+  if (childProperty.hasOwnProperty('parameters')) {
+    // only adds body parameters to request, ignores query params
+    for (var p in childProperty.parameters) {
+      if (childProperty.parameters[p].in === 'body') {
+        parameters.bodyParameters.push(childProperty.parameters[p]);
+      } else if (childProperty.parameters[p].in === 'query') {
+        parameters.queryParameters.push(childProperty.parameters[p]);
+      } else if (childProperty.parameters[p].in === 'header') {
+        parameters.headerParameters.push(childProperty.parameters[p]);
+      } else if (childProperty.parameters[p].in === 'form') {
+        parameters.formParameters.push(childProperty.parameters[p]);
+      } else if (childProperty.parameters[p].in === 'path') {
+        parameters.pathParameters.push(childProperty.parameters[p]);
+      }
+    }
+  }
+
+  for (cp in childProperty) {
+    if (childProperty.hasOwnProperty(cp) && validOps.indexOf(cp) >= 0) {
+      result.push(testGenOperation(swagger, path, cp, config, parameters));
     }
   }
 

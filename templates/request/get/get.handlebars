@@ -1,10 +1,20 @@
   it('should respond with {{description}}', function(done) {
       request({
         url: '{{path}}',
+        qs: {
+          {{#each queryParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
         method: 'GET',
-        headers: {'Content-Type': '{{contentType}}'}
-      },
-      function(error, response, body) {
+        headers: {
+          'Content-Type': '{{contentType}}',
+          'Custom-Header: {
+          {{#each headerParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }},
+      function(error, res, body) {
         if (error) {
           done(error);
           return;

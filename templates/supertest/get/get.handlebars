@@ -1,13 +1,17 @@
   it('should respond with {{description}}', function(done) {
       api.get('{{path}}')
       .set('Accept', '{{contentType}}')
+      .set({
+        {{#each headerParameters}}
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
       .expect({{responseCode}})
       .end(function(err, res) {
         if (err) {
           done(err);
           return;
         }
-
         {{#is assertion 'expect'}}
         expect(res).to.have.property('name');
         {{/is}}
