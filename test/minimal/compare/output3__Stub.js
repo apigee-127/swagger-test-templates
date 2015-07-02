@@ -9,7 +9,7 @@ describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       api.get('/')
-      .set('Accept', '')
+      .set('Accept', 'application/json')
       .set({
       })
       .expect(200)

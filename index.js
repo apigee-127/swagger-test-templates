@@ -57,8 +57,10 @@ function testGenResponse(swagger, path, operation, response, config,
       headerParameters: parametersArray.headerParameters,
       pathParameters: parametersArray.pathParameters,
       formParameters: parametersArray.formParameters,
-      contentType: swagger.consumes,
-      returnType: swagger.produces,
+      contentType: swagger.consumes ===
+      undefined ? 'application/json' : swagger.consumes[0],
+      returnType: swagger.produces ===
+      undefined ? 'application/json' : swagger.produces[0],
       security: swagger.security,
       path: ''
     };
@@ -134,7 +136,6 @@ function testGenResponse(swagger, path, operation, response, config,
   source = read(templatePath, 'utf8');
   templateFn = handlebars.compile(source, {noEscape: true});
   result = templateFn(data);
-
   return result;
 }
 

@@ -13,7 +13,7 @@
           {{#each headerParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
-        }}},
+        }},
         {{#is contentType 'application/json'}}
         json: {
           {{#each bodyParameters}}

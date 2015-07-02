@@ -13,7 +13,7 @@ describe('/', function() {
         },
         method: 'GET',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
         }}},
       function(error, response, body) {

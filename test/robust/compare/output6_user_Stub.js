@@ -12,7 +12,7 @@ describe('/user', function() {
         },
         method: 'GET',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
         }}},
       function(error, response, body) {
@@ -33,7 +33,7 @@ describe('/user', function() {
         },
         method: 'GET',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
         }}},
       function(error, response, body) {
@@ -54,7 +54,7 @@ describe('/user', function() {
         },
         method: 'GET',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
         }}},
       function(error, response, body) {
@@ -79,9 +79,13 @@ describe('/user', function() {
         },
         method: 'POST',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
-        }}},
+        }},
+        json: {
+          latitude: 'DATA GOES HERE'
+        }
+      },
       function(error, res, body) {
         if (error) {
           done(error);
@@ -101,9 +105,13 @@ describe('/user', function() {
         },
         method: 'POST',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
-        }}},
+        }},
+        json: {
+          latitude: 'DATA GOES HERE'
+        }
+      },
       function(error, res, body) {
         if (error) {
           done(error);
@@ -123,9 +131,13 @@ describe('/user', function() {
         },
         method: 'POST',
         headers: {
-          'Content-Type': '',
+          'Content-Type': 'application/json',
           'Custom-Header': {
-        }}},
+        }},
+        json: {
+          latitude: 'DATA GOES HERE'
+        }
+      },
       function(error, res, body) {
         if (error) {
           done(error);

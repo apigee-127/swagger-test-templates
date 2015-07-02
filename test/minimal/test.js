@@ -89,7 +89,8 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should create specified paths from pathName flag w/should', function() {
+      it('should create specified paths from pathName flag w/should',
+        function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
 
