@@ -58,6 +58,7 @@ function testGenResponse(swagger, path, operation, response, config,
       pathParameters: parametersArray.pathParameters,
       formParameters: parametersArray.formParameters,
       contentType: swagger.consumes,
+      returnType: swagger.produces,
       security: swagger.security,
       path: ''
     };
@@ -92,6 +93,12 @@ function testGenResponse(swagger, path, operation, response, config,
 
   if (swagger.paths[path][operation].hasOwnProperty('consumes')) {
     data.contentType = swagger.paths[path][operation].consumes;
+  }
+  if (swagger.paths[path][operation].hasOwnProperty('produces')) {
+    data.returnType = swagger.paths[path][operation].produces;
+  }
+  if (swagger.paths[path][operation].hasOwnProperty('security')) {
+    data.returnType = swagger.paths[path][operation].security;
   }
 
   // request url case
