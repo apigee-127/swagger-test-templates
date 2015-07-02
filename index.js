@@ -90,12 +90,17 @@ function testGenResponse(swagger, path, operation, response, config, parameters_
   data.path += (swagger.basePath !== undefined ? swagger.basePath : '') + path;
 
   // supertest url add query
+  var queryToAdd = "";
+  var query;
   if (config.testModule === 'supertest') {
-    for (var query in data.queryParameters) {
-      var queryToAdd = query.name + '=' + 'DATA' + '&';
-      data.path += queryToAdd;
+    if (data.queryParameters.length > 0) {
+      data.path += '?';
+      data.queryParameters.forEach(function(element, index, array) {
+        queryToAdd = element.name + '=' + 'DATA' + '&';
+        data.path += queryToAdd;
+      });
+      data.path = data.path.substring(0, data.path.lastIndexOf('&'));
     }
-    data.path = data.path.substring(0, data.path.lastIndexOf('&'));
   }
 
   // compile template source and return test string
@@ -127,8 +132,9 @@ function testGenOperation(swagger, path, operation, config, parameters) {
   var responses = swagger.paths[path][operation].responses;
   var result = [];
   var res;
-
+  var origin = JSON.parse(JSON.stringify(parameters));
   for (res in responses) {
+    parameters = JSON.parse(JSON.stringify(origin));
     if (responses.hasOwnProperty(res)) {
       result.push(testGenResponse(swagger,
         path,
