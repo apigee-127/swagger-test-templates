@@ -58,7 +58,6 @@ describe('minimal swagger', function() {
       it('should create all paths w/empty pathName flag w/should', function() {
         assert.isArray(output1);
         assert.lengthOf(output1, 1);
-
         var generatedCode;
 
         for (ndx in paths1) {
@@ -67,6 +66,7 @@ describe('minimal swagger', function() {
             assert.equal(output1[ndx].test, generatedCode);
           }
         }
+
 
         for (ndx in output1) {
           if (output1 !== undefined) {
@@ -89,7 +89,7 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should crea specified paths from pathName flag w/should', function() {
+      it('should create specified paths from pathName flag w/should', function() {
         assert.isArray(output2);
         assert.lengthOf(output2, 1);
 

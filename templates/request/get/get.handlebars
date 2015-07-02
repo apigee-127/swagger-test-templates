@@ -5,15 +5,15 @@
           {{#each queryParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
-        }
+        },
         method: 'GET',
         headers: {
           'Content-Type': '{{contentType}}',
-          'Custom-Header: {
+          'Custom-Header': {
           {{#each headerParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
-        }},
+        }}},
       function(error, res, body) {
         if (error) {
           done(error);

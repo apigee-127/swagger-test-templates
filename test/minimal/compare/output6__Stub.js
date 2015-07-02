@@ -8,10 +8,14 @@ describe('/', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
+        qs: {
+        },
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
-      },
-      function(error, response, body) {
+        headers: {
+          'Content-Type': '',
+          'Custom-Header': {
+        }}},
+      function(error, res, body) {
         if (error) {
           done(error);
           return;
