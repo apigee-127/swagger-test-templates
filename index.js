@@ -58,6 +58,7 @@ function testGenResponse(swagger, path, operation, response, config,
       pathParameters: parametersArray.pathParameters,
       formParameters: parametersArray.formParameters,
       contentType: swagger.consumes,
+      security: swagger.security,
       path: ''
     };
 
