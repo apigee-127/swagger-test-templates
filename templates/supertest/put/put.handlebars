@@ -1,11 +1,32 @@
   it('should respond with {{description}}', function(done) {
       api.put('{{path}}')
-      .set('Accept', 'application/json')
-      .send({
-        {{#each parameters}}
+      .set('Accept', '{{contentType}}')
+      .set({
+        {{#each headerParameters}}
         {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
         {{/each}}
       })
+      {{#is contentType 'application/json'}}
+      .send({
+        {{#each bodyParameters}}
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      {{/is}}
+      {{#is contentType 'application/x-www-form-urlencoded'}}
+      .send({
+      {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+      {{/each}}
+      })
+      {{/is}}
+      {{#is contentType 'multipart/form-data'}}
+      .send({
+      {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+      {{/each}}
+      })
+      {{/is}}
       .expect({{responseCode}})
       .end(function(err, res) {
         if (err) {

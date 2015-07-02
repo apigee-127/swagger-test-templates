@@ -9,18 +9,18 @@ describe('/', function() {
     it('should respond with 200 OK', function(done) {
       api.get('/')
       .set('Accept', 'application/json')
+      .set({
+      })
       .expect(200)
       .end(function(err, res) {
         if (err) {
           done(err);
           return;
         }
-
         expect(res).to.have.property('name');
         done();
       });
     });
-
   });
 
 });

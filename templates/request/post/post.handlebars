@@ -1,14 +1,43 @@
   it('should respond with {{description}}', function(done) {
       request({
         url: '{{path}}',
+        qs: {
+          {{#each queryParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        },
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': '{{contentType}}',
+          'Custom-Header': {
+          {{#each headerParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }},
+        {{#is contentType 'application/json'}}
         json: {
-          {{#each parameters}}
+          {{#each bodyParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
         }
       },
+        {{/is}}
+        {{#is contentType 'application/x-www-form-urlencoded'}}
+        form: {
+          {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
+      },
+        {{/is}}
+        {{#is contentType 'multipart/form-data'}}
+        form: {
+          {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
+      },
+       {{/is}}
       function(error, res, body) {
         if (error) {
           done(error);
