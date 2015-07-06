@@ -13,7 +13,7 @@ var testGen = require('swagger-test-templates');
 var swagger = require('/path/to/swagger.json');
 var config = {
   assertionFormat: 'should',
-  testmodule:'supertest',
+  testModule:'supertest',
   pathNames:['/user', '/user/{id}']
 };
 
