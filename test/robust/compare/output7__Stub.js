@@ -1,5 +1,7 @@
 'use strict';
 var chai = require('chai');
+var ZSchema = require('z-schema');
+var validator = new ZSchema({});
 var assert = chai.assert;
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
@@ -7,6 +9,20 @@ var api = supertest('https://api.uber.com'); // supertest init;
 describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      };
+      /*eslint-enable*/
+
       api.get('/test/')
       .set('Accept', 'application/json')
       .expect(200)
@@ -16,12 +32,22 @@ describe('/', function() {
           return;
         }
 
-        assert.property(res, 'name');
+        assert.true(validator.validate(res, schema));
         done();
       });
     });
 
     it('should respond with 400 NOT OK', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "type": "object",
+        "properties": {
+          "meta": "string",
+          "data": "number"
+        }
+      };
+      /*eslint-enable*/
+
       api.get('/test/')
       .set('Accept', 'application/json')
       .expect(400)
@@ -31,12 +57,34 @@ describe('/', function() {
           return;
         }
 
-        assert.property(res, 'name');
+        assert.true(validator.validate(res, schema));
         done();
       });
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "properties": {
+          "meta": "string",
+          "data": "number",
+          "UserObj": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "username": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      };
+      /*eslint-enable*/
+
       api.get('/test/')
       .set('Accept', 'application/json')
       .expect(500)
@@ -46,7 +94,7 @@ describe('/', function() {
           return;
         }
 
-        assert.property(res, 'name');
+        assert.true(validator.validate(res, schema));
         done();
       });
     });
@@ -55,6 +103,23 @@ describe('/', function() {
 
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "username": {
+              "type": "string"
+            }
+          }
+        }
+      };
+      /*eslint-enable*/
+
       api.post('/test/')
       .set('Accept', 'application/json')
       .send({
@@ -67,12 +132,18 @@ describe('/', function() {
           return;
         }
 
-        assert.property(res, 'name');
+        assert.true(validator.validate(res, schema));
         done();
       });
     });
 
     it('should respond with 400 NOT OK', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "type": "number"
+      };
+      /*eslint-enable*/
+
       api.post('/test/')
       .set('Accept', 'application/json')
       .send({
@@ -85,12 +156,18 @@ describe('/', function() {
           return;
         }
 
-        assert.property(res, 'name');
+        assert.true(validator.validate(res, schema));
         done();
       });
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "type": "string"
+      };
+      /*eslint-enable*/
+
       api.post('/test/')
       .set('Accept', 'application/json')
       .send({
@@ -103,7 +180,7 @@ describe('/', function() {
           return;
         }
 
-        assert.property(res, 'name');
+        assert.true(validator.validate(res, schema));
         done();
       });
     });

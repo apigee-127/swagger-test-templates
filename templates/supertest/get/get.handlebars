@@ -1,4 +1,11 @@
   it('should respond with {{description}}', function(done) {
+      {{#unless noSchema}}
+      /*eslint-disable*/
+      {{> schema-partial this}}
+
+      /*eslint-enable*/
+      {{/unless}}
+
       api.get('{{path}}')
       .set('Accept', 'application/json')
       .expect({{responseCode}})
@@ -8,15 +15,30 @@
           return;
         }
 
-        {{#is assertion 'expect'}}
-        expect(res).to.have.property('name');
-        {{/is}}
-        {{#is assertion 'should'}}
-        res.should.have.property('name');
-        {{/is}}
-        {{#is assertion 'assert'}}
-        assert.property(res, 'name');
-        {{/is}}
+        {{#if noSchema}}
+            {{#is ../assertion 'expect'}}
+        expect(res).to.equal(null);
+            {{/is}}
+            {{#is ../assertion 'should'}}
+        res.should.equal(null);
+            {{/is}}
+            {{#is ../assertion 'assert'}}
+        assert.isNull(res);
+            {{/is}}
+        {{/if}}
+        {{#unless noSchema}}
+            {{#is ../assertion 'expect'}}
+        expect(validator.validate(res, schema)).to.be.true;
+
+            {{/is}}
+            {{#is ../assertion 'should'}}
+        validator.validate(res, schema).should.be.true;
+
+            {{/is}}
+            {{#is ../assertion 'assert'}}
+        assert.true(validator.validate(res, schema));
+            {{/is}}
+        {{/unless}}
         done();
       });
     });

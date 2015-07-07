@@ -1,4 +1,11 @@
   it('should respond with {{description}}', function(done) {
+      {{#unless noSchema}}
+      /*eslint-disable*/
+      {{> schema-partial this}}
+
+      /*eslint-enable*/
+      {{/unless}}
+
       request({
         url: '{{path}}',
         method: 'POST',
@@ -15,15 +22,30 @@
           return;
         }
 
-        {{#is assertion 'expect'}}
-        expect(body).to.have.property('name');
-        {{/is}}
-        {{#is assertion 'should'}}
-        body.should.have.property('name');
-        {{/is}}
-        {{#is assertion 'assert'}}
-        assert.property(body, 'name');
-        {{/is}}
+        {{#if noSchema}}
+            {{#is ../assertion 'expect'}}
+        expect(body).to.equal(null);
+            {{/is}}
+            {{#is ../assertion 'should'}}
+        body.should.equal(null);
+            {{/is}}
+            {{#is ../assertion 'assert'}}
+        assert.isNull(body);
+            {{/is}}
+        {{/if}}
+        {{#unless noSchema}}
+            {{#is ../assertion 'expect'}}
+        expect(validator.validate(body, schema)).to.be.true;
+
+            {{/is}}
+            {{#is ../assertion 'should'}}
+        validator.validate(body, schema).should.be.true;
+
+            {{/is}}
+            {{#is ../assertion 'assert'}}
+        assert.true(validator.validate(body, schema));
+            {{/is}}
+        {{/unless}}
         done();
       });
     });
