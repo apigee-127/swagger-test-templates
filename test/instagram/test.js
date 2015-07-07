@@ -70,16 +70,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output1 -----');
-
         for (ndx in output1) {
           if (output1[ndx] !== undefined) {
-            len = (linter.verify(output1[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output1[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output1[ndx].test, rules), 0);
           }
         }
@@ -116,16 +108,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output2 -----');
-
         for (ndx in output2) {
           if (output2[ndx] !== undefined) {
-            len = (linter.verify(output2[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output2[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
           }
         }
@@ -164,16 +148,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output3 -----');
-
         for (ndx in output3) {
           if (output3[ndx] !== undefined) {
-            len = (linter.verify(output3[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output3[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
           }
         }
@@ -208,16 +184,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output4 -----');
-
         for (ndx in output4) {
           if (output4[ndx] !== undefined) {
-            len = (linter.verify(output4[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output4[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output4[ndx].test, rules), 0);
           }
         }
@@ -258,16 +226,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output5 -----');
-
         for (ndx in output5) {
           if (output5[ndx] !== undefined) {
-            len = (linter.verify(output5[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output5[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output5[ndx].test, rules), 0);
           }
         }
@@ -304,16 +264,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output6 -----');
-
         for (ndx in output6) {
           if (output6[ndx] !== undefined) {
-            len = (linter.verify(output6[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output6[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output6[ndx].test, rules), 0);
           }
         }
@@ -352,16 +304,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output7 -----');
-
         for (ndx in output7) {
           if (output7[ndx] !== undefined) {
-            len = (linter.verify(output7[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output7[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output7[ndx].test, rules), 0);
           }
         }
@@ -396,16 +340,8 @@ describe('instagram', function() {
 
         var len;
 
-        console.log('----- output8 -----');
-
         for (ndx in output8) {
           if (output8[ndx] !== undefined) {
-            len = (linter.verify(output8[ndx].test, rules)).length;
-
-            if (len > 0) {
-              console.log(output8[ndx].name);
-              console.log(len);
-            }
             // assert.lengthOf(linter.verify(output8[ndx].test, rules), 0);
           }
         }
