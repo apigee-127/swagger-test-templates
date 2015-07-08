@@ -5,40 +5,52 @@
 
       /*eslint-enable*/
       {{/unless}}
-
       api.get('{{path}}')
-      .set('Accept', 'application/json')
+      .set('Accept', '{{contentType}}')
+      {{#if headerParameters}}
+      .set({
+        {{#each headerParameters}}
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      {{/if}}
       .expect({{responseCode}})
       .end(function(err, res) {
         if (err) {
           done(err);
           return;
         }
-
         {{#if noSchema}}
-            {{#is ../assertion 'expect'}}
+        {{#is ../assertion 'expect'}}
         expect(res).to.equal(null);
-            {{/is}}
-            {{#is ../assertion 'should'}}
+        {{/is}}
+        {{#is ../assertion 'should'}}
         res.should.equal(null);
-            {{/is}}
-            {{#is ../assertion 'assert'}}
+        {{/is}}
+        {{#is ../assertion 'assert'}}
         assert.isNull(res);
-            {{/is}}
+        {{/is}}
         {{/if}}
         {{#unless noSchema}}
-            {{#is ../assertion 'expect'}}
+        {{#is ../assertion 'expect'}}
         expect(validator.validate(res, schema)).to.be.true;
-
-            {{/is}}
-            {{#is ../assertion 'should'}}
+        {{/is}}
+        {{#is ../assertion 'should'}}
         validator.validate(res, schema).should.be.true;
-
-            {{/is}}
-            {{#is ../assertion 'assert'}}
+        {{/is}}
+        {{#is ../assertion 'assert'}}
         assert.true(validator.validate(res, schema));
-            {{/is}}
+        {{/is}}
         {{/unless}}
+        {{#is assertion 'expect'}}
+        expect(res).to.have.property('name');
+        {{/is}}
+        {{#is assertion 'should'}}
+        res.should.have.property('name');
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.property(res, 'name');
+        {{/is}}
         done();
       });
     });

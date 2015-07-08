@@ -7,18 +7,18 @@ var request = require('request');
 describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
-
       request({
         url: 'http://localhost:10010/',
         method: 'GET',
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json'
+        }
       },
-      function(error, response, body) {
+      function(error, res, body) {
         if (error) {
           done(error);
           return;
         }
-
         body.should.equal(null);
         done();
       });

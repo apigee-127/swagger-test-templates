@@ -1,0 +1,122 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Travel Groups App"
+  },
+  "host": "localhost:10010",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/plan": {
+      "x-swagger-router-controller": "travel_groups",
+      "post": {
+        "summary": "Create a plan",
+        "description": "Create a new plan of a user",
+        "operationId": "addPlan",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "plan",
+            "in": "body",
+            "description": "plan to add",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "required": true,
+            "description": "data",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "default": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/plan/{plan_id}/users": {
+      "x-swagger-router-controller": "travel_groups",
+      "parameters": [
+        {
+          "name": "plan_id",
+          "in": "path",
+          "description": "id of the plan",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "gets users of a plan",
+        "description": "gets all users involved in specified plan",
+        "operationId": "getPlanUsers",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user": {
+      "x-swagger-router-controller": "travel_groups",
+      "parameters": [
+        {
+          "name": "name",
+          "in": "query",
+          "description": "id of the plan",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "post": {
+        "summary": "creates User",
+        "description": "Creates a new user of Travel Groups",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "description": "The user information",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "id of the plan",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User information is OK"
+          },
+          "default": {
+            "description": "Error"
+          }
+        }
+      }
+    }
+  }
+}

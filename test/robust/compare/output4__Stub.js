@@ -23,7 +23,6 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       api.get('/test/')
       .set('Accept', 'application/json')
       .expect(200)
@@ -32,13 +31,11 @@ describe('/', function() {
           done(err);
           return;
         }
-
         validator.validate(res, schema).should.be.true;
-
+        res.should.have.property('name');
         done();
       });
     });
-
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -49,7 +46,6 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       api.get('/test/')
       .set('Accept', 'application/json')
       .expect(400)
@@ -58,13 +54,11 @@ describe('/', function() {
           done(err);
           return;
         }
-
         validator.validate(res, schema).should.be.true;
-
+        res.should.have.property('name');
         done();
       });
     });
-
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -87,7 +81,6 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
       api.get('/test/')
       .set('Accept', 'application/json')
       .expect(500)
@@ -96,13 +89,11 @@ describe('/', function() {
           done(err);
           return;
         }
-
         validator.validate(res, schema).should.be.true;
-
+        res.should.have.property('name');
         done();
       });
     });
-
   });
 
   describe('post', function() {
@@ -123,8 +114,7 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-
-      api.post('/test/')
+      api.post('/test/?longitude=DATA')
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -135,7 +125,6 @@ describe('/', function() {
           done(err);
           return;
         }
-
         validator.validate(res, schema).should.be.true;
 
         done();
@@ -148,8 +137,7 @@ describe('/', function() {
         "type": "number"
       };
       /*eslint-enable*/
-
-      api.post('/test/')
+      api.post('/test/?longitude=DATA')
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -160,7 +148,6 @@ describe('/', function() {
           done(err);
           return;
         }
-
         validator.validate(res, schema).should.be.true;
 
         done();
@@ -173,8 +160,7 @@ describe('/', function() {
         "type": "string"
       };
       /*eslint-enable*/
-
-      api.post('/test/')
+      api.post('/test/?longitude=DATA')
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -185,7 +171,6 @@ describe('/', function() {
           done(err);
           return;
         }
-
         validator.validate(res, schema).should.be.true;
 
         done();
