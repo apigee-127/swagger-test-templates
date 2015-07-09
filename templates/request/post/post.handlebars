@@ -48,8 +48,7 @@
         {{/is}}
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         {{#if noSchema}}
         {{#is ../assertion 'expect'}}

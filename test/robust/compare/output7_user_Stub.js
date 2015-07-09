@@ -12,8 +12,7 @@ describe('/user', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.isNull(res);
         assert.property(res, 'name');
@@ -26,8 +25,7 @@ describe('/user', function() {
       .expect(400)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.isNull(res);
         assert.property(res, 'name');
@@ -40,8 +38,7 @@ describe('/user', function() {
       .expect(500)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.isNull(res);
         assert.property(res, 'name');
@@ -60,8 +57,7 @@ describe('/user', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.isNull(res);
         done();
@@ -77,8 +73,7 @@ describe('/user', function() {
       .expect(400)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.isNull(res);
         done();
@@ -94,8 +89,7 @@ describe('/user', function() {
       .expect(500)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.isNull(res);
         done();

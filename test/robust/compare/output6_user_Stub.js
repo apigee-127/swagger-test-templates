@@ -15,8 +15,7 @@ describe('/user', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(body).to.equal(null);
         done();
@@ -33,8 +32,7 @@ describe('/user', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(body).to.equal(null);
         done();
@@ -51,8 +49,7 @@ describe('/user', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(body).to.equal(null);
         done();
@@ -78,8 +75,7 @@ describe('/user', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(body).to.equal(null);
         done();
@@ -102,8 +98,7 @@ describe('/user', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(body).to.equal(null);
         done();
@@ -126,8 +121,7 @@ describe('/user', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(body).to.equal(null);
         done();
