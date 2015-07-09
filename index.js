@@ -306,7 +306,7 @@ function testGen(swagger, config) {
   var i = 0;
   var source;
 
-  source = read('templates/schema.handlebars', 'utf8');
+  source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
   source = read(join(__dirname, '/templates/innerDescribe.handlebars'), 'utf8');
