@@ -51,7 +51,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output1) {
         if (output1 !== undefined) {
-          paths1.push(join(__dirname, '/compare/output1' + output1[ndx].name));
+          paths1.push(join(__dirname, '/compare/output1-' + output1[ndx].name));
         }
       }
 
@@ -85,7 +85,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output2) {
         if (output2 !== undefined) {
-          paths2.push(join(__dirname, '/compare/output2' + output2[ndx].name));
+          paths2.push(join(__dirname, '/compare/output2-' + output2[ndx].name));
         }
       }
 
@@ -124,7 +124,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output5) {
         if (output5 !== undefined) {
-          paths5.push(join(__dirname, '/compare/output5' + output5[ndx].name));
+          paths5.push(join(__dirname, '/compare/output5-' + output5[ndx].name));
         }
       }
 
@@ -158,7 +158,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output6) {
         if (output6 !== undefined) {
-          paths6.push(join(__dirname, '/compare/output6' + output6[ndx].name));
+          paths6.push(join(__dirname, '/compare/output6-' + output6[ndx].name));
         }
       }
 
@@ -197,7 +197,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output18) {
         if (paths18 !== undefined) {
-          paths18.push(join(__dirname, '/compare/output18'
+          paths18.push(join(__dirname, '/compare/output18-'
             + output18[ndx].name));
         }
       }
@@ -235,7 +235,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output17) {
         if (output17[ndx] !== undefined) {
-          paths17.push(join(__dirname, '/compare/output17'
+          paths17.push(join(__dirname, '/compare/output17-'
             + output17[ndx].name));
         }
       }
@@ -276,7 +276,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output16) {
         if (output16[ndx] !== undefined) {
-          paths16.push(join(__dirname, '/compare/output16'
+          paths16.push(join(__dirname, '/compare/output16-'
             + output16[ndx].name));
         }
       }
@@ -314,7 +314,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output15) {
         if (output15[ndx] !== undefined) {
-          paths15.push(join(__dirname, '/compare/output15'
+          paths15.push(join(__dirname, '/compare/output15-'
             + output15[ndx].name));
         }
       }
@@ -352,7 +352,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output14) {
         if (output14[ndx] !== undefined) {
-          paths14.push(join(__dirname, '/compare/output14'
+          paths14.push(join(__dirname, '/compare/output14-'
             + output14[ndx].name));
         }
       }
@@ -397,7 +397,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output3) {
         if (output3) {
-          paths3.push(join(__dirname, '/compare/output3' + output3[ndx].name));
+          paths3.push(join(__dirname, '/compare/output3-' + output3[ndx].name));
         }
       }
 
@@ -432,7 +432,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output4) {
         if (output4 !== undefined) {
-          paths4.push(join(__dirname, '/compare/output4' + output4[ndx].name));
+          paths4.push(join(__dirname, '/compare/output4-' + output4[ndx].name));
         }
       }
 
@@ -470,7 +470,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output7) {
         if (output7 !== undefined) {
-          paths7.push(join(__dirname, '/compare/output7' + output7[ndx].name));
+          paths7.push(join(__dirname, '/compare/output7-' + output7[ndx].name));
         }
       }
 
@@ -505,7 +505,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output8) {
         if (paths8 !== undefined) {
-          paths8.push(join(__dirname, '/compare/output8' + output8[ndx].name));
+          paths8.push(join(__dirname, '/compare/output8-' + output8[ndx].name));
         }
       }
 
@@ -545,7 +545,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output9) {
         if (paths9 !== undefined) {
-          paths9.push(join(__dirname, '/compare/output9' + output9[ndx].name));
+          paths9.push(join(__dirname, '/compare/output9-' + output9[ndx].name));
         }
       }
 
@@ -582,7 +582,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output10) {
         if (output10[ndx] !== undefined) {
-          paths10.push(join(__dirname, '/compare/output10'
+          paths10.push(join(__dirname, '/compare/output10-'
             + output10[ndx].name));
         }
       }
@@ -623,7 +623,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output11) {
         if (output11[ndx] !== undefined) {
-          paths11.push(join(__dirname, '/compare/output11'
+          paths11.push(join(__dirname, '/compare/output11-'
             + output11[ndx].name));
         }
       }
@@ -661,7 +661,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output12) {
         if (output12[ndx] !== undefined) {
-          paths12.push(join(__dirname, '/compare/output12'
+          paths12.push(join(__dirname, '/compare/output12-'
             + output12[ndx].name));
         }
       }
@@ -699,7 +699,7 @@ describe('minimal swagger', function() {
 
       for (ndx in output13) {
         if (output13[ndx] !== undefined) {
-          paths13.push(join(__dirname, '/compare/output13'
+          paths13.push(join(__dirname, '/compare/output13-'
             + output13[ndx].name));
         }
       }
