@@ -1,0 +1,101 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Filename Testing"
+  },
+  "host": "localhost:10010",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/users/{user-id}": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "description": "id of the user",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "description": "get the basic information about a user",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/$$$$$^^^^^^***7&&&/feed": {
+      "get": {
+        "description": "see the authenticated user's feed",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "count of the return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{user-id}/media____/recent": {
+      "get": {
+        "description": "get the recent feed",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{user-id}/follows": {
+      "get": {
+        "description": "get the list of users this user follows",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{user-id}/followed-by": {
+      "get": {
+        "description": "get the list of users this user is followed by",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

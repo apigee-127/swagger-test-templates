@@ -27,6 +27,7 @@
 var TYPE_JSON = 'application/json';
 
 var handlebars = require('handlebars');
+var sanitize = require('sanitize-filename');
 var read = require('fs').readFileSync;
 var join = require('path').join;
 var innerDescribeFn;
@@ -338,6 +339,7 @@ function testGen(swagger, config) {
   var ndx;
   var i = 0;
   var source;
+  var filename;
 
   source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
@@ -368,7 +370,7 @@ function testGen(swagger, config) {
     for (ndx in result) {
       if (result.hasOwnProperty(ndx)) {
         output.push({
-          name: '_Stub.js',
+          name: '-test.js',
           test: result[ndx]
         });
       }
@@ -377,15 +379,25 @@ function testGen(swagger, config) {
     // build file names with paths
     for (path in paths) {
       if (paths.hasOwnProperty(path)) {
-        output[i].name = (path.replace(/\//g, '_')) + output[i++].name;
+        filename = sanitize((path.replace(/\//g, '-').substring(1))
+          + output[i].name);
+        if (path === '/') {
+          filename = 'base-path' + output[i].name;
+        }
+        output[i++].name = filename;
       }
     }
   } else {
     // loops over specified paths
     for (path in targets)
       if (paths.hasOwnProperty(targets[path])) {
+        filename = sanitize((targets[path].replace(/\//g, '-').substring(1))
+          + '-test.js');
+        if (targets[path] === '/') {
+          filename = 'base-path' + '-test.js';
+        }
         output.push({
-          name: (targets[path].replace(/\//g, '_')) + '_Stub.js',
+          name: filename,
           test: result[path]
         });
       }
