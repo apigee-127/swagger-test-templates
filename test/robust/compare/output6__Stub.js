@@ -30,8 +30,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(validator.validate(body, schema)).to.be.true;
         done();
@@ -57,8 +56,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(validator.validate(body, schema)).to.be.true;
         done();
@@ -96,8 +94,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(validator.validate(body, schema)).to.be.true;
         done();
@@ -139,8 +136,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(validator.validate(body, schema)).to.be.true;
         done();
@@ -168,8 +164,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(validator.validate(body, schema)).to.be.true;
         done();
@@ -197,8 +192,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         expect(validator.validate(body, schema)).to.be.true;
         done();

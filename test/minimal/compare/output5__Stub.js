@@ -15,8 +15,7 @@ describe('/', function() {
       },
       function(error, res, body) {
         if (error) {
-          done(error);
-          return;
+          return done(error);
         }
         assert.isNull(body);
         done();

@@ -27,8 +27,7 @@ describe('/', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.true(validator.validate(res, schema));
         assert.property(res, 'name');
@@ -50,8 +49,7 @@ describe('/', function() {
       .expect(400)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.true(validator.validate(res, schema));
         assert.property(res, 'name');
@@ -85,8 +83,7 @@ describe('/', function() {
       .expect(500)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.true(validator.validate(res, schema));
         assert.property(res, 'name');
@@ -121,8 +118,7 @@ describe('/', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.true(validator.validate(res, schema));
         done();
@@ -143,8 +139,7 @@ describe('/', function() {
       .expect(400)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.true(validator.validate(res, schema));
         done();
@@ -165,8 +160,7 @@ describe('/', function() {
       .expect(500)
       .end(function(err, res) {
         if (err) {
-          done(err);
-          return;
+          return done(err);
         }
         assert.true(validator.validate(res, schema));
         done();
