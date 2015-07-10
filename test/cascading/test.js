@@ -63,10 +63,6 @@ describe('Test getData function', function() {
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('/plan?data=DATA');
       done();
@@ -79,10 +75,6 @@ describe('Test getData function', function() {
 
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('/plan/{plan_id}/users');
       done();
@@ -96,10 +88,6 @@ describe('Test getData function', function() {
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(2);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('/user?name=DATA&time=DATA');
       done();
@@ -116,10 +104,6 @@ describe('Test getData function', function() {
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('http://localhost:10010/plan');
       done();
@@ -132,10 +116,6 @@ describe('Test getData function', function() {
 
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('http://localhost:10010/plan/{plan_id}/users');
       done();
@@ -149,10 +129,6 @@ describe('Test getData function', function() {
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(2);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('http://localhost:10010/user');
       done();
