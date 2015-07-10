@@ -1,10 +1,10 @@
   it('should respond with {{description}}', function(done) {
-      {{#unless noSchema}}
+      {{#validateResponse returnType noSchema}}
       /*eslint-disable*/
       {{> schema-partial this}}
 
       /*eslint-enable*/
-      {{/unless}}
+      {{/validateResponse}}
       request({
         url: '{{path}}',
         {{#if queryParameters}}
@@ -46,22 +46,25 @@
         }
       },
         {{/is}}
+        {{#is contentType 'application/xml'}}
+        body: 'XML STRING GOES HERE'
+      },
+        {{/is}}
       function(error, res, body) {
         if (error) {
           return done(error);
         }
-        {{#if noSchema}}
-        {{#is ../assertion 'expect'}}
-        expect(body).to.equal(null);
+        {{#is assertion 'expect'}}
+        expect(res.statusCode).to.equal({{responseCode}});
         {{/is}}
-        {{#is ../assertion 'should'}}
-        body.should.equal(null);
+        {{#is assertion 'should'}}
+        res.statusCode.should.equal({{responseCode}});
         {{/is}}
-        {{#is ../assertion 'assert'}}
-        assert.isNull(body);
+        {{#is assertion 'assert'}}
+        assert.equal(res.statusCode, {{responseCode}});
         {{/is}}
-        {{/if}}
-        {{#unless noSchema}}
+
+        {{#validateResponse returnType noSchema}}
         {{#is ../assertion 'expect'}}
         expect(validator.validate(body, schema)).to.be.true;
         {{/is}}
@@ -71,7 +74,17 @@
         {{#is ../assertion 'assert'}}
         assert.true(validator.validate(body, schema));
         {{/is}}
-        {{/unless}}
+        {{else}}
+        {{#is ../assertion 'expect'}}
+        expect(body).to.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is ../assertion 'should'}}
+        body.should.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is ../assertion 'assert'}}
+        assert.isNull(body); // non-json response or no schema
+        {{/is}}
+        {{/validateResponse}}
         done();
       });
     });
