@@ -180,151 +180,400 @@ describe('robust swagger', function() {
         }
       });
     });
-  });
 
-  describe('supertest-option', function() {
-    describe('pathName-option', function() {
+    describe('consumes', function() {
+      swagger.consumes = ['application/xml'];
 
-      var output3 = testGen(swagger, {
+      var output18 = testGen(swagger, {
         assertionFormat: 'should',
         pathName: [],
-        testModule: 'supertest'
+        testModule: 'request'
       });
 
-      var paths3 = [];
+      var paths18 = [];
       var ndx;
 
-      for (ndx in output3) {
-        if (output3) {
-          paths3.push(join(__dirname, '/compare/output3' + output3[ndx].name));
+      for (ndx in output18) {
+        if (paths18 !== undefined) {
+          paths18.push(join(__dirname, '/compare/output18' +
+            output18[ndx].name));
         }
       }
 
-      it('should create all paths w/empty pathName flag w/should', function() {
+      it('should generate all paths with \'xml\' comsumes', function() {
 
-        assert.isArray(output3);
-        assert.lengthOf(output3, 2);
+        assert.isArray(output18);
+        assert.lengthOf(output18, 2);
 
         var generatedCode;
 
-        for (ndx in paths3) {
-          if (paths3 !== undefined) {
-            generatedCode = read(paths3[ndx], 'utf8');
-            assert.equal(output3[ndx].test, generatedCode);
+        for (ndx in paths18) {
+          if (paths18 !== undefined) {
+            generatedCode = read(paths18[ndx], 'utf8');
+            assert.equal(output18[ndx].test, generatedCode);
           }
         }
 
-        for (ndx in output3) {
-          if (output3 !== undefined) {
-            assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
+        for (ndx in output18) {
+          if (output18 !== undefined) {
+            assert.lengthOf(linter.verify(output18[ndx].test, rules), 0);
           }
         }
       });
 
-      var output4 = testGen(swagger, {
+      swagger.consumes.push('application/json');
+
+      var output17 = testGen(swagger, {
         assertionFormat: 'should',
-        pathName: ['/'],
-        testModule: 'supertest'
+        pathName: [],
+        testModule: 'request'
       });
 
-      var paths4 = [];
+      var paths17 = [];
 
-      for (ndx in output4) {
-        if (output4 !== undefined) {
-          paths4.push(join(__dirname, '/compare/output4' + output4[ndx].name));
+      for (ndx in output17) {
+        if (output17[ndx] !== undefined) {
+          paths17.push(join(__dirname, '/compare/output17'
+            + output17[ndx].name));
         }
       }
 
-      it('should create specified paths in pathName flag w/should', function() {
+      it('should generate all paths w/\'xml\' & \'json\' comsumes', function() {
 
-        assert.isArray(output4);
-        assert.lengthOf(output4, 1);
+        assert.isArray(output17);
+        assert.lengthOf(output17, 2);
 
         var generatedCode;
 
-        for (ndx in paths4) {
-          if (paths4 !== undefined) {
-            generatedCode = read(paths4[ndx], 'utf8');
-            assert.equal(output4[ndx].test, generatedCode);
+        for (ndx in paths17) {
+          if (paths17[ndx] !== undefined) {
+            generatedCode = read(paths17[ndx], 'utf8');
+            assert.equal(output17[ndx].test, generatedCode);
           }
         }
 
-        for (ndx in output4) {
-          if (output4 !== undefined) {
-            assert.lengthOf(linter.verify(output4[ndx].test, rules), 0);
+        for (ndx in output17) {
+          if (output17 !== undefined) {
+            assert.lengthOf(linter.verify(output17[ndx].test, rules), 0);
           }
         }
       });
     });
 
-    describe('assertionFormat-option', function() {
-      var output7 = testGen(swagger, {
-        assertionFormat: 'assert',
+    describe('produces', function() {
+      swagger.produces = ['application/xml'];
+
+      var output16 = testGen(swagger, {
+        assertionFormat: 'should',
         pathName: [],
-        testModule: 'supertest'
+        testModule: 'request'
       });
 
-      var paths7 = [];
+      var paths16 = [];
       var ndx;
 
-      for (ndx in output7) {
-        if (output7 !== undefined) {
-          paths7.push(join(__dirname, '/compare/output7' + output7[ndx].name));
+      for (ndx in output16) {
+        if (output16[ndx] !== undefined) {
+          paths16.push(join(__dirname, '/compare/output16' +
+            output16[ndx].name));
         }
       }
 
-      it('should still generate all paths with assert', function() {
+      it('should generate paths w/all consumes & produces \'xml\'', function() {
 
-        assert.isArray(output7);
-        assert.lengthOf(output7, 2);
+        assert.isArray(output16);
+        assert.lengthOf(output16, 2);
 
         var generatedCode;
 
-        for (ndx in paths7) {
-          if (paths7 !== undefined) {
-            generatedCode = read(paths7[ndx], 'utf8');
-            assert.equal(output7[ndx].test, generatedCode);
+        for (ndx in paths16) {
+          if (paths16[ndx] !== undefined) {
+            generatedCode = read(paths16[ndx], 'utf8');
+            assert.equal(output16[ndx].test, generatedCode);
           }
         }
 
-        for (ndx in output7) {
-          if (output7 !== undefined) {
-            assert.lengthOf(linter.verify(output7[ndx].test, rules), 0);
+        for (ndx in output16) {
+          if (output16 !== undefined) {
+            assert.lengthOf(linter.verify(output16[ndx].test, rules), 0);
           }
         }
       });
 
-      var output8 = testGen(swagger, {
-        assertionFormat: 'expect',
+      swagger.produces.push('application/json');
+
+      var output15 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'request'
+      });
+
+      var paths15 = [];
+
+      for (ndx in output15) {
+        if (output15[ndx] !== undefined) {
+          paths15.push(join(__dirname, '/compare/output15' +
+            output15[ndx].name));
+        }
+      }
+
+      it('should generate paths w/all consumes and all produces', function() {
+
+        assert.isArray(output15);
+        assert.lengthOf(output15, 2);
+
+        var generatedCode;
+
+        for (ndx in paths15) {
+          if (paths15[ndx] !== undefined) {
+            generatedCode = read(paths15[ndx], 'utf8');
+            assert.equal(output15[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output15) {
+          if (output15 !== undefined) {
+            assert.lengthOf(linter.verify(output15[ndx].test, rules), 0);
+          }
+        }
+      });
+
+      swagger.consumes = [];
+
+      var output14 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'request'
+      });
+
+      var paths14 = [];
+
+      for (ndx in output14) {
+        if (output14[ndx] !== undefined) {
+          paths14.push(join(__dirname, '/compare/output14' +
+            output14[ndx].name));
+        }
+      }
+
+      it('should generate paths w/default consumes & all produces', function() {
+
+        assert.isArray(output14);
+        assert.lengthOf(output14, 2);
+
+        var generatedCode;
+
+        for (ndx in paths14) {
+          if (paths14[ndx] !== undefined) {
+            generatedCode = read(paths14[ndx], 'utf8');
+            assert.equal(output14[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output14) {
+          if (output14 !== undefined) {
+            assert.lengthOf(linter.verify(output14[ndx].test, rules), 0);
+          }
+        }
+      });
+
+      swagger.consumes = [];
+      swagger.produces = [];
+    });
+  });
+
+  describe('supertest-option', function() {
+
+
+    describe('consumes', function() {
+      swagger.consumes = ['application/xml'];
+
+      var output9 = testGen(swagger, {
+        assertionFormat: 'should',
         pathName: [],
         testModule: 'supertest'
       });
 
-      var paths8 = [];
+      var paths9 = [];
+      var ndx;
 
-      for (ndx in output8) {
-        if (paths8 !== undefined) {
-          paths8.push(join(__dirname, '/compare/output8' + output8[ndx].name));
+      for (ndx in output9) {
+        if (paths9 !== undefined) {
+          paths9.push(join(__dirname, '/compare/output9' + output9[ndx].name));
         }
       }
 
-      it('should still generate all paths with expect', function() {
+      it('should generate all paths with \'xml\' comsumes', function() {
 
-        assert.isArray(output8);
-        assert.lengthOf(output8, 2);
+        assert.isArray(output9);
+        assert.lengthOf(output9, 2);
 
         var generatedCode;
 
-        for (ndx in paths8) {
-          if (paths8 !== undefined) {
-            generatedCode = read(paths8[ndx], 'utf8');
-            assert.equal(output8[ndx].test, generatedCode);
+        for (ndx in paths9) {
+          if (paths9 !== undefined) {
+            generatedCode = read(paths9[ndx], 'utf8');
+            assert.equal(output9[ndx].test, generatedCode);
           }
         }
 
-        for (ndx in output8) {
-          if (output8 !== undefined) {
-            assert.lengthOf(linter.verify(output8[ndx].test, rules), 0);
+        for (ndx in output9) {
+          if (output9 !== undefined) {
+            assert.lengthOf(linter.verify(output9[ndx].test, rules), 0);
+          }
+        }
+      });
+
+      swagger.consumes.push('application/json');
+
+      var output10 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest'
+      });
+
+      var paths10 = [];
+
+      for (ndx in output10) {
+        if (output10[ndx] !== undefined) {
+          paths10.push(join(__dirname, '/compare/output10'
+            + output10[ndx].name));
+        }
+      }
+
+      it('should generate paths with \'xml\' & \'json\' comsumes', function() {
+
+        assert.isArray(output10);
+        assert.lengthOf(output10, 2);
+
+        var generatedCode;
+
+        for (ndx in paths10) {
+          if (paths10[ndx] !== undefined) {
+            generatedCode = read(paths10[ndx], 'utf8');
+            assert.equal(output10[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output10) {
+          if (output10 !== undefined) {
+            assert.lengthOf(linter.verify(output10[ndx].test, rules), 0);
+          }
+        }
+      });
+    });
+
+    describe('produces', function() {
+      swagger.produces = ['application/xml'];
+
+      var output11 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest'
+      });
+
+      var paths11 = [];
+      var ndx;
+
+      for (ndx in output11) {
+        if (output11[ndx] !== undefined) {
+          paths11.push(join(__dirname, '/compare/output11'
+            + output11[ndx].name));
+        }
+      }
+
+      it('should generate paths w/all consumes & produces \'xml\'', function() {
+
+        assert.isArray(output11);
+        assert.lengthOf(output11, 2);
+
+        var generatedCode;
+
+        for (ndx in paths11) {
+          if (paths11[ndx] !== undefined) {
+            generatedCode = read(paths11[ndx], 'utf8');
+            assert.equal(output11[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output11) {
+          if (output11 !== undefined) {
+            assert.lengthOf(linter.verify(output11[ndx].test, rules), 0);
+          }
+        }
+      });
+
+      swagger.produces.push('application/json');
+
+      var output12 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest'
+      });
+
+      var paths12 = [];
+
+      for (ndx in output12) {
+        if (output12[ndx] !== undefined) {
+          paths12.push(join(__dirname, '/compare/output12'
+            + output12[ndx].name));
+        }
+      }
+
+      it('should generate paths w/all consumes and all produces', function() {
+
+        assert.isArray(output12);
+        assert.lengthOf(output12, 2);
+
+        var generatedCode;
+
+        for (ndx in paths12) {
+          if (paths12[ndx] !== undefined) {
+            generatedCode = read(paths12[ndx], 'utf8');
+            assert.equal(output12[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output12) {
+          if (output12 !== undefined) {
+            assert.lengthOf(linter.verify(output12[ndx].test, rules), 0);
+          }
+        }
+      });
+
+      swagger.consumes = [];
+
+      var output13 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest'
+      });
+
+      var paths13 = [];
+
+      for (ndx in output13) {
+        if (output13[ndx] !== undefined) {
+          paths13.push(join(__dirname, '/compare/output13'
+            + output13[ndx].name));
+        }
+      }
+
+      it('should generate paths w/default consumes & all produces', function() {
+
+        assert.isArray(output13);
+        assert.lengthOf(output13, 2);
+
+        var generatedCode;
+
+        for (ndx in paths13) {
+          if (paths13[ndx] !== undefined) {
+            generatedCode = read(paths13[ndx], 'utf8');
+            assert.equal(output13[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output13) {
+          if (output13 !== undefined) {
+            assert.lengthOf(linter.verify(output13[ndx].test, rules), 0);
           }
         }
       });
