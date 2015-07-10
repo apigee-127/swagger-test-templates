@@ -15,8 +15,8 @@ describe('/', function() {
         if (err) {
           return done(err);
         }
-        res.should.equal(null);
-        res.should.have.property('name');
+
+        res.body.should.equal(null); // non-json response or no schema
         done();
       });
     });

@@ -8,7 +8,6 @@
     "schemes": [
         "https"
     ],
-    "basePath":"/test",
     "paths": {
         "/": {
             "get": {

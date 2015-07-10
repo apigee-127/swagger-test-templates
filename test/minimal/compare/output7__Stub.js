@@ -14,8 +14,8 @@ describe('/', function() {
         if (err) {
           return done(err);
         }
-        assert.isNull(res);
-        assert.property(res, 'name');
+
+        assert.isNull(res.body); // non-json response or no schema
         done();
       });
     });

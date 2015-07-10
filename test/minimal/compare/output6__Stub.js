@@ -17,7 +17,9 @@ describe('/', function() {
         if (error) {
           return done(error);
         }
-        expect(body).to.equal(null);
+        expect(res.statusCode).to.equal(200);
+
+        expect(body).to.equal(null); // non-json response or no schema
         done();
       });
     });
