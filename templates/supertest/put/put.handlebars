@@ -1,10 +1,10 @@
   it('should respond with {{description}}', function(done) {
-      {{#unless noSchema}}
+      {{#validateResponse returnType noSchema}}
       /*eslint-disable*/
       {{> schema-partial this}}
 
       /*eslint-enable*/
-      {{/unless}}
+      {{/validateResponse}}
       api.put('{{path}}')
       .set('Accept', '{{contentType}}')
       {{#if headerParameters}}
@@ -40,30 +40,28 @@
         if (err) {
           return done(err);
         }
-        {{#if noSchema}}
-            {{#is ../assertion 'expect'}}
-        expect(res).to.equal(null);
-            {{/is}}
-            {{#is ../assertion 'should'}}
-        res.should.equal(null);
-            {{/is}}
-            {{#is ../assertion 'assert'}}
-        assert.isNull(res);
-            {{/is}}
-        {{/if}}
-        {{#unless noSchema}}
-            {{#is ../assertion 'expect'}}
-        expect(validator.validate(res, schema)).to.be.true;
 
-            {{/is}}
-            {{#is ../assertion 'should'}}
-        validator.validate(res, schema).should.be.true;
-
-            {{/is}}
-            {{#is ../assertion 'assert'}}
-        assert.true(validator.validate(res, schema));
-            {{/is}}
-        {{/unless}}
+        {{#validateResponse returnType noSchema}}
+        {{#is ../assertion 'expect'}}
+        expect(validator.validate(res.body, schema)).to.be.true;
+        {{/is}}
+        {{#is ../assertion 'should'}}
+        validator.validate(res.body, schema).should.be.true;
+        {{/is}}
+        {{#is ../assertion 'assert'}}
+        assert.true(validator.validate(res.body, schema));
+        {{/is}}
+        {{else}}
+        {{#is ../assertion 'expect'}}
+        expect(res.body).to.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is ../assertion 'should'}}
+        res.body.should.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is ../assertion 'assert'}}
+        assert.isNull(res.body); // non-json response or no schema
+        {{/is}}
+        {{/validateResponse}}
         done();
       });
     });
