@@ -30,7 +30,7 @@ var join = require('path').join;
 var innerDescribeFn;
 var outerDescribeFn;
 var schemaTemp;
-var noResponseDefinitions = true;
+var importValidator = false;
 
 /**
  * To check if it is an empty array or undefined
@@ -68,10 +68,6 @@ function getData(swagger, path, operation, response, config) {
     headerParameters: [],
     pathParameters: [],
     formParameters: [],
-    contentType: isEmpty(swagger.consumes) ?
-      'application/json' : swagger.consumes[0],
-    returnType: isEmpty(swagger.produces) ?
-      'application/json' : swagger.produces[0],
     security: swagger.security,
     path: ''
   };
@@ -132,29 +128,14 @@ function getData(swagger, path, operation, response, config) {
   if (grandProperty.responses[response]
       .hasOwnProperty('schema')) {
     data.noSchema = false;
-    noResponseDefinitions = false;
     data.schema = grandProperty.responses[response].schema;
     data.schema = JSON.stringify(data.schema, null, 2);
   }
 
-  // deal with consumes and produces in path level
-  if (childProperty.hasOwnProperty('consumes')) {
-    data.contentType = swagger.paths[path][operation].consumes[0];
-  }
-  if (childProperty.hasOwnProperty('produces')) {
-    data.returnType = swagger.paths[path][operation].produces[0];
-  }
   if (childProperty.hasOwnProperty('security')) {
     data.returnType = swagger.paths[path][operation].security;
   }
 
-  // deal with consumes and produces in operation level
-  if (grandProperty.hasOwnProperty('consumes')) {
-    data.contentType = swagger.paths[path][operation].consumes[0];
-  }
-  if (grandProperty.hasOwnProperty('produces')) {
-    data.returnType = swagger.paths[path][operation].produces[0];
-  }
   if (grandProperty.hasOwnProperty('security')) {
     data.returnType = swagger.paths[path][operation].security;
   }
@@ -194,9 +175,12 @@ function getData(swagger, path, operation, response, config) {
  * @param  {string} operation operation of the path to generate tests for
  * @param  {string} response response type of operation of current path
  * @param  {json} config configuration for testGen
+ * @param  {string} consume content-type consumed by request
+ * @param {string} produce content-type produced by the response
  * @returns {string} generated test for response type
  */
-function testGenResponse(swagger, path, operation, response, config) {
+function testGenResponse(swagger, path, operation, response, config,
+  consume, produce) {
   var result;
   var templateFn;
   var source;
@@ -204,6 +188,12 @@ function testGenResponse(swagger, path, operation, response, config) {
 
   // get the data
   data = getData(swagger, path, operation, response, config);
+  if (produce === 'application/json' && !data.noSchema) {
+    importValidator = true;
+  }
+
+  data.contentType = consume;
+  data.returnType = produce;
 
   // compile template source and return test string
   var templatePath = join(__dirname, '/templates',
@@ -212,6 +202,49 @@ function testGenResponse(swagger, path, operation, response, config) {
   source = read(templatePath, 'utf8');
   templateFn = handlebars.compile(source, {noEscape: true});
   result = templateFn(data);
+  return result;
+}
+
+function testGenContentTypes(swagger, path, operation, res, config) {
+  var result = [];
+  var produces = swagger.paths[path][operation].produces ?
+    swagger.paths[path][operation].produces : swagger.produces;
+  var consumes = swagger.paths[path][operation].consumes ?
+    swagger.paths[path][operation].consumes : swagger.consumes;
+  var ndxC;
+  var ndxP;
+
+  if (!isEmpty(consumes)) { // consumes is defined
+    for (ndxC in consumes) {
+      if (!isEmpty(produces)) { // produces is defined
+        for (ndxP in produces) {
+          if (produces[ndxP] !== undefined) {
+            result.push(testGenResponse(
+              swagger, path, operation, res, config,
+              consumes[ndxC], produces[ndxP]));
+          }
+        }
+      } else { // produces is not defined
+        result.push(testGenResponse(
+          swagger, path, operation, res, config,
+          consumes[ndxC], 'application/json'));
+      }
+    }
+  } else if (!isEmpty(produces)) {
+    // consumes is undefined but produces is defined
+    for (ndxP in produces) {
+      if (produces[ndxP] !== undefined) {
+        result.push(testGenResponse(
+          swagger, path, operation, res, config,
+          'application/json', produces[ndxP]));
+      }
+    }
+  } else { // neither produces nor consumes are defined
+    result.push(testGenResponse(
+      swagger, path, operation, res, config,
+      'application/json', 'application/json'));
+  }
+
   return result;
 }
 
@@ -232,10 +265,8 @@ function testGenOperation(swagger, path, operation, config) {
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {
-      if (responses.hasOwnProperty(res)) {
-        result.push(testGenResponse(
-          swagger, path, operation, res, config));
-      }
+      result = result.concat(testGenContentTypes(swagger, path, operation,
+        res, config));
     }
   }
 
@@ -281,11 +312,11 @@ function testGenPath(swagger, path, config) {
     scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
-    noResponseDefinitions: noResponseDefinitions
+    importValidator: importValidator
   };
 
   output = outerDescribeFn(data);
-  noResponseDefinitions = true;
+  importValidator = false;
   return output;
 }
 
@@ -375,5 +406,19 @@ handlebars.registerHelper('is', function(lvalue, rvalue, options) {
     return options.inverse(this);
   } else {
     return options.fn(this);
+  }
+});
+
+handlebars.registerHelper('validateResponse', function(type, noSchema,
+  options) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper \'validateResponse\'' +
+      'needs 2 parameters');
+  }
+
+  if (!noSchema && type === 'application/json') {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
   }
 });
