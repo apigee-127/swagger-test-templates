@@ -1,0 +1,22 @@
+  it('should respond with {{description}}', function(done) {
+      {{#validateResponse returnType noSchema}}
+      /*eslint-disable*/
+      {{> schema-partial this}}
+
+      /*eslint-enable*/
+      {{/validateResponse}}
+      api.head('{{path}}')
+      .set('Accept', '{{contentType}}')
+      {{#if headerParameters}}
+      .set({
+        {{#each headerParameters}}
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      {{/if}}
+      .expect({{responseCode}})
+      .end(function(err) {
+        if (err) return done(err);
+        done();
+      });
+    });

@@ -38,7 +38,6 @@ describe('/', function() {
         done();
       });
     });
-
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -65,7 +64,6 @@ describe('/', function() {
         done();
       });
     });
-
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -104,7 +102,6 @@ describe('/', function() {
         done();
       });
     });
-
   });
 
   describe('post', function() {
@@ -145,7 +142,6 @@ describe('/', function() {
         done();
       });
     });
-
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -172,7 +168,6 @@ describe('/', function() {
         done();
       });
     });
-
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -199,7 +194,6 @@ describe('/', function() {
         done();
       });
     });
-
   });
 
 });

@@ -9,20 +9,47 @@
         url: '{{path}}',
         {{#if queryParameters}}
         qs: {
-        {{#each queryParameters}}
+          {{#each queryParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-        {{/each}}
+          {{/each}}
         },
         {{/if}}
-        method: 'GET',
+        method: 'PATCH',
         headers: {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
           'Custom-Header': {
           {{#each headerParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}} }{{/if}}
+        },
+        {{#is contentType 'application/json'}}
+        json: {
+          {{#each bodyParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
         }
       },
+        {{/is}}
+        {{#is contentType 'application/x-www-form-urlencoded'}}
+        form: {
+          {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
+      },
+        {{/is}}
+        {{#is contentType 'multipart/form-data'}}
+        form: {
+          {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          {{/each}}
+        }
+      },
+        {{/is}}
+        {{#is contentType 'application/xml'}}
+        body: 'XML STRING GOES HERE'
+      },
+        {{/is}}
       function(error, res, body) {
         if (error) return done(error);
 
