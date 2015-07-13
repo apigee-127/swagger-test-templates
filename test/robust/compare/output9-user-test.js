@@ -81,4 +81,68 @@ describe('/user', function() {
 
   });
 
+  describe('put', function() {
+    it('should respond with 200 OK', function(done) {
+      api.put('/user?longitude=DATA')
+      .set('Accept', 'application/xml')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) return done(err);
+
+        res.body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+    it('should respond with 400 NOT OK', function(done) {
+      api.put('/user?longitude=DATA')
+      .set('Accept', 'application/xml')
+      .expect(400)
+      .end(function(err, res) {
+        if (err) return done(err);
+
+        res.body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+    it('should respond with 500 SERVER ERROR', function(done) {
+      api.put('/user?longitude=DATA')
+      .set('Accept', 'application/xml')
+      .expect(500)
+      .end(function(err, res) {
+        if (err) return done(err);
+
+        res.body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  });
+
+  describe('patch', function() {
+    it('should respond with 200 OK', function(done) {
+      api.patch('/user')
+      .set('Accept', 'application/xml')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) return done(err);
+
+        res.body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  });
+
+  describe('delete', function() {
+    it('should respond with 200 OK', function(done) {
+      api.del('/user')
+      .set('Accept', 'application/xml')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) return done(err);
+
+        res.body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  });
+
 });

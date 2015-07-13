@@ -23,7 +23,6 @@ describe('/user', function() {
         done();
       });
     });
-
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -41,7 +40,6 @@ describe('/user', function() {
         done();
       });
     });
-
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -59,7 +57,6 @@ describe('/user', function() {
         done();
       });
     });
-
   });
 
   describe('post', function() {
@@ -84,7 +81,6 @@ describe('/user', function() {
         done();
       });
     });
-
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -106,7 +102,6 @@ describe('/user', function() {
         done();
       });
     });
-
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -128,7 +123,113 @@ describe('/user', function() {
         done();
       });
     });
+  });
 
+  describe('put', function() {
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+    it('should respond with 400 NOT OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(400);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+    it('should respond with 500 SERVER ERROR', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(500);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  });
+
+  describe('patch', function() {
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  });
+
+  describe('delete', function() {
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/xml'
+        }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
   });
 
 });

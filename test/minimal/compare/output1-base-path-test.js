@@ -23,7 +23,24 @@ describe('/', function() {
         done();
       });
     });
+  });
 
+  describe('head', function() {
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'http://localhost:10010/',
+        method: 'HEAD',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      function(error, res) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+        done();
+      });
+    });
   });
 
 });

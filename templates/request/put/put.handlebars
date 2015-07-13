@@ -46,6 +46,10 @@
         }
       },
         {{/is}}
+        {{#is contentType 'application/xml'}}
+        body: 'XML STRING GOES HERE'
+      },
+        {{/is}}
       function(error, res, body) {
         if (error) return done(error);
 

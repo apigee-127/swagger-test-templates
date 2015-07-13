@@ -31,4 +31,25 @@ describe('/', function() {
     });
   });
 
+  describe('head', function() {
+    it('should respond with 200 OK', function(done) {
+      api.head('/')
+      .set('Accept', 'application/xml')
+      .expect(200)
+      .end(function(err) {
+        if (err) return done(err);
+        done();
+      });
+    });
+    it('should respond with 200 OK', function(done) {
+      api.head('/')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .end(function(err) {
+        if (err) return done(err);
+        done();
+      });
+    });
+  });
+
 });

@@ -14,7 +14,7 @@
         {{/each}}
         },
         {{/if}}
-        method: 'GET',
+        method: 'HEAD',
         headers: {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
           'Custom-Header': {
@@ -23,7 +23,7 @@
           {{/each}} }{{/if}}
         }
       },
-      function(error, res, body) {
+      function(error, res) {
         if (error) return done(error);
 
         {{#is assertion 'expect'}}
@@ -35,28 +35,6 @@
         {{#is assertion 'assert'}}
         assert.equal(res.statusCode, {{responseCode}});
         {{/is}}
-
-        {{#validateResponse returnType noSchema}}
-        {{#is ../assertion 'expect'}}
-        expect(validator.validate(body, schema)).to.be.true;
-        {{/is}}
-        {{#is ../assertion 'should'}}
-        validator.validate(body, schema).should.be.true;
-        {{/is}}
-        {{#is ../assertion 'assert'}}
-        assert.true(validator.validate(body, schema));
-        {{/is}}
-        {{else}}
-        {{#is ../assertion 'expect'}}
-        expect(body).to.equal(null); // non-json response or no schema
-        {{/is}}
-        {{#is ../assertion 'should'}}
-        body.should.equal(null); // non-json response or no schema
-        {{/is}}
-        {{#is ../assertion 'assert'}}
-        assert.isNull(body); // non-json response or no schema
-        {{/is}}
-        {{/validateResponse}}
         done();
       });
     });
