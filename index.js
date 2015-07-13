@@ -34,6 +34,8 @@ var innerDescribeFn;
 var outerDescribeFn;
 var schemaTemp;
 var importValidator = false;
+var consumes;
+var produces;
 
 /**
  * To check if it is an empty array or undefined
@@ -210,10 +212,6 @@ function testGenResponse(swagger, path, operation, response, config,
 
 function testGenContentTypes(swagger, path, operation, res, config) {
   var result = [];
-  var produces = swagger.paths[path][operation].produces ?
-    swagger.paths[path][operation].produces : swagger.produces;
-  var consumes = swagger.paths[path][operation].consumes ?
-    swagger.paths[path][operation].consumes : swagger.consumes;
   var ndxC;
   var ndxP;
 
@@ -265,6 +263,22 @@ function testGenOperation(swagger, path, operation, config) {
   var responses = swagger.paths[path][operation].responses;
   var result = [];
   var res;
+
+  if (!isEmpty(swagger.paths[path][operation].produces)) {
+    produces = swagger.paths[path][operation].produces;
+  } else if (!isEmpty(swagger.produces)) {
+    produces = swagger.produces;
+  } else {
+    produces = [];
+  }
+
+  if (!isEmpty(swagger.paths[path][operation].consumes)) {
+    consumes = swagger.paths[path][operation].consumes;
+  } else if (!isEmpty(swagger.consumes)) {
+    consumes = swagger.consumes;
+  } else {
+    consumes = [];
+  }
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {

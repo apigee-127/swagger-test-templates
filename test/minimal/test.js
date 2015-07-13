@@ -357,7 +357,7 @@ describe('minimal swagger', function() {
         }
       }
 
-      it('should generate paths w/default consumes & produces', function() {
+      it('should generate paths w/default consumes & all produces', function() {
 
         assert.isArray(output14);
         assert.lengthOf(output14, 1);
