@@ -257,6 +257,7 @@ function testGenOperation(swagger, path, operation, config) {
   var result = [];
   var res;
 
+  // determines which produce types to use
   if (!isEmpty(swagger.paths[path][operation].produces)) {
     produces = swagger.paths[path][operation].produces;
   } else if (!isEmpty(swagger.produces)) {
@@ -265,6 +266,7 @@ function testGenOperation(swagger, path, operation, config) {
     produces = [];
   }
 
+  // determines which consumes types to use
   if (!isEmpty(swagger.paths[path][operation].consumes)) {
     consumes = swagger.paths[path][operation].consumes;
   } else if (!isEmpty(swagger.consumes)) {
@@ -273,6 +275,7 @@ function testGenOperation(swagger, path, operation, config) {
     consumes = [];
   }
 
+  // determines which security to use
   if (!isEmpty(swagger.paths[path][operation].security)) {
     security = swagger.paths[path][operation].security;
   } else if (!isEmpty(swagger.security)) {
