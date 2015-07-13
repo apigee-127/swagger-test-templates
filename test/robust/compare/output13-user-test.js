@@ -18,6 +18,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.get('/user')
       .set('Accept', 'application/json')
@@ -29,6 +30,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       api.get('/user')
       .set('Accept', 'application/json')
@@ -40,6 +42,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       api.get('/user')
       .set('Accept', 'application/json')
@@ -51,6 +54,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/user')
       .set('Accept', 'application/json')
@@ -62,6 +66,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/user')
       .set('Accept', 'application/json')
@@ -73,6 +78,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('post', function() {
@@ -183,6 +189,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.put('/user?longitude=DATA')
       .set('Accept', 'application/json')
@@ -197,6 +204,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       api.put('/user?longitude=DATA')
       .set('Accept', 'application/json')
@@ -211,6 +219,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       api.put('/user?longitude=DATA')
       .set('Accept', 'application/json')
@@ -225,6 +234,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       api.put('/user?longitude=DATA')
       .set('Accept', 'application/json')
@@ -239,6 +249,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       api.put('/user?longitude=DATA')
       .set('Accept', 'application/json')
@@ -253,6 +264,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('patch', function() {
@@ -270,6 +282,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.patch('/user')
       .set('Accept', 'application/json')
@@ -284,6 +297,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('delete', function() {
@@ -298,6 +312,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.del('/user')
       .set('Accept', 'application/json')
@@ -309,6 +324,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
 });

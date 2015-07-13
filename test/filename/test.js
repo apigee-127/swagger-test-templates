@@ -90,3 +90,4 @@ describe('Test if testGen return the proper name', function() {
 
   });
 });
+

@@ -23,6 +23,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
@@ -40,6 +41,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
@@ -57,6 +59,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
@@ -74,6 +77,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
   describe('head', function() {
@@ -92,6 +96,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
@@ -107,6 +112,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
@@ -122,6 +128,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
@@ -137,6 +144,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
 });

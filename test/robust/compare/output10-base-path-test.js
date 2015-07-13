@@ -22,6 +22,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       api.get('/')
       .set('Accept', 'application/xml')
@@ -33,6 +34,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -46,6 +48,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       api.get('/')
       .set('Accept', 'application/json')
@@ -57,6 +60,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -66,6 +70,7 @@ describe('/', function() {
           "data": "number"
         }
       };
+
       /*eslint-enable*/
       api.get('/')
       .set('Accept', 'application/xml')
@@ -77,6 +82,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -86,6 +92,7 @@ describe('/', function() {
           "data": "number"
         }
       };
+
       /*eslint-enable*/
       api.get('/')
       .set('Accept', 'application/json')
@@ -97,6 +104,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -118,6 +126,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       api.get('/')
       .set('Accept', 'application/xml')
@@ -129,6 +138,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -150,6 +160,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       api.get('/')
       .set('Accept', 'application/json')
@@ -161,6 +172,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
   describe('post', function() {
@@ -180,6 +192,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       api.post('/?longitude=DATA')
       .set('Accept', 'application/xml')
@@ -208,6 +221,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       api.post('/?longitude=DATA')
       .set('Accept', 'application/json')
@@ -228,6 +242,7 @@ describe('/', function() {
       var schema = {
         "type": "number"
       };
+
       /*eslint-enable*/
       api.post('/?longitude=DATA')
       .set('Accept', 'application/xml')
@@ -245,6 +260,7 @@ describe('/', function() {
       var schema = {
         "type": "number"
       };
+
       /*eslint-enable*/
       api.post('/?longitude=DATA')
       .set('Accept', 'application/json')
@@ -265,6 +281,7 @@ describe('/', function() {
       var schema = {
         "type": "string"
       };
+
       /*eslint-enable*/
       api.post('/?longitude=DATA')
       .set('Accept', 'application/xml')
@@ -282,6 +299,7 @@ describe('/', function() {
       var schema = {
         "type": "string"
       };
+
       /*eslint-enable*/
       api.post('/?longitude=DATA')
       .set('Accept', 'application/json')

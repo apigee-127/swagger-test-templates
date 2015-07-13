@@ -25,6 +25,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -38,6 +39,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
@@ -55,6 +57,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/',
@@ -72,6 +75,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -81,6 +85,7 @@ describe('/', function() {
           "data": "number"
         }
       };
+
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
@@ -98,6 +103,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/',
@@ -115,6 +121,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -136,6 +143,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
@@ -153,6 +161,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
   describe('post', function() {
@@ -179,6 +188,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       /*eslint-disable*/
       var schema = {
@@ -195,6 +205,7 @@ describe('/', function() {
           }
         }
       };
+
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
@@ -218,6 +229,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/',
@@ -241,11 +253,13 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       /*eslint-disable*/
       var schema = {
         "type": "number"
       };
+
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
@@ -269,6 +283,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/',
@@ -292,11 +307,13 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       /*eslint-disable*/
       var schema = {
         "type": "string"
       };
+
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
@@ -320,6 +337,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
 });

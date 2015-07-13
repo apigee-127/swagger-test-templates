@@ -18,6 +18,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.get('/')
       .set('Accept', 'application/json')
@@ -29,6 +30,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       api.get('/')
       .set('Accept', 'application/xml')
@@ -40,6 +42,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       api.get('/')
       .set('Accept', 'application/json')
@@ -51,6 +54,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/')
       .set('Accept', 'application/xml')
@@ -62,6 +66,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/')
       .set('Accept', 'application/json')
@@ -73,6 +78,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
   describe('post', function() {

@@ -18,6 +18,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.get('/')
       .set('Accept', 'application/json')
@@ -29,6 +30,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
   describe('head', function() {
@@ -41,6 +43,7 @@ describe('/', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       api.head('/')
       .set('Accept', 'application/json')
@@ -50,6 +53,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
 });
