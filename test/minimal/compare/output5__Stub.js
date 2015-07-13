@@ -14,10 +14,11 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
-        assert.isNull(body);
+        if (error) return done(error);
+
+        assert.equal(res.statusCode, 200);
+
+        assert.isNull(body); // non-json response or no schema
         done();
       });
     });

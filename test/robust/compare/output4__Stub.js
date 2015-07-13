@@ -23,15 +23,13 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-      api.get('/test/')
+      api.get('/')
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        validator.validate(res, schema).should.be.true;
-        res.should.have.property('name');
+        if (err) return done(err);
+
+        validator.validate(res.body, schema).should.be.true;
         done();
       });
     });
@@ -45,15 +43,13 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-      api.get('/test/')
+      api.get('/')
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        validator.validate(res, schema).should.be.true;
-        res.should.have.property('name');
+        if (err) return done(err);
+
+        validator.validate(res.body, schema).should.be.true;
         done();
       });
     });
@@ -79,15 +75,13 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-      api.get('/test/')
+      api.get('/')
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        validator.validate(res, schema).should.be.true;
-        res.should.have.property('name');
+        if (err) return done(err);
+
+        validator.validate(res.body, schema).should.be.true;
         done();
       });
     });
@@ -111,18 +105,16 @@ describe('/', function() {
         }
       };
       /*eslint-enable*/
-      api.post('/test/?longitude=DATA')
+      api.post('/?longitude=DATA')
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
       })
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        validator.validate(res, schema).should.be.true;
+        if (err) return done(err);
 
+        validator.validate(res.body, schema).should.be.true;
         done();
       });
     });
@@ -133,18 +125,16 @@ describe('/', function() {
         "type": "number"
       };
       /*eslint-enable*/
-      api.post('/test/?longitude=DATA')
+      api.post('/?longitude=DATA')
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
       })
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        validator.validate(res, schema).should.be.true;
+        if (err) return done(err);
 
+        validator.validate(res.body, schema).should.be.true;
         done();
       });
     });
@@ -155,18 +145,16 @@ describe('/', function() {
         "type": "string"
       };
       /*eslint-enable*/
-      api.post('/test/?longitude=DATA')
+      api.post('/?longitude=DATA')
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
       })
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        validator.validate(res, schema).should.be.true;
+        if (err) return done(err);
 
+        validator.validate(res.body, schema).should.be.true;
         done();
       });
     });

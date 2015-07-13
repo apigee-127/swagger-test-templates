@@ -11,11 +11,9 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        expect(res).to.equal(null);
-        expect(res).to.have.property('name');
+        if (err) return done(err);
+
+        expect(res.body).to.equal(null); // non-json response or no schema
         done();
       });
     });

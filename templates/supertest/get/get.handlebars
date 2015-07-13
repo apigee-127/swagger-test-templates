@@ -1,10 +1,10 @@
   it('should respond with {{description}}', function(done) {
-      {{#unless noSchema}}
+      {{#validateResponse returnType noSchema}}
       /*eslint-disable*/
       {{> schema-partial this}}
 
       /*eslint-enable*/
-      {{/unless}}
+      {{/validateResponse}}
       api.get('{{path}}')
       .set('Accept', '{{contentType}}')
       {{#if headerParameters}}
@@ -16,40 +16,29 @@
       {{/if}}
       .expect({{responseCode}})
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
-        {{#if noSchema}}
+        if (err) return done(err);
+
+        {{#validateResponse returnType noSchema}}
         {{#is ../assertion 'expect'}}
-        expect(res).to.equal(null);
+        expect(validator.validate(res.body, schema)).to.be.true;
         {{/is}}
         {{#is ../assertion 'should'}}
-        res.should.equal(null);
+        validator.validate(res.body, schema).should.be.true;
         {{/is}}
         {{#is ../assertion 'assert'}}
-        assert.isNull(res);
+        assert.true(validator.validate(res.body, schema));
         {{/is}}
-        {{/if}}
-        {{#unless noSchema}}
+        {{else}}
         {{#is ../assertion 'expect'}}
-        expect(validator.validate(res, schema)).to.be.true;
+        expect(res.body).to.equal(null); // non-json response or no schema
         {{/is}}
         {{#is ../assertion 'should'}}
-        validator.validate(res, schema).should.be.true;
+        res.body.should.equal(null); // non-json response or no schema
         {{/is}}
         {{#is ../assertion 'assert'}}
-        assert.true(validator.validate(res, schema));
+        assert.isNull(res.body); // non-json response or no schema
         {{/is}}
-        {{/unless}}
-        {{#is assertion 'expect'}}
-        expect(res).to.have.property('name');
-        {{/is}}
-        {{#is assertion 'should'}}
-        res.should.have.property('name');
-        {{/is}}
-        {{#is assertion 'assert'}}
-        assert.property(res, 'name');
-        {{/is}}
+        {{/validateResponse}}
         done();
       });
     });

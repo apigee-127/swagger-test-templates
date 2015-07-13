@@ -22,16 +22,17 @@ describe('/', function() {
       };
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/test/',
+        url: 'https://api.uber.com/',
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(200);
+
         expect(validator.validate(body, schema)).to.be.true;
         done();
       });
@@ -48,16 +49,17 @@ describe('/', function() {
       };
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/test/',
+        url: 'https://api.uber.com/',
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(400);
+
         expect(validator.validate(body, schema)).to.be.true;
         done();
       });
@@ -86,16 +88,17 @@ describe('/', function() {
       };
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/test/',
+        url: 'https://api.uber.com/',
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(500);
+
         expect(validator.validate(body, schema)).to.be.true;
         done();
       });
@@ -122,7 +125,7 @@ describe('/', function() {
       };
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/test/',
+        url: 'https://api.uber.com/',
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -135,9 +138,10 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(200);
+
         expect(validator.validate(body, schema)).to.be.true;
         done();
       });
@@ -150,7 +154,7 @@ describe('/', function() {
       };
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/test/',
+        url: 'https://api.uber.com/',
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -163,9 +167,10 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(400);
+
         expect(validator.validate(body, schema)).to.be.true;
         done();
       });
@@ -178,7 +183,7 @@ describe('/', function() {
       };
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/test/',
+        url: 'https://api.uber.com/',
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -191,9 +196,10 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(500);
+
         expect(validator.validate(body, schema)).to.be.true;
         done();
       });

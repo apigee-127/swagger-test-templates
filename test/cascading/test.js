@@ -56,106 +56,76 @@ describe('Test getData function', function() {
   describe('Test swagger with config1', function() {
 
     it('should get all the data parsed for the /plan',
-      function(done) {
+      function() {
       var data = getData(swagger, '/plan', 'post', '200', config1);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('/plan?data=DATA');
-      done();
     });
 
     it('should get all the data parsed for the /plan/{plan_id}/users',
-      function(done) {
+      function() {
       var data = getData(swagger,
         '/plan/{plan_id}/users', 'get', '200', config1);
 
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('/plan/{plan_id}/users');
-      done();
     });
 
     it('should get all the data parsed for the /user post',
-      function(done) {
+      function() {
       var data = getData(swagger, '/user', 'post', '200', config1);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(2);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('/user?name=DATA&time=DATA');
-      done();
     });
   });
 
   describe('Test swagger with config2', function() {
 
     it('should get all the data parsed for the /plan',
-      function(done) {
+      function() {
       var data = getData(swagger, '/plan', 'post', '200', config2);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('http://localhost:10010/plan');
-      done();
     });
 
     it('should get all the data parsed for the /plan/{plan_id}/users',
-      function(done) {
+      function() {
       var data = getData(swagger,
         '/plan/{plan_id}/users', 'get', '200', config2);
 
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('http://localhost:10010/plan/{plan_id}/users');
-      done();
     });
 
     it('should get all the data parsed for the /user post',
-      function(done) {
+      function() {
       var data = getData(swagger, '/user', 'post', '200', config2);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(2);
-      expect(data).to.have.property('contentType');
-      expect(data.contentType).to.equal('application/json');
-      expect(data).to.have.property('returnType');
-      expect(data.returnType).to.equal('application/json');
       expect(data).to.have.property('path');
       expect(data.path).to.equal('http://localhost:10010/user');
-      done();
     });
   });
 });
