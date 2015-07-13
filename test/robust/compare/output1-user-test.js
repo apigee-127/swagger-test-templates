@@ -23,6 +23,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -40,6 +41,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -57,6 +59,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('post', function() {
@@ -83,6 +86,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -106,6 +110,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -129,6 +134,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('put', function() {
@@ -155,6 +161,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -178,6 +185,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -201,6 +209,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('patch', function() {
@@ -224,6 +233,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('delete', function() {
@@ -244,6 +254,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
 });

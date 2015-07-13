@@ -23,6 +23,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
   describe('head', function() {
@@ -41,6 +42,7 @@ describe('/', function() {
         done();
       });
     });
+
   });
 
 });

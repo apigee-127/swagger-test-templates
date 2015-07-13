@@ -23,6 +23,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -40,6 +41,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -57,6 +59,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -74,6 +77,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -91,6 +95,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -108,6 +113,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -125,6 +131,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -142,6 +149,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -159,6 +167,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -176,6 +185,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -193,6 +203,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -210,6 +221,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('post', function() {
@@ -234,6 +246,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -255,29 +268,7 @@ describe('/user', function() {
         done();
       });
     });
-    it('should respond with 200 OK', function(done) {
-      request({
-        url: 'https://api.uber.com/user',
-        qs: {
-          longitude: 'DATA GOES HERE'
-        },
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        json: {
-          latitude: 'DATA GOES HERE'
-        }
-      },
-      function(error, res, body) {
-        if (error) return done(error);
 
-        res.statusCode.should.equal(200);
-
-        body.should.equal(null); // non-json response or no schema
-        done();
-      });
-    });
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -301,6 +292,31 @@ describe('/user', function() {
         done();
       });
     });
+
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        json: {
+          latitude: 'DATA GOES HERE'
+        }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -322,6 +338,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -343,6 +360,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -366,6 +384,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -389,6 +408,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -410,6 +430,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -431,6 +452,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -454,6 +476,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -477,6 +500,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('put', function() {
@@ -501,6 +525,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -522,29 +547,7 @@ describe('/user', function() {
         done();
       });
     });
-    it('should respond with 200 OK', function(done) {
-      request({
-        url: 'https://api.uber.com/user',
-        qs: {
-          longitude: 'DATA GOES HERE'
-        },
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        json: {
-          latitude: 'DATA GOES HERE'
-        }
-      },
-      function(error, res, body) {
-        if (error) return done(error);
 
-        res.statusCode.should.equal(200);
-
-        body.should.equal(null); // non-json response or no schema
-        done();
-      });
-    });
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -568,6 +571,31 @@ describe('/user', function() {
         done();
       });
     });
+
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        json: {
+          latitude: 'DATA GOES HERE'
+        }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -589,6 +617,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -610,6 +639,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -633,6 +663,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -656,6 +687,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -677,6 +709,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -698,6 +731,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -721,6 +755,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -744,6 +779,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('patch', function() {
@@ -765,6 +801,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -783,6 +820,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -803,6 +841,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -823,6 +862,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
   describe('delete', function() {
@@ -843,6 +883,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -860,6 +901,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -877,6 +919,7 @@ describe('/user', function() {
         done();
       });
     });
+
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
@@ -894,6 +937,7 @@ describe('/user', function() {
         done();
       });
     });
+
   });
 
 });
