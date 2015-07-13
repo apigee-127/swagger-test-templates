@@ -409,6 +409,13 @@ handlebars.registerHelper('is', function(lvalue, rvalue, options) {
   }
 });
 
+/**
+ * determines if content types are able to be validated
+ * @param  {string} type     content type to be evaluated
+ * @param  {boolean} noSchema whether or not there is a defined schema
+ * @param  {Object} options  handlebars built-in options
+ * @return {boolean}          whether or not the content can be validated
+ */
 handlebars.registerHelper('validateResponse', function(type, noSchema,
   options) {
   if (arguments.length < 3) {
