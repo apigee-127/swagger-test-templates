@@ -36,6 +36,7 @@ var schemaTemp;
 var importValidator = false;
 var consumes;
 var produces;
+var security;
 
 /**
  * To check if it is an empty array or undefined
@@ -73,7 +74,7 @@ function getData(swagger, path, operation, response, config) {
     headerParameters: [],
     pathParameters: [],
     formParameters: [],
-    security: swagger.security,
+    security: security,
     path: ''
   };
 
@@ -135,14 +136,6 @@ function getData(swagger, path, operation, response, config) {
     data.noSchema = false;
     data.schema = grandProperty.responses[response].schema;
     data.schema = JSON.stringify(data.schema, null, 2);
-  }
-
-  if (childProperty.hasOwnProperty('security')) {
-    data.returnType = swagger.paths[path][operation].security;
-  }
-
-  if (grandProperty.hasOwnProperty('security')) {
-    data.returnType = swagger.paths[path][operation].security;
   }
 
   // request url case
@@ -278,6 +271,14 @@ function testGenOperation(swagger, path, operation, config) {
     consumes = swagger.consumes;
   } else {
     consumes = [];
+  }
+
+  if (!isEmpty(swagger.paths[path][operation].security)) {
+    security = swagger.paths[path][operation].security;
+  } else if (!isEmpty(swagger.security)) {
+    security = swagger.security;
+  } else {
+    security = [];
   }
 
   for (res in responses) {
