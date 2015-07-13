@@ -12,9 +12,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -25,9 +23,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();

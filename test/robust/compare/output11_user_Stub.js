@@ -12,9 +12,7 @@ describe('/user', function() {
       .set('Accept', 'application/xml')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -25,9 +23,7 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -38,9 +34,7 @@ describe('/user', function() {
       .set('Accept', 'application/xml')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -51,9 +45,7 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -64,9 +56,7 @@ describe('/user', function() {
       .set('Accept', 'application/xml')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -77,9 +67,7 @@ describe('/user', function() {
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -93,9 +81,7 @@ describe('/user', function() {
       .set('Accept', 'application/xml')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -110,9 +96,7 @@ describe('/user', function() {
       })
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -124,9 +108,7 @@ describe('/user', function() {
       .set('Accept', 'application/xml')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -141,9 +123,7 @@ describe('/user', function() {
       })
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -155,9 +135,7 @@ describe('/user', function() {
       .set('Accept', 'application/xml')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -172,9 +150,7 @@ describe('/user', function() {
       })
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();

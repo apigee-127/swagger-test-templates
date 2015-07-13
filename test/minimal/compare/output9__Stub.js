@@ -12,9 +12,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();

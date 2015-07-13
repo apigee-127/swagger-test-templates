@@ -14,9 +14,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -40,9 +38,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -53,9 +49,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -75,9 +69,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -88,9 +80,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -122,9 +112,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -141,9 +129,7 @@ describe('/', function() {
       })
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -174,9 +160,7 @@ describe('/', function() {
       })
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -191,9 +175,7 @@ describe('/', function() {
       })
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -213,9 +195,7 @@ describe('/', function() {
       })
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -230,9 +210,7 @@ describe('/', function() {
       })
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         res.body.should.equal(null); // non-json response or no schema
         done();
@@ -252,9 +230,7 @@ describe('/', function() {
       })
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();

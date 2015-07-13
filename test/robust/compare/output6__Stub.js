@@ -29,9 +29,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(200);
 
         expect(validator.validate(body, schema)).to.be.true;
@@ -57,9 +56,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(400);
 
         expect(validator.validate(body, schema)).to.be.true;
@@ -97,9 +95,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(500);
 
         expect(validator.validate(body, schema)).to.be.true;
@@ -141,9 +138,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(200);
 
         expect(validator.validate(body, schema)).to.be.true;
@@ -171,9 +167,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(400);
 
         expect(validator.validate(body, schema)).to.be.true;
@@ -201,9 +196,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(500);
 
         expect(validator.validate(body, schema)).to.be.true;

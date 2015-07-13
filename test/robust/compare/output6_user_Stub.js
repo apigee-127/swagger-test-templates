@@ -14,9 +14,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(200);
 
         expect(body).to.equal(null); // non-json response or no schema
@@ -33,9 +32,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(400);
 
         expect(body).to.equal(null); // non-json response or no schema
@@ -52,9 +50,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(500);
 
         expect(body).to.equal(null); // non-json response or no schema
@@ -80,9 +77,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(200);
 
         expect(body).to.equal(null); // non-json response or no schema
@@ -105,9 +101,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(400);
 
         expect(body).to.equal(null); // non-json response or no schema
@@ -130,9 +125,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         expect(res.statusCode).to.equal(500);
 
         expect(body).to.equal(null); // non-json response or no schema

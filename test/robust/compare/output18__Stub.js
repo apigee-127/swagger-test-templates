@@ -30,9 +30,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         validator.validate(body, schema).should.be.true;
@@ -58,9 +57,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         validator.validate(body, schema).should.be.true;
@@ -98,9 +96,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         validator.validate(body, schema).should.be.true;
@@ -140,9 +137,8 @@ describe('/', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         validator.validate(body, schema).should.be.true;
@@ -168,9 +164,8 @@ describe('/', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         validator.validate(body, schema).should.be.true;
@@ -196,9 +191,8 @@ describe('/', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         validator.validate(body, schema).should.be.true;

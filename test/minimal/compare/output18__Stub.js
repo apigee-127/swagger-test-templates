@@ -15,9 +15,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
