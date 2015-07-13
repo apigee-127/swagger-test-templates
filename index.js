@@ -24,6 +24,8 @@
 
 'use strict';
 
+var TYPE_JSON = 'application/json';
+
 var handlebars = require('handlebars');
 var read = require('fs').readFileSync;
 var join = require('path').join;
@@ -188,7 +190,7 @@ function testGenResponse(swagger, path, operation, response, config,
 
   // get the data
   data = getData(swagger, path, operation, response, config);
-  if (produce === 'application/json' && !data.noSchema) {
+  if (produce === TYPE_JSON && !data.noSchema) {
     importValidator = true;
   }
 
@@ -227,7 +229,7 @@ function testGenContentTypes(swagger, path, operation, res, config) {
       } else { // produces is not defined
         result.push(testGenResponse(
           swagger, path, operation, res, config,
-          consumes[ndxC], 'application/json'));
+          consumes[ndxC], TYPE_JSON));
       }
     }
   } else if (!isEmpty(produces)) {
@@ -236,13 +238,13 @@ function testGenContentTypes(swagger, path, operation, res, config) {
       if (produces[ndxP] !== undefined) {
         result.push(testGenResponse(
           swagger, path, operation, res, config,
-          'application/json', produces[ndxP]));
+          TYPE_JSON, produces[ndxP]));
       }
     }
   } else { // neither produces nor consumes are defined
     result.push(testGenResponse(
       swagger, path, operation, res, config,
-      'application/json', 'application/json'));
+      TYPE_JSON, TYPE_JSON));
   }
 
   return result;
@@ -423,7 +425,7 @@ handlebars.registerHelper('validateResponse', function(type, noSchema,
       'needs 2 parameters');
   }
 
-  if (!noSchema && type === 'application/json') {
+  if (!noSchema && type === TYPE_JSON) {
     return options.fn(this);
   } else {
     return options.inverse(this);
