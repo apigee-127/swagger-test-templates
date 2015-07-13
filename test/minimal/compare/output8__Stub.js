@@ -11,9 +11,7 @@ describe('/', function() {
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         expect(res.body).to.equal(null); // non-json response or no schema
         done();

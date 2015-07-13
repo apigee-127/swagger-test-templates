@@ -29,9 +29,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         assert.equal(res.statusCode, 200);
 
         assert.true(validator.validate(body, schema));
@@ -57,9 +56,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         assert.equal(res.statusCode, 400);
 
         assert.true(validator.validate(body, schema));
@@ -97,9 +95,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         assert.equal(res.statusCode, 500);
 
         assert.true(validator.validate(body, schema));
@@ -141,9 +138,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         assert.equal(res.statusCode, 200);
 
         assert.true(validator.validate(body, schema));
@@ -171,9 +167,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         assert.equal(res.statusCode, 400);
 
         assert.true(validator.validate(body, schema));
@@ -201,9 +196,8 @@ describe('/', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         assert.equal(res.statusCode, 500);
 
         assert.true(validator.validate(body, schema));

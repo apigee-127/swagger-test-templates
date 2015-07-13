@@ -27,9 +27,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -49,9 +47,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -83,9 +79,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -115,9 +109,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(200)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -134,9 +126,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(400)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();
@@ -153,9 +143,7 @@ describe('/', function() {
       .set('Accept', 'application/xml')
       .expect(500)
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         validator.validate(res.body, schema).should.be.true;
         done();

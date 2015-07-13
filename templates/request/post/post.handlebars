@@ -51,9 +51,8 @@
       },
         {{/is}}
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         {{#is assertion 'expect'}}
         expect(res.statusCode).to.equal({{responseCode}});
         {{/is}}

@@ -37,9 +37,7 @@
       {{/is}}
       .expect({{responseCode}})
       .end(function(err, res) {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
 
         {{#validateResponse returnType noSchema}}
         {{#is ../assertion 'expect'}}

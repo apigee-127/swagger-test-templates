@@ -15,9 +15,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -34,9 +33,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -53,9 +51,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -72,9 +69,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -91,9 +87,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -110,9 +105,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -129,9 +123,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -148,9 +141,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -167,9 +159,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -186,9 +177,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -205,9 +195,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -224,9 +213,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -250,9 +238,8 @@ describe('/user', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -273,34 +260,8 @@ describe('/user', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
-        res.statusCode.should.equal(200);
+        if (error) return done(error);
 
-        body.should.equal(null); // non-json response or no schema
-        done();
-      });
-    });
-
-    it('should respond with 200 OK', function(done) {
-      request({
-        url: 'https://api.uber.com/user',
-        qs: {
-          longitude: 'DATA GOES HERE'
-        },
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        json: {
-          latitude: 'DATA GOES HERE'
-        }
-      },
-      function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -323,9 +284,32 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
+        if (error) return done(error);
+
+        res.statusCode.should.equal(200);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+
+    it('should respond with 200 OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        json: {
+          latitude: 'DATA GOES HERE'
         }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
         res.statusCode.should.equal(200);
 
         body.should.equal(null); // non-json response or no schema
@@ -346,9 +330,8 @@ describe('/user', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -369,34 +352,8 @@ describe('/user', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
-        res.statusCode.should.equal(400);
+        if (error) return done(error);
 
-        body.should.equal(null); // non-json response or no schema
-        done();
-      });
-    });
-
-    it('should respond with 400 NOT OK', function(done) {
-      request({
-        url: 'https://api.uber.com/user',
-        qs: {
-          longitude: 'DATA GOES HERE'
-        },
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        json: {
-          latitude: 'DATA GOES HERE'
-        }
-      },
-      function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -419,9 +376,32 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
+        if (error) return done(error);
+
+        res.statusCode.should.equal(400);
+
+        body.should.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+
+    it('should respond with 400 NOT OK', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        qs: {
+          longitude: 'DATA GOES HERE'
+        },
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        json: {
+          latitude: 'DATA GOES HERE'
         }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
         res.statusCode.should.equal(400);
 
         body.should.equal(null); // non-json response or no schema
@@ -442,9 +422,8 @@ describe('/user', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -465,9 +444,8 @@ describe('/user', function() {
         body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -490,9 +468,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
@@ -515,9 +492,8 @@ describe('/user', function() {
         }
       },
       function(error, res, body) {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
+
         res.statusCode.should.equal(500);
 
         body.should.equal(null); // non-json response or no schema
