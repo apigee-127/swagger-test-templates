@@ -465,7 +465,7 @@ handlebars.registerHelper('validateResponse', function(type, noSchema,
 /**
  * replaces path params with obvious indeicator for filling values
  * @param  {string} path  request path to be pathified
- * @return {string}          pathified string
+ * @returns {string}          pathified string
  */
 handlebars.registerHelper('pathify', function(path) {
   if (arguments.length < 2) {
