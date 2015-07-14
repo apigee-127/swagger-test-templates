@@ -5,7 +5,7 @@
 
       /*eslint-enable*/
       {{/validateResponse}}
-      api.del('{{path}}')
+      api.del('{{pathify path}}')
       .set('Accept', '{{contentType}}')
       {{#if headerParameters}}
       .set({

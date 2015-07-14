@@ -6,7 +6,7 @@
       /*eslint-enable*/
       {{/validateResponse}}
       request({
-        url: '{{path}}',
+        url: '{{pathify path}}',
         {{#if queryParameters}}
         qs: {
           {{#each queryParameters}}
