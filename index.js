@@ -461,3 +461,17 @@ handlebars.registerHelper('validateResponse', function(type, noSchema,
     return options.inverse(this);
   }
 });
+
+/**
+ * replaces path params with obvious indeicator for filling values
+ * @param  {string} path  request path to be pathified
+ * @return {string}          pathified string
+ */
+handlebars.registerHelper('pathify', function(path) {
+  if (arguments.length < 2) {
+    throw new Error('Handlebars Helper \'pathify\'' +
+      'needs 1 parameter');
+  }
+
+  return path.replace(/\{(.*?)\}/g, '{PARAM GOES HERE}');
+});
