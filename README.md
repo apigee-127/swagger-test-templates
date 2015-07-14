@@ -4,8 +4,6 @@
 
 > Generate test code from a [Swagger](http://swagger.io) spec
 
-###Note: This project is under development and is not ready yet
-
 ##Usage
 
 ```javascript
