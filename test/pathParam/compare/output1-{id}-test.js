@@ -8,7 +8,7 @@ describe('/{id}', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'http://localhost:10010/{PARAM GOES HERE}',
+        url: 'http://localhost:10010/{id PARAM GOES HERE}',
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ describe('/{id}', function() {
   describe('head', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'http://localhost:10010/{PARAM GOES HERE}',
+        url: 'http://localhost:10010/{id PARAM GOES HERE}',
         method: 'HEAD',
         headers: {
           'Content-Type': 'application/json'

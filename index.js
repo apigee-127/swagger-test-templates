@@ -470,8 +470,13 @@ handlebars.registerHelper('validateResponse', function(type, noSchema,
 handlebars.registerHelper('pathify', function(path) {
   if (arguments.length < 2) {
     throw new Error('Handlebars Helper \'pathify\'' +
-      'needs 1 parameter');
+      ' needs 1 parameter');
   }
 
-  return path.replace(/\{(.*?)\}/g, '{PARAM GOES HERE}');
+  if ((typeof path) !== 'string') {
+    throw new TypeError('Handlebars Helper \'pathify\'' +
+      'requires path to be a string');
+  }
+
+  return path.replace(/\{(.*?)\}/g, '{$1 PARAM GOES HERE}');
 });

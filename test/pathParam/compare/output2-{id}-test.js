@@ -8,7 +8,7 @@ var api = supertest('http://localhost:10010'); // supertest init;
 describe('/{id}', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
-      api.get('/{PARAM GOES HERE}')
+      api.get('/{id PARAM GOES HERE}')
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -23,7 +23,7 @@ describe('/{id}', function() {
 
   describe('head', function() {
     it('should respond with 200 OK', function(done) {
-      api.head('/{PARAM GOES HERE}')
+      api.head('/{id PARAM GOES HERE}')
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err) {
