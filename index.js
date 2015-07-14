@@ -34,6 +34,9 @@ var innerDescribeFn;
 var outerDescribeFn;
 var schemaTemp;
 var importValidator = false;
+var consumes;
+var produces;
+var security;
 
 /**
  * To check if it is an empty array or undefined
@@ -71,7 +74,7 @@ function getData(swagger, path, operation, response, config) {
     headerParameters: [],
     pathParameters: [],
     formParameters: [],
-    security: swagger.security,
+    security: security,
     path: ''
   };
 
@@ -133,14 +136,6 @@ function getData(swagger, path, operation, response, config) {
     data.noSchema = false;
     data.schema = grandProperty.responses[response].schema;
     data.schema = JSON.stringify(data.schema, null, 2);
-  }
-
-  if (childProperty.hasOwnProperty('security')) {
-    data.returnType = swagger.paths[path][operation].security;
-  }
-
-  if (grandProperty.hasOwnProperty('security')) {
-    data.returnType = swagger.paths[path][operation].security;
   }
 
   // request url case
@@ -210,10 +205,6 @@ function testGenResponse(swagger, path, operation, response, config,
 
 function testGenContentTypes(swagger, path, operation, res, config) {
   var result = [];
-  var produces = swagger.paths[path][operation].produces ?
-    swagger.paths[path][operation].produces : swagger.produces;
-  var consumes = swagger.paths[path][operation].consumes ?
-    swagger.paths[path][operation].consumes : swagger.consumes;
   var ndxC;
   var ndxP;
 
@@ -265,6 +256,33 @@ function testGenOperation(swagger, path, operation, config) {
   var responses = swagger.paths[path][operation].responses;
   var result = [];
   var res;
+
+  // determines which produce types to use
+  if (!isEmpty(swagger.paths[path][operation].produces)) {
+    produces = swagger.paths[path][operation].produces;
+  } else if (!isEmpty(swagger.produces)) {
+    produces = swagger.produces;
+  } else {
+    produces = [];
+  }
+
+  // determines which consumes types to use
+  if (!isEmpty(swagger.paths[path][operation].consumes)) {
+    consumes = swagger.paths[path][operation].consumes;
+  } else if (!isEmpty(swagger.consumes)) {
+    consumes = swagger.consumes;
+  } else {
+    consumes = [];
+  }
+
+  // determines which security to use
+  if (!isEmpty(swagger.paths[path][operation].security)) {
+    security = swagger.paths[path][operation].security;
+  } else if (!isEmpty(swagger.security)) {
+    security = swagger.security;
+  } else {
+    security = [];
+  }
 
   for (res in responses) {
     if (responses.hasOwnProperty(res)) {
