@@ -4,9 +4,26 @@
         "version": "0.0.0",
         "title": "Simple API"
     },
+    "securityDefinitions": {
+      "key": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "accessToken"
+      },
+      "key2": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "accessToken"
+      }
+    },
     "paths": {
         "/": {
             "get": {
+                "security": [
+                  {
+                    "key": []
+                  }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -14,6 +31,11 @@
                 }
             },
             "head": {
+                "security":[
+                  {
+                    "key2": []
+                  }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"

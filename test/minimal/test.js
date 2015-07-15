@@ -54,10 +54,9 @@ describe('minimal swagger', function() {
           paths1.push(join(__dirname, '/compare/output1-' + output1[ndx].name));
         }
       }
-
       it('should create all paths w/empty pathName flag w/should', function() {
         assert.isArray(output1);
-        assert.lengthOf(output1, 1);
+        assert.lengthOf(output1, 2);
         var generatedCode;
 
         for (ndx in paths1) {
@@ -69,7 +68,7 @@ describe('minimal swagger', function() {
 
 
         for (ndx in output1) {
-          if (output1 !== undefined) {
+          if (output1 !== undefined && output1[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output1[ndx].test, rules), 0);
           }
         }
@@ -93,7 +92,7 @@ describe('minimal swagger', function() {
       it('should create specified paths from pathName flag w/should',
         function() {
         assert.isArray(output2);
-        assert.lengthOf(output2, 1);
+        assert.lengthOf(output2, 2);
 
         var generatedCode;
 
@@ -105,7 +104,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output2) {
-          if (output2 !== undefined) {
+          if (output2 !== undefined && output2[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
           }
         }
@@ -130,7 +129,7 @@ describe('minimal swagger', function() {
 
       it('should still generate all paths with assert', function() {
         assert.isArray(output5);
-        assert.lengthOf(output5, 1);
+        assert.lengthOf(output5, 2);
 
         var generatedCode;
 
@@ -142,7 +141,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output5) {
-          if (output5 !== undefined) {
+          if (output5 !== undefined && output5[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output5[ndx].test, rules), 0);
           }
         }
@@ -164,7 +163,7 @@ describe('minimal swagger', function() {
 
       it('should still generate all paths with except', function() {
         assert.isArray(output6);
-        assert.lengthOf(output6, 1);
+        assert.lengthOf(output6, 2);
 
         var generatedCode;
 
@@ -176,7 +175,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output6) {
-          if (output6 !== undefined) {
+          if (output6 !== undefined && output6[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output6[ndx].test, rules), 0);
           }
         }
@@ -205,7 +204,7 @@ describe('minimal swagger', function() {
       it('should generate all paths with \'xml\' comsumes', function() {
 
         assert.isArray(output18);
-        assert.lengthOf(output18, 1);
+        assert.lengthOf(output18, 2);
 
         var generatedCode;
 
@@ -217,7 +216,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output18) {
-          if (output18 !== undefined) {
+          if (output18 !== undefined && output18[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output18[ndx].test, rules), 0);
           }
         }
@@ -243,7 +242,7 @@ describe('minimal swagger', function() {
       it('should generate paths with \'xml\' & \'json\' comsumes', function() {
 
         assert.isArray(output17);
-        assert.lengthOf(output17, 1);
+        assert.lengthOf(output17, 2);
 
         var generatedCode;
 
@@ -255,7 +254,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output17) {
-          if (output17 !== undefined) {
+          if (output17 !== undefined && output17[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output17[ndx].test, rules), 0);
           }
         }
@@ -284,7 +283,7 @@ describe('minimal swagger', function() {
       it('should generate paths w/all consumes and produces xml', function() {
 
         assert.isArray(output16);
-        assert.lengthOf(output16, 1);
+        assert.lengthOf(output16, 2);
 
         var generatedCode;
 
@@ -296,7 +295,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output16) {
-          if (output16 !== undefined) {
+          if (output16 !== undefined && output16[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output16[ndx].test, rules), 0);
           }
         }
@@ -322,19 +321,19 @@ describe('minimal swagger', function() {
       it('should generate paths w/all consumes and all produces', function() {
 
         assert.isArray(output15);
-        assert.lengthOf(output15, 1);
+        assert.lengthOf(output15, 2);
 
         var generatedCode;
 
         for (ndx in paths15) {
-          if (paths15[ndx] !== undefined) {
+          if (paths15[ndx] !== undefined && output15.name !== '.env') {
             generatedCode = read(paths15[ndx], 'utf8');
             assert.equal(output15[ndx].test, generatedCode);
           }
         }
 
         for (ndx in output15) {
-          if (output15 !== undefined) {
+          if (output15 !== undefined && output15[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output15[ndx].test, rules), 0);
           }
         }
@@ -360,7 +359,7 @@ describe('minimal swagger', function() {
       it('should generate paths w/default consumes & all produces', function() {
 
         assert.isArray(output14);
-        assert.lengthOf(output14, 1);
+        assert.lengthOf(output14, 2);
 
         var generatedCode;
 
@@ -372,7 +371,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output14) {
-          if (output14 !== undefined) {
+          if (output14 !== undefined && output14[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output14[ndx].test, rules), 0);
           }
         }
@@ -404,7 +403,7 @@ describe('minimal swagger', function() {
       it('should create all paths w/empty pathName flag w/should', function() {
 
         assert.isArray(output3);
-        assert.lengthOf(output3, 1);
+        assert.lengthOf(output3, 2);
 
         var generatedCode;
 
@@ -416,7 +415,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output3) {
-          if (output3 !== undefined) {
+          if (output3 !== undefined && output3[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
           }
         }
@@ -439,7 +438,7 @@ describe('minimal swagger', function() {
       it('should create specified paths in pathName flag w/should', function() {
 
         assert.isArray(output4);
-        assert.lengthOf(output4, 1);
+        assert.lengthOf(output4, 2);
 
         var generatedCode;
 
@@ -451,7 +450,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output4) {
-          if (output4 !== undefined) {
+          if (output4 !== undefined && output4[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output4[ndx].test, rules), 0);
           }
         }
@@ -477,7 +476,7 @@ describe('minimal swagger', function() {
       it('should still generate all paths with assert', function() {
 
         assert.isArray(output7);
-        assert.lengthOf(output7, 1);
+        assert.lengthOf(output7, 2);
 
         var generatedCode;
 
@@ -489,7 +488,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output7) {
-          if (output7 !== undefined) {
+          if (output7 !== undefined && output7[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output7[ndx].test, rules), 0);
           }
         }
@@ -512,7 +511,7 @@ describe('minimal swagger', function() {
       it('should still generate all paths with expect', function() {
 
         assert.isArray(output8);
-        assert.lengthOf(output8, 1);
+        assert.lengthOf(output8, 2);
 
         var generatedCode;
 
@@ -524,7 +523,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output8) {
-          if (output8 !== undefined) {
+          if (output8 !== undefined && output8[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output8[ndx].test, rules), 0);
           }
         }
@@ -552,7 +551,7 @@ describe('minimal swagger', function() {
       it('should generate all paths with \'xml\' comsumes', function() {
 
         assert.isArray(output9);
-        assert.lengthOf(output9, 1);
+        assert.lengthOf(output9, 2);
 
         var generatedCode;
 
@@ -564,7 +563,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output9) {
-          if (output9 !== undefined) {
+          if (output9 !== undefined && output9[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output9[ndx].test, rules), 0);
           }
         }
@@ -590,7 +589,7 @@ describe('minimal swagger', function() {
       it('should generate paths with \'xml\' & \'json\' comsumes', function() {
 
         assert.isArray(output10);
-        assert.lengthOf(output10, 1);
+        assert.lengthOf(output10, 2);
 
         var generatedCode;
 
@@ -602,7 +601,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output10) {
-          if (output10 !== undefined) {
+          if (output10 !== undefined && output10[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output10[ndx].test, rules), 0);
           }
         }
@@ -631,7 +630,7 @@ describe('minimal swagger', function() {
       it('should generate paths w/all consumes & produces xml', function() {
 
         assert.isArray(output11);
-        assert.lengthOf(output11, 1);
+        assert.lengthOf(output11, 2);
 
         var generatedCode;
 
@@ -643,7 +642,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output11) {
-          if (output11 !== undefined) {
+          if (output11 !== undefined && output11[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output11[ndx].test, rules), 0);
           }
         }
@@ -669,7 +668,7 @@ describe('minimal swagger', function() {
       it('should generate paths w/all consumes and all produces', function() {
 
         assert.isArray(output12);
-        assert.lengthOf(output12, 1);
+        assert.lengthOf(output12, 2);
 
         var generatedCode;
 
@@ -681,7 +680,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output12) {
-          if (output12 !== undefined) {
+          if (output12 !== undefined && output12[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output12[ndx].test, rules), 0);
           }
         }
@@ -707,7 +706,7 @@ describe('minimal swagger', function() {
       it('should generate paths w/default consumes & all produces', function() {
 
         assert.isArray(output13);
-        assert.lengthOf(output13, 1);
+        assert.lengthOf(output13, 2);
 
         var generatedCode;
 
@@ -719,7 +718,7 @@ describe('minimal swagger', function() {
         }
 
         for (ndx in output13) {
-          if (output13 !== undefined) {
+          if (output13 !== undefined && output13[ndx].name !== '.env') {
             assert.lengthOf(linter.verify(output13[ndx].test, rules), 0);
           }
         }

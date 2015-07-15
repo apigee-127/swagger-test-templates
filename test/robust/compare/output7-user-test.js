@@ -1,8 +1,8 @@
 'use strict';
 var chai = require('chai');
-var assert = chai.assert;
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
+var assert = chai.assert;
 
 describe('/user', function() {
   describe('get', function() {

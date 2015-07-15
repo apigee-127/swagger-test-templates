@@ -1,8 +1,10 @@
 'use strict';
 var chai = require('chai');
+var request = require('request');
 
 chai.should();
-var request = require('request');
+
+require('dotenv').load();
 
 describe('/user', function() {
   describe('get', function() {
@@ -11,7 +13,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -29,7 +32,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -47,7 +51,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -65,7 +70,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -83,7 +89,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -101,7 +108,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -119,7 +127,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -137,7 +146,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -155,7 +165,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -173,7 +184,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -191,7 +203,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -209,7 +222,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         }
       },
       function(error, res, body) {
@@ -229,11 +243,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -251,11 +267,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -273,11 +291,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -297,11 +317,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -321,11 +343,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -343,11 +367,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -365,11 +391,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -389,11 +417,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -413,11 +443,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -435,11 +467,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -457,11 +491,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -481,11 +517,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -508,11 +546,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -530,11 +570,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -552,11 +594,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -576,11 +620,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -600,11 +646,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -622,11 +670,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -644,11 +694,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -668,11 +720,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -692,11 +746,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -714,11 +770,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -736,11 +794,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -760,11 +820,13 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -788,7 +850,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -807,7 +870,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -826,7 +890,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -847,7 +912,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -871,7 +937,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         }
       },
       function(error, res, body) {
@@ -889,7 +956,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         }
       },
       function(error, res, body) {
@@ -907,7 +975,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         }
       },
       function(error, res, body) {
@@ -925,7 +994,8 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + process.env.BASIC_AUTH
         }
       },
       function(error, res, body) {

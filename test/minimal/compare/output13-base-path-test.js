@@ -1,14 +1,16 @@
 'use strict';
 var chai = require('chai');
-
-chai.should();
 var supertest = require('supertest');
 var api = supertest('http://localhost:10010'); // supertest init;
+
+chai.should();
+
+require('dotenv').load();
 
 describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
-      api.get('/')
+      api.get('/?accessToken=' + process.env.KEY)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -20,7 +22,7 @@ describe('/', function() {
     });
 
     it('should respond with 200 OK', function(done) {
-      api.get('/')
+      api.get('/?accessToken=' + process.env.KEY)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -37,6 +39,7 @@ describe('/', function() {
     it('should respond with 200 OK', function(done) {
       api.head('/')
       .set('Accept', 'application/json')
+      .set('accessToken', process.env.KEY_2)
       .expect(200)
       .end(function(err) {
         if (err) return done(err);
@@ -47,6 +50,7 @@ describe('/', function() {
     it('should respond with 200 OK', function(done) {
       api.head('/')
       .set('Accept', 'application/json')
+      .set('accessToken', process.env.KEY_2)
       .expect(200)
       .end(function(err) {
         if (err) return done(err);

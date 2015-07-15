@@ -1,9 +1,14 @@
 'use strict';
-var chai = require('chai');
-{{#if importValidator}}
+var chai = require('chai');{{#if importValidator}}
 var ZSchema = require('z-schema');
-var validator = new ZSchema({});
-{{/if}}
+var validator = new ZSchema({});{{/if}}
+{{#is testmodule 'request'}}
+var request = require('request');
+{{/is}}
+{{#is testmodule 'supertest'}}
+var supertest = require('supertest');
+var api = supertest('{{scheme}}://{{host}}'); // supertest init;
+{{/is}}
 {{#is assertion 'expect'}}
 var expect = chai.expect;
 {{/is}}
@@ -14,13 +19,9 @@ chai.should();
 {{#is assertion 'assert'}}
 var assert = chai.assert;
 {{/is}}
-{{#is testmodule 'request'}}
-var request = require('request');
-{{/is}}
-{{#is testmodule 'supertest'}}
-var supertest = require('supertest');
-var api = supertest('{{scheme}}://{{host}}'); // supertest init;
-{{/is}}
+{{#if importEnv}}
+
+require('dotenv').load();{{/if}}
 
 describe('{{description}}', function() {
 {{#each tests}}

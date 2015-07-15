@@ -2,9 +2,9 @@
 var chai = require('chai');
 var ZSchema = require('z-schema');
 var validator = new ZSchema({});
-var expect = chai.expect;
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
+var expect = chai.expect;
 
 describe('/', function() {
   describe('get', function() {

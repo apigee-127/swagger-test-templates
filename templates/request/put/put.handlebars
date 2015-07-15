@@ -7,20 +7,21 @@
       {{/validateResponse}}
       request({
         url: '{{pathify path}}',
-        {{#if queryParameters}}
+        {{#ifCond queryParameters queryApiKey}}
         qs: {
-          {{#each queryParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
+        {{#if queryApiKey}}
+          {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},{{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
         },
-        {{/if}}
+        {{/ifCond}}
         method: 'PUT',
         headers: {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
-          'Custom-Header': {
-          {{#each headerParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}} }{{/if}}
+          'Custom-Header': { {{#each headerParameters}}
+            {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}
+          }{{/if}}{{#if headerApiKey}},
+          {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
+          Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         },
         {{#is contentType 'application/json'}}
         json: {
