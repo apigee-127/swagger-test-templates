@@ -2,10 +2,12 @@
 var chai = require('chai');
 var ZSchema = require('z-schema');
 var validator = new ZSchema({});
-
-chai.should();
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
+
+chai.should();
+
+require('dotenv').load();
 
 describe('/', function() {
   describe('get', function() {

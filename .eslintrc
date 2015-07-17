@@ -17,7 +17,6 @@
     guard-for-in: 2
     newline-after-var: 2
     no-floating-decimal: 2
-    no-inner-declarations: [2, "both"]
     no-multiple-empty-lines: 2
     no-nested-ternary: 2
     no-path-concat: 2

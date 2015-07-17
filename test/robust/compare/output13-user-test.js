@@ -1,14 +1,17 @@
 'use strict';
 var chai = require('chai');
-
-chai.should();
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
+
+chai.should();
+
+require('dotenv').load();
 
 describe('/user', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       api.get('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -21,6 +24,7 @@ describe('/user', function() {
 
     it('should respond with 200 OK', function(done) {
       api.get('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -33,6 +37,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       api.get('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
@@ -45,6 +50,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       api.get('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
@@ -57,6 +63,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
@@ -69,6 +76,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       api.get('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
@@ -84,6 +92,7 @@ describe('/user', function() {
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
       api.post('/user?longitude=DATA')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -99,6 +108,7 @@ describe('/user', function() {
 
     it('should respond with 200 OK', function(done) {
       api.post('/user?longitude=DATA')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -114,6 +124,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       api.post('/user?longitude=DATA')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -129,6 +140,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       api.post('/user?longitude=DATA')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -144,6 +156,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       api.post('/user?longitude=DATA')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -159,6 +172,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       api.post('/user?longitude=DATA')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -177,6 +191,7 @@ describe('/user', function() {
   describe('put', function() {
     it('should respond with 200 OK', function(done) {
       api.put('/user?longitude=DATA')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -192,6 +207,7 @@ describe('/user', function() {
 
     it('should respond with 200 OK', function(done) {
       api.put('/user?longitude=DATA')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -207,6 +223,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       api.put('/user?longitude=DATA')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -222,6 +239,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       api.put('/user?longitude=DATA')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -237,6 +255,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       api.put('/user?longitude=DATA')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -252,6 +271,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       api.put('/user?longitude=DATA')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -270,6 +290,7 @@ describe('/user', function() {
   describe('patch', function() {
     it('should respond with 200 OK', function(done) {
       api.patch('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -285,6 +306,7 @@ describe('/user', function() {
 
     it('should respond with 200 OK', function(done) {
       api.patch('/user')
+      .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
         latitude: 'DATA GOES HERE'
@@ -303,6 +325,7 @@ describe('/user', function() {
   describe('delete', function() {
     it('should respond with 200 OK', function(done) {
       api.del('/user')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -315,6 +338,7 @@ describe('/user', function() {
 
     it('should respond with 200 OK', function(done) {
       api.del('/user')
+      .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {

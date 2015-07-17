@@ -1,14 +1,19 @@
 'use strict';
 var chai = require('chai');
+var request = require('request');
 
 chai.should();
-var request = require('request');
+
+require('dotenv').load();
 
 describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml'
@@ -27,6 +32,9 @@ describe('/', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -45,6 +53,9 @@ describe('/', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml'
@@ -63,6 +74,9 @@ describe('/', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -81,6 +95,9 @@ describe('/', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml'
@@ -99,6 +116,9 @@ describe('/', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -121,11 +141,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -143,11 +165,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -167,11 +191,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -189,11 +215,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'
@@ -213,11 +241,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -235,11 +265,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         json: {
           latitude: 'DATA GOES HERE'

@@ -2,9 +2,11 @@
 var chai = require('chai');
 var ZSchema = require('z-schema');
 var validator = new ZSchema({});
+var request = require('request');
 
 chai.should();
-var request = require('request');
+
+require('dotenv').load();
 
 describe('/', function() {
   describe('get', function() {
@@ -25,6 +27,9 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml'
@@ -53,6 +58,9 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml'
@@ -93,6 +101,9 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        qs: {
+          accessToken: process.env.KEY
+        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml'
@@ -132,11 +143,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -160,11 +173,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },
@@ -188,11 +203,13 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
+
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
         headers: {
-          'Content-Type': 'application/xml'
+          'Content-Type': 'application/xml',
+          Authorization: 'Bearer ' + process.env.OAUTH
         },
         body: 'XML STRING GOES HERE'
       },

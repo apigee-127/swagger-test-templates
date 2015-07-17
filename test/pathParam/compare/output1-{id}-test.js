@@ -1,8 +1,10 @@
 'use strict';
 var chai = require('chai');
+var request = require('request');
 
 chai.should();
-var request = require('request');
+
+require('dotenv').load();
 
 describe('/{id}', function() {
   describe('get', function() {

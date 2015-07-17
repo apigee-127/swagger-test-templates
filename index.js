@@ -29,11 +29,15 @@ var TYPE_JSON = 'application/json';
 var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
 var read = require('fs').readFileSync;
+var queryString = require('query-string');
+var _ = require('lodash');
 var join = require('path').join;
 var innerDescribeFn;
 var outerDescribeFn;
 var schemaTemp;
+var environment;
 var importValidator = false;
+var importEnv = false;
 var consumes;
 var produces;
 var security;
@@ -63,6 +67,7 @@ function getData(swagger, path, operation, response, config) {
   var type;
   var childProperty = swagger.paths[path];
   var grandProperty = swagger.paths[path][operation];
+  var securityType;
   var data = { // request payload
     responseCode: response,
     description: (response + ' ' +
@@ -74,9 +79,38 @@ function getData(swagger, path, operation, response, config) {
     headerParameters: [],
     pathParameters: [],
     formParameters: [],
-    security: security,
+    queryApiKey: null,
+    headerApiKey: null,
+    headerSecurity: null,
     path: ''
   };
+
+  // deal with the security properties
+  if (security && security.length !== 0) {
+    Object.keys(security[0]).forEach(function(element) {
+      securityType = swagger.securityDefinitions[element];
+      element = _.snakeCase(element).toUpperCase();
+      switch (securityType.type) {
+        case 'basic':
+          data.headerSecurity = {name: element, type: 'Basic'};
+          break;
+        case 'apiKey':
+          if (securityType.in === 'query') {
+            data.queryApiKey =
+            {name: element, type: securityType.name};
+          } else if (securityType.in === 'header') {
+            data.headerApiKey =
+            {name: element, type: securityType.name};
+          }
+          break;
+        case 'oauth2':
+          data.headerSecurity = {name: element, type: 'Bearer'};
+          break;
+        default:
+          throw new Error('The type is undefined.');
+      }
+    });
+  }
 
   // deal with parameters in path level
   if (childProperty.hasOwnProperty('parameters')) {
@@ -98,6 +132,7 @@ function getData(swagger, path, operation, response, config) {
             data.formParameters.push(type);
             break;
           default:
+            throw new Error('The type is undefined.');
         }
       }
     }
@@ -126,6 +161,7 @@ function getData(swagger, path, operation, response, config) {
             data.bodyParameters.push(type);
             break;
           default:
+            throw new Error('The type is undefined.');
         }
       }
     }
@@ -148,17 +184,20 @@ function getData(swagger, path, operation, response, config) {
       ? swagger.basePath : '') + path;
 
   // supertest url add query
-  var queryToAdd = '';
-
   if (config.testModule === 'supertest') {
-    if (data.queryParameters.length > 0) {
+    var parse = {};
+
+    if (data.queryParameters.length > 0 || data.queryApiKey) {
       data.path += '?';
-      data.queryParameters.forEach(function(element) {
-        queryToAdd = element.name + '=DATA&';
-        data.path += queryToAdd;
-      });
-      data.path = data.path.substring(0,
-        data.path.lastIndexOf('&'));
+      if (data.queryParameters.length > 0) {
+        data.queryParameters.forEach(function(element) {
+          parse[element.name] = 'DATA';
+        });
+        data.path += queryString.stringify(parse);
+      }
+      if (data.queryApiKey) {
+        data.path += data.queryApiKey.type + '=';
+      }
     }
   }
 
@@ -188,6 +227,10 @@ function testGenResponse(swagger, path, operation, response, config,
   data = getData(swagger, path, operation, response, config);
   if (produce === TYPE_JSON && !data.noSchema) {
     importValidator = true;
+  }
+
+  if (security) {
+    importEnv = true;
   }
 
   data.contentType = consume;
@@ -333,7 +376,8 @@ function testGenPath(swagger, path, config) {
     scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
-    importValidator: importValidator
+    importValidator: importValidator,
+    importEnv: importEnv
   };
 
   output = outerDescribeFn(data);
@@ -366,6 +410,8 @@ function testGen(swagger, config) {
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
   source = read(join(__dirname, '/templates/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
+  source = read(join(__dirname, '/templates/environment.handlebars'), 'utf8');
+  environment = handlebars.compile(source, {noEscape: true});
 
   if (config.pathName.length === 0) {
     // builds tests for all paths in API
@@ -421,6 +467,20 @@ function testGen(swagger, config) {
       }
   }
 
+  if (swagger.securityDefinitions) {
+    var keys = Object.keys(swagger.securityDefinitions);
+
+    keys.forEach(function(element) {
+      element = _.snakeCase(element).toUpperCase();
+    });
+    var data = {envVars: keys};
+    var envText = environment(data);
+
+    output.push({
+      name: '.env',
+      test: envText
+    });
+  }
   return output;
 }
 
@@ -439,6 +499,17 @@ handlebars.registerHelper('is', function(lvalue, rvalue, options) {
   } else {
     return options.fn(this);
   }
+});
+
+// http://goo.gl/LFoiYG
+handlebars.registerHelper('ifCond', function(v1, v2, options) {
+  if (arguments.length < 3) {
+    throw new Error('Handlebars Helper \'ifCond\' needs 2 parameters');
+  }
+  if (v1.length > 0 || v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
 });
 
 /**

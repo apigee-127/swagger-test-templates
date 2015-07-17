@@ -4,6 +4,25 @@
         "version": "0.0.0",
         "title": "Simple API"
     },
+    "securityDefinitions": {
+      "oauth": {
+        "type": "oauth2",
+        "authorizationUrl": "http://swagger.io/api/oauth/dialog",
+        "flow": "implicit",
+        "scopes": {
+          "test": "just for test"
+        }
+      },
+      "key": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "accessToken"
+      },
+      "basicAuth": {
+        "type": "basic",
+        "description": "just for basic auth"
+      }
+  },
     "host": "api.uber.com",
     "schemes": [
         "https"
@@ -11,6 +30,11 @@
     "paths": {
         "/": {
             "get": {
+              "security":[
+                {
+                  "key": []
+                }
+              ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -61,6 +85,11 @@
                 }
             },
             "post": {
+               "security": [
+                 {
+                   "oauth": ["test"]
+                 }
+               ],
                 "parameters": [
                     {
                         "name": "latitude",
@@ -114,6 +143,11 @@
         },
         "/user": {
             "get": {
+              "security":[
+                {
+                  "oauth": ["test"]
+                }
+              ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -127,6 +161,11 @@
                 }
             },
             "post": {
+              "security": [
+                {
+                  "basicAuth": []
+                }
+              ],
                 "parameters": [
                     {
                         "name": "latitude",
@@ -158,6 +197,11 @@
                 }
             },
             "put": {
+              "security": [
+                {
+                  "oauth": ["test"]
+                }
+              ],
                 "parameters": [
                     {
                         "name": "latitude",
@@ -189,6 +233,11 @@
                 }
             },
             "patch": {
+              "security": [
+                {
+                  "oauth": ["test"]
+                }
+              ],
                 "parameters": [
                     {
                         "name": "latitude",
@@ -206,6 +255,11 @@
                 }
             },
             "delete": {
+              "security":[
+                {
+                  "basicAuth": ["test"]
+                }
+              ],
                 "responses": {
                     "200": {
                         "description": "OK"
