@@ -470,8 +470,8 @@ function testGen(swagger, config) {
   if (swagger.securityDefinitions) {
     var keys = Object.keys(swagger.securityDefinitions);
 
-    keys.forEach(function(element) {
-      element = _.snakeCase(element).toUpperCase();
+    keys.forEach(function(element, index, array) {
+      array[index] = _.snakeCase(element).toUpperCase();
     });
     var data = {envVars: keys};
     var envText = environment(data);
