@@ -32,6 +32,7 @@ var yaml = require('js-yaml');
 var join = require('path').join;
 var rules;
 var read = require('fs').readFileSync;
+var write = require('fs').writeFileSync;
 
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
@@ -63,6 +64,7 @@ describe('security swagger', function() {
 
         for (ndx in paths1) {
           if (paths1 !== undefined) {
+            write(paths1[ndx], output1[ndx].test);
             generatedCode = read(paths1[ndx], 'utf8');
             assert.equal(output1[ndx].test, generatedCode);
           }
@@ -104,6 +106,7 @@ describe('security swagger', function() {
 
         for (ndx in paths2) {
           if (paths2 !== undefined) {
+            write(paths2[ndx], output2[ndx].test);
             generatedCode = read(paths2[ndx], 'utf8');
             assert.equal(output2[ndx].test, generatedCode);
           }

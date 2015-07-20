@@ -8,7 +8,7 @@ require('dotenv').load();
 
 describe('/hello', function() {
   describe('get', function() {
-    it('should respond with 200 Will send `Authenticated`', function(done) {
+    it('should respond with 200 Will send `Authenticated...', function(done) {
       request({
         url: 'http://basic.herokuapp.com/hello',
         qs: {

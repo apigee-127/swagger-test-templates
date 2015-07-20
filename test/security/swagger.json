@@ -3,8 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Basic Auth Example",
-    "description": "An example for how to use Basic Auth with Swagger.\nServer code is available [here](https://github.com/mohsen1/basic-auth-server). It's running on Heroku.\n\n**User Name and Password**\n* User Name: `user`\n* Password: `pass`\n"
-  },
+    "description": "An example for how to use Basic Auth with Swagger."},
   "host": "basic.herokuapp.com",
   "schemes": [
     "http",
@@ -35,7 +34,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Will send `Authenticated`"
+            "description": "Will send `Authenticated`, for test for test fot test for test for test for test for test fot test for test for test"
           }
         }
       }
@@ -50,7 +49,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Will send `Authenticated`"
+            "description": "Will send `Authenticated` for test for test fot test for test for test for test for test fot test for test for test"
           }
         }
       }
