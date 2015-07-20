@@ -31,6 +31,7 @@ var sanitize = require('sanitize-filename');
 var read = require('fs').readFileSync;
 var queryString = require('query-string');
 var _ = require('lodash');
+var strObj = require('string');
 var join = require('path').join;
 var innerDescribeFn;
 var outerDescribeFn;
@@ -41,6 +42,7 @@ var importEnv = false;
 var consumes;
 var produces;
 var security;
+var len = 80;
 
 /**
  * To check if it is an empty array or undefined
@@ -413,6 +415,10 @@ function testGen(swagger, config) {
   source = read(join(__dirname, '/templates/environment.handlebars'), 'utf8');
   environment = handlebars.compile(source, {noEscape: true});
 
+  if (config.maxLen && !isNaN(config.maxLen)) {
+    len = config.maxLen;
+  }
+
   if (config.pathName.length === 0) {
     // builds tests for all paths in API
     for (path in paths) {
@@ -548,6 +554,23 @@ handlebars.registerHelper('pathify', function(path) {
     throw new TypeError('Handlebars Helper \'pathify\'' +
       'requires path to be a string');
   }
-
   return path.replace(/\{(.*?)\}/g, '{$1 PARAM GOES HERE}');
+});
+
+/**
+ * split the long description into multiple lines
+ * @param  {string} description  request description to be splitted
+ * @returns {string}        multiple lines
+ */
+handlebars.registerHelper('length', function(description) {
+  if (arguments.length < 2) {
+    throw new Error('Handlebar Helper \'length\'' +
+    ' needs 1 parameter');
+  }
+
+  if ((typeof description) !== 'string') {
+    throw new TypeError('Handlebars Helper \'length\'' +
+      'requires path to be a string');
+  }
+  return strObj(description).truncate(len - 50).s;
 });
