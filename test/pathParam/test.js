@@ -37,7 +37,7 @@ rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('pathParams swagger', function() {
-  describe('request-option', function() {
+  describe('assert-option', function() {
     describe('pathParams', function() {
       var output1 = testGen(swagger, {
         assertionFormat: 'should',
