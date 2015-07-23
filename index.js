@@ -39,6 +39,7 @@ var schemaTemp;
 var environment;
 var importValidator = false;
 var importEnv = false;
+var allDeprecated = true;
 var consumes;
 var produces;
 var security;
@@ -365,12 +366,14 @@ function testGenPath(swagger, path, config) {
   for (property in childProperty) {
     if (childProperty.hasOwnProperty(property)
       && validOps.indexOf(property) >= 0) {
+      if (childProperty[property].deprecated) continue;
+      allDeprecated = false;
       result.push(
         testGenOperation(swagger, path, property, config));
     }
   }
 
-  var output;
+  var output = '';
   var data = {
     description: path,
     assertion: config.assertionFormat,
@@ -382,8 +385,10 @@ function testGenPath(swagger, path, config) {
     importEnv: importEnv
   };
 
-  output = outerDescribeFn(data);
-  importValidator = false;
+  if (!allDeprecated) {
+    output = outerDescribeFn(data);
+    importValidator = false;
+  }
   return output;
 }
 
