@@ -24,7 +24,11 @@
       {{#if headerApiKey}}
       .set('{{headerApiKey.type}}', process.env.{{headerApiKey.name}})
       {{/if}}
+      {{#if default}}
+      .expect('DEFAULT RESPONSE CODE HERE')
+      {{else}}
       .expect({{responseCode}})
+      {{/if}}
       .end(function(err) {
         if (err) return done(err);
         done();

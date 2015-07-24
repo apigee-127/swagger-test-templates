@@ -73,6 +73,7 @@ function getData(swagger, path, operation, response, config) {
   var securityType;
   var data = { // request payload
     responseCode: response,
+    default: response === 'default' ? 'default' : null,
     description: (response + ' ' +
     swagger.paths[path][operation].responses[response].description),
     assertion: config.assertionFormat,

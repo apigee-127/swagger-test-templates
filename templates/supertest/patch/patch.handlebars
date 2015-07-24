@@ -45,7 +45,11 @@
       {{/each}}
       })
       {{/is}}
+      {{#if default}}
+      .expect('DEFAULT RESPONSE CODE HERE')
+      {{else}}
       .expect({{responseCode}})
+      {{/if}}
       .end(function(err, res) {
         if (err) return done(err);
 
