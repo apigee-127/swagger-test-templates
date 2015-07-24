@@ -51,7 +51,10 @@ describe('/user', function() {
 
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
-      api.post('/user?longitude=DATA')
+      api.post('/user')
+      .query({
+        longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
@@ -67,7 +70,10 @@ describe('/user', function() {
     });
 
     it('should respond with 400 NOT OK', function(done) {
-      api.post('/user?longitude=DATA')
+      api.post('/user')
+      .query({
+        longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
@@ -83,7 +89,10 @@ describe('/user', function() {
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
-      api.post('/user?longitude=DATA')
+      api.post('/user')
+      .query({
+        longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .send({
@@ -102,7 +111,10 @@ describe('/user', function() {
 
   describe('put', function() {
     it('should respond with 200 OK', function(done) {
-      api.put('/user?longitude=DATA')
+      api.put('/user')
+      .query({
+longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
@@ -118,7 +130,10 @@ describe('/user', function() {
     });
 
     it('should respond with 400 NOT OK', function(done) {
-      api.put('/user?longitude=DATA')
+      api.put('/user')
+      .query({
+longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
@@ -134,7 +149,10 @@ describe('/user', function() {
     });
 
     it('should respond with 500 SERVER ERROR', function(done) {
-      api.put('/user?longitude=DATA')
+      api.put('/user')
+      .query({
+longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({

@@ -72,7 +72,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
@@ -98,7 +97,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
@@ -124,7 +122,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
@@ -153,7 +150,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
@@ -179,7 +175,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
@@ -205,7 +200,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'PUT',
