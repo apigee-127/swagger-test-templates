@@ -10,7 +10,10 @@ require('dotenv').load();
 describe('/hello', function() {
   describe('get', function() {
     it('should respond with 200 Will send `Authenticated...', function(done) {
-      api.get('/hello?Key=' + process.env.KEY)
+      api.get('/hello')
+      .query({
+        Key: process.env.KEY
+      })
       .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
       .set('Accept', 'application/json')
       .expect(200)

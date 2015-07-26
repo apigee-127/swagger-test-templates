@@ -29,7 +29,6 @@ var TYPE_JSON = 'application/json';
 var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
 var read = require('fs').readFileSync;
-var queryString = require('query-string');
 var _ = require('lodash');
 var strObj = require('string');
 var join = require('path').join;
@@ -185,24 +184,6 @@ function getData(swagger, path, operation, response, config) {
 
   data.path += (((swagger.basePath !== undefined) && (swagger.basePath !== '/'))
       ? swagger.basePath : '') + path;
-
-  // supertest url add query
-  if (config.testModule === 'supertest') {
-    var parse = {};
-
-    if (data.queryParameters.length > 0 || data.queryApiKey) {
-      data.path += '?';
-      if (data.queryParameters.length > 0) {
-        data.queryParameters.forEach(function(element) {
-          parse[element.name] = 'DATA';
-        });
-        data.path += queryString.stringify(parse);
-      }
-      if (data.queryApiKey) {
-        data.path += data.queryApiKey.type + '=';
-      }
-    }
-  }
 
   return data;
 }

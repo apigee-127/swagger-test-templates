@@ -64,7 +64,7 @@ describe('Test getData function', function() {
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(1);
       expect(data).to.have.property('path');
-      expect(data.path).to.equal('/plan?data=DATA');
+      expect(data.path).to.equal('/plan');
     });
 
     it('should get all the data parsed for the /plan/{plan_id}/users',
@@ -87,7 +87,7 @@ describe('Test getData function', function() {
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(2);
       expect(data).to.have.property('path');
-      expect(data.path).to.equal('/user?name=DATA&time=DATA');
+      expect(data.path).to.equal('/user');
     });
   });
 

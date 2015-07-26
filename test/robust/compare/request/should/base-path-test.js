@@ -143,7 +143,6 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
@@ -175,7 +174,6 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',
@@ -207,7 +205,6 @@ describe('/', function() {
       request({
         url: 'https://api.uber.com/',
         qs: {
-
           longitude: 'DATA GOES HERE'
         },
         method: 'POST',

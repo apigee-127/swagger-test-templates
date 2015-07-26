@@ -9,7 +9,10 @@ require('dotenv').load();
 describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
-      api.get('/?accessToken=' + process.env.KEY)
+      api.get('/')
+      .query({
+        accessToken: process.env.KEY
+      })
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {

@@ -9,9 +9,8 @@
         url: '{{pathify path}}',
         {{#ifCond queryParameters queryApiKey}}
         qs: {
-        {{#if queryApiKey}}
-          {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},{{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+          {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
         },
         {{/ifCond}}
         method: 'POST',

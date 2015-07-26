@@ -26,7 +26,10 @@ describe('/', function() {
       };
 
       /*eslint-enable*/
-      api.get('/?accessToken=' + process.env.KEY)
+      api.get('/')
+      .query({
+        accessToken: process.env.KEY
+      })
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -48,7 +51,10 @@ describe('/', function() {
       };
 
       /*eslint-enable*/
-      api.get('/?accessToken=' + process.env.KEY)
+      api.get('/')
+      .query({
+        accessToken: process.env.KEY
+      })
       .set('Accept', 'application/json')
       .expect(400)
       .end(function(err, res) {
@@ -82,7 +88,10 @@ describe('/', function() {
       };
 
       /*eslint-enable*/
-      api.get('/?accessToken=' + process.env.KEY)
+      api.get('/')
+      .query({
+        accessToken: process.env.KEY
+      })
       .set('Accept', 'application/json')
       .expect(500)
       .end(function(err, res) {
@@ -114,7 +123,10 @@ describe('/', function() {
       };
 
       /*eslint-enable*/
-      api.post('/?longitude=DATA')
+      api.post('/')
+      .query({
+        longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
@@ -136,7 +148,10 @@ describe('/', function() {
       };
 
       /*eslint-enable*/
-      api.post('/?longitude=DATA')
+      api.post('/')
+      .query({
+        longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({
@@ -158,7 +173,10 @@ describe('/', function() {
       };
 
       /*eslint-enable*/
-      api.post('/?longitude=DATA')
+      api.post('/')
+      .query({
+        longitude: 'DATA GOES HERE'
+      })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
       .send({

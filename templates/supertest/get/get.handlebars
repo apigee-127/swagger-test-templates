@@ -5,11 +5,14 @@
 
       /*eslint-enable*/
       {{/validateResponse}}
-      {{#if queryApiKey}}
-      api.get('{{pathify path}}' + process.env.{{queryApiKey.name}})
-      {{else}}
       api.get('{{pathify path}}')
-      {{/if}}
+      {{#ifCond queryParameters queryApiKey}}
+      .query({
+        {{#if queryApiKey}}
+        {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+        {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+      })
+      {{/ifCond}}
       {{#if headerSecurity}}
       .set('Authorization', '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}})
       {{/if}}
