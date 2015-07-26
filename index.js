@@ -65,8 +65,6 @@ function isEmpty(val) {
  * @returns {json} return all the properties information
  */
 function getData(swagger, path, operation, response, config) {
-  var param;
-  var type;
   var childProperty = swagger.paths[path];
   var grandProperty = swagger.paths[path][operation];
   var securityType;
@@ -117,56 +115,50 @@ function getData(swagger, path, operation, response, config) {
   // deal with parameters in path level
   if (childProperty.hasOwnProperty('parameters')) {
     // process different parameters
-    for (param in childProperty.parameters) {
-      if (childProperty.parameters.hasOwnProperty(param)) {
-        type = childProperty.parameters[param];
-        switch (type.in) {
-          case 'query':
-            data.queryParameters.push(type);
-            break;
-          case 'path':
-            data.pathParameters.push(type);
-            break;
-          case 'header':
-            data.headerParameters.push(type);
-            break;
-          case 'formData':
-            data.formParameters.push(type);
-            break;
-          default:
-            throw new Error('The type is undefined.');
-        }
+    _.forEach(childProperty.parameters, function(parameter) {
+      switch (parameter.in) {
+        case 'query':
+          data.queryParameters.push(parameter);
+          break;
+        case 'path':
+          data.pathParameters.push(parameter);
+          break;
+        case 'header':
+          data.headerParameters.push(parameter);
+          break;
+        case 'formData':
+          data.formParameters.push(parameter);
+          break;
+        default:
+          throw new Error('The type is undefined.');
       }
-    }
+    });
   }
 
   // deal with parameters in operation level
   if (grandProperty.hasOwnProperty('parameters')) {
     // only adds body parameters to request, ignores query params
-    for (param in grandProperty.parameters) {
-      if (grandProperty.parameters.hasOwnProperty(param)) {
-        type = grandProperty.parameters[param];
-        switch (type.in) {
-          case 'query':
-            data.queryParameters.push(type);
-            break;
-          case 'header':
-            data.headerParameters.push(type);
-            break;
-          case 'path':
-            data.pathParameters.push(type);
-            break;
-          case 'formData':
-            data.formParameters.push(type);
-            break;
-          case 'body':
-            data.bodyParameters.push(type);
-            break;
-          default:
-            throw new Error('The type is undefined.');
-        }
+    _.forEach(grandProperty.parameters, function(parameter) {
+      switch (parameter.in) {
+        case 'query':
+          data.queryParameters.push(parameter);
+          break;
+        case 'header':
+          data.headerParameters.push(parameter);
+          break;
+        case 'path':
+          data.pathParameters.push(parameter);
+          break;
+        case 'formData':
+          data.formParameters.push(parameter);
+          break;
+        case 'body':
+          data.bodyParameters.push(parameter);
+          break;
+        default:
+          throw new Error('The type is undefined.');
       }
-    }
+    });
   }
 
   if (grandProperty.responses[response]
@@ -282,7 +274,6 @@ function testGenContentTypes(swagger, path, operation, res, config) {
 function testGenOperation(swagger, path, operation, config) {
   var responses = swagger.paths[path][operation].responses;
   var result = [];
-  var res;
 
   // determines which produce types to use
   if (!isEmpty(swagger.paths[path][operation].produces)) {
@@ -311,12 +302,10 @@ function testGenOperation(swagger, path, operation, config) {
     security = [];
   }
 
-  for (res in responses) {
-    if (responses.hasOwnProperty(res)) {
-      result = result.concat(testGenContentTypes(swagger, path, operation,
-        res, config));
-    }
-  }
+  _.forEach(responses, function(response, responseCode) {
+    result = result.concat(testGenContentTypes(swagger, path, operation,
+      responseCode, config));
+  });
 
   var output;
   var data = {
@@ -341,18 +330,15 @@ function testGenOperation(swagger, path, operation, config) {
 function testGenPath(swagger, path, config) {
   var childProperty = swagger.paths[path];
   var result = [];
-  var property;
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
 
-  for (property in childProperty) {
-    if (childProperty.hasOwnProperty(property)
-      && validOps.indexOf(property) >= 0) {
-      if (childProperty[property].deprecated) continue;
+  _.forEach(childProperty, function(property, propertyName) {
+    if (_.includes(validOps, propertyName) && !property.deprecated) {
       allDeprecated = false;
       result.push(
-        testGenOperation(swagger, path, property, config));
+        testGenOperation(swagger, path, propertyName, config));
     }
-  }
+  });
 
   var output = '';
   var data = {
@@ -385,8 +371,6 @@ function testGen(swagger, config) {
   var targets = config.pathName;
   var result = [];
   var output = [];
-  var path;
-  var ndx;
   var i = 0;
   var source;
   var filename;
@@ -407,56 +391,53 @@ function testGen(swagger, config) {
 
   if (config.pathName.length === 0) {
     // builds tests for all paths in API
-    for (path in paths) {
-      if (paths.hasOwnProperty(path)) {
-        result.push(testGenPath(swagger, path, config));
-      }
-    }
+    _.forEach(paths, function(path, pathName) {
+      result.push(testGenPath(swagger, pathName, config));
+    });
   } else {
     // loops over specified paths from config
-    for (path in targets) {
-      if (paths.hasOwnProperty(targets[path])) {
-        result.push(testGenPath(swagger, targets[path], config));
-      }
-    }
+    _.forEach(targets, function(target) {
+      result.push(testGenPath(swagger, target, config));
+    });
   }
 
   // no specified paths to build, so build all of them
   if (config.pathName.length === 0) {
-    for (ndx in result) {
-      if (result.hasOwnProperty(ndx)) {
-        output.push({
-          name: '-test.js',
-          test: result[ndx]
-        });
-      }
-    }
+    _.forEach(result, function(results) {
+      output.push({
+        name: '-test.js',
+        test: results
+      });
+    });
 
     // build file names with paths
-    for (path in paths) {
-      if (paths.hasOwnProperty(path)) {
-        filename = sanitize((path.replace(/\//g, '-').substring(1))
-          + output[i].name);
-        if (path === '/') {
-          filename = 'base-path' + output[i].name;
-        }
-        output[i++].name = filename;
+    _.forEach(paths, function(path, pathName) {
+      // for output file name, replace / with -, and truncate the first /
+      // eg: /hello/world -> hello-world
+      filename = sanitize((pathName.replace(/\//g, '-').substring(1))
+        + output[i].name);
+      // for base path file name, change it to base-path
+      if (pathName === '/') {
+        filename = 'base-path' + output[i].name;
       }
-    }
+      output[i++].name = filename;
+    });
   } else {
     // loops over specified paths
-    for (path in targets)
-      if (paths.hasOwnProperty(targets[path])) {
-        filename = sanitize((targets[path].replace(/\//g, '-').substring(1))
-          + '-test.js');
-        if (targets[path] === '/') {
-          filename = 'base-path' + '-test.js';
-        }
-        output.push({
-          name: filename,
-          test: result[path]
-        });
+    _.forEach(targets, function(target) {
+      // for output file name, replace / with -, and truncate the first /
+      // eg: /hello/world -> hello-world
+      filename = sanitize((target.replace(/\//g, '-').substring(1))
+        + '-test.js');
+      // for base path file name, change it to base-path
+      if (target === '/') {
+        filename = 'base-path' + '-test.js';
       }
+      output.push({
+        name: filename,
+        test: target
+      });
+    });
   }
 
   if (swagger.securityDefinitions) {
