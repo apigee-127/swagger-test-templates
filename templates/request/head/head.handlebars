@@ -27,13 +27,25 @@
         if (error) return done(error);
 
         {{#is assertion 'expect'}}
+        {{#if default}}
+        expect(res.statusCode).to.equal('DEFAULT RESPONSE CODE HERE');
+        {{else}}
         expect(res.statusCode).to.equal({{responseCode}});
+        {{/if}}
         {{/is}}
         {{#is assertion 'should'}}
+        {{#if default}}
+        res.statusCode.should.equal('DEFAULT RESPONSE CODE HERE');
+        {{else}}
         res.statusCode.should.equal({{responseCode}});
+        {{/if}}
         {{/is}}
         {{#is assertion 'assert'}}
+        {{#if default}}
+        assert.equal(res.statusCode, 'DEFAULT RESPONSE CODE HERE');
+        {{else}}
         assert.equal(res.statusCode, {{responseCode}});
+        {{/if}}
         {{/is}}
         done();
       });

@@ -5,7 +5,6 @@ var api = supertest('http://localhost:10010'); // supertest init;
 
 chai.should();
 
-require('dotenv').load();
 
 describe('/{id}', function() {
   describe('get', function() {

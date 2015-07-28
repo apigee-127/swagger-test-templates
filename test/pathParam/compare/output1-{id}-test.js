@@ -4,7 +4,6 @@ var request = require('request');
 
 chai.should();
 
-require('dotenv').load();
 
 describe('/{id}', function() {
   describe('get', function() {
