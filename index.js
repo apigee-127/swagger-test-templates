@@ -206,7 +206,7 @@ function testGenResponse(swagger, path, operation, response, config,
     importValidator = true;
   }
 
-  if (security) {
+  if (security && security.length !== 0) {
     importEnv = true;
   }
 
