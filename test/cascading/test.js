@@ -35,6 +35,7 @@ var rules;
 var getData;
 var config1;
 var config2;
+var info;
 
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
@@ -51,13 +52,20 @@ config2 = {
   pathName: [],
   testModule: 'request'
 };
+info = {
+  importValidator: false,
+  importEnv: false,
+  consumes: [],
+  produces: [],
+  security: []
+};
 
 describe('Test getData function', function() {
   describe('Test swagger with config1', function() {
 
     it('should get all the data parsed for the /plan',
       function() {
-      var data = getData(swagger, '/plan', 'post', '200', config1);
+      var data = getData(swagger, '/plan', 'post', '200', config1, info);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
@@ -70,7 +78,7 @@ describe('Test getData function', function() {
     it('should get all the data parsed for the /plan/{plan_id}/users',
       function() {
       var data = getData(swagger,
-        '/plan/{plan_id}/users', 'get', '200', config1);
+        '/plan/{plan_id}/users', 'get', '200', config1, info);
 
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
@@ -80,7 +88,7 @@ describe('Test getData function', function() {
 
     it('should get all the data parsed for the /user post',
       function() {
-      var data = getData(swagger, '/user', 'post', '200', config1);
+      var data = getData(swagger, '/user', 'post', '200', config1, info);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
@@ -95,7 +103,7 @@ describe('Test getData function', function() {
 
     it('should get all the data parsed for the /plan',
       function() {
-      var data = getData(swagger, '/plan', 'post', '200', config2);
+      var data = getData(swagger, '/plan', 'post', '200', config2, info);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);
@@ -108,7 +116,7 @@ describe('Test getData function', function() {
     it('should get all the data parsed for the /plan/{plan_id}/users',
       function() {
       var data = getData(swagger,
-        '/plan/{plan_id}/users', 'get', '200', config2);
+        '/plan/{plan_id}/users', 'get', '200', config2, info);
 
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
@@ -118,7 +126,7 @@ describe('Test getData function', function() {
 
     it('should get all the data parsed for the /user post',
       function() {
-      var data = getData(swagger, '/user', 'post', '200', config2);
+      var data = getData(swagger, '/user', 'post', '200', config2, info);
 
       expect(data).to.have.property('bodyParameters');
       expect(data.bodyParameters).to.have.length(1);

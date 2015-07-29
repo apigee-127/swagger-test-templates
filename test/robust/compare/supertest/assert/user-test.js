@@ -113,7 +113,7 @@ describe('/user', function() {
     it('should respond with 200 OK', function(done) {
       api.put('/user')
       .query({
-longitude: 'DATA GOES HERE'
+        longitude: 'DATA GOES HERE'
       })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
@@ -132,7 +132,7 @@ longitude: 'DATA GOES HERE'
     it('should respond with 400 NOT OK', function(done) {
       api.put('/user')
       .query({
-longitude: 'DATA GOES HERE'
+        longitude: 'DATA GOES HERE'
       })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')
@@ -151,7 +151,7 @@ longitude: 'DATA GOES HERE'
     it('should respond with 500 SERVER ERROR', function(done) {
       api.put('/user')
       .query({
-longitude: 'DATA GOES HERE'
+        longitude: 'DATA GOES HERE'
       })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
       .set('Accept', 'application/json')

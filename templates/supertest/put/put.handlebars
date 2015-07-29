@@ -8,8 +8,7 @@
       api.put('{{pathify path}}')
       {{#ifCond queryParameters queryApiKey}}
       .query({
-        {{#if queryApiKey}}
-        {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+        {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
         {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
       })
       {{/ifCond}}
