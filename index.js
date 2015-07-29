@@ -32,17 +32,7 @@ var read = require('fs').readFileSync;
 var _ = require('lodash');
 var strObj = require('string');
 var join = require('path').join;
-var innerDescribeFn;
-var outerDescribeFn;
-var schemaTemp;
-var environment;
-var importValidator = false;
-var importEnv = false;
-var allDeprecated = true;
-var consumes;
-var produces;
-var security;
-var len = 80;
+var len;
 
 /**
  * To check if it is an empty array or undefined
@@ -62,9 +52,10 @@ function isEmpty(val) {
  * @param  {string} operation operation of the path to generate tests for
  * @param  {string} response response type of operation of current path
  * @param  {json} config configuration for testGen
+ * @param  {info} info for cascading properties
  * @returns {json} return all the properties information
  */
-function getData(swagger, path, operation, response, config) {
+function getData(swagger, path, operation, response, config, info) {
   var childProperty = swagger.paths[path];
   var grandProperty = swagger.paths[path][operation];
   var securityType;
@@ -87,8 +78,8 @@ function getData(swagger, path, operation, response, config) {
   };
 
   // deal with the security properties
-  if (security && security.length !== 0) {
-    Object.keys(security[0]).forEach(function(element) {
+  if (info.security && info.security.length !== 0) {
+    Object.keys(info.security[0]).forEach(function(element) {
       securityType = swagger.securityDefinitions[element];
       element = _.snakeCase(element).toUpperCase();
       switch (securityType.type) {
@@ -191,23 +182,24 @@ function getData(swagger, path, operation, response, config) {
  * @param  {json} config configuration for testGen
  * @param  {string} consume content-type consumed by request
  * @param {string} produce content-type produced by the response
+ * @param  {info} info for cascading properties
  * @returns {string} generated test for response type
  */
 function testGenResponse(swagger, path, operation, response, config,
-  consume, produce) {
+  consume, produce, info) {
   var result;
   var templateFn;
   var source;
   var data;
 
   // get the data
-  data = getData(swagger, path, operation, response, config);
+  data = getData(swagger, path, operation, response, config, info);
   if (produce === TYPE_JSON && !data.noSchema) {
-    importValidator = true;
+    info.importValidator = true;
   }
 
-  if (security && security.length !== 0) {
-    importEnv = true;
+  if (info.security && info.security.length !== 0) {
+    info.importEnv = true;
   }
 
   data.contentType = consume;
@@ -223,40 +215,40 @@ function testGenResponse(swagger, path, operation, response, config,
   return result;
 }
 
-function testGenContentTypes(swagger, path, operation, res, config) {
+function testGenContentTypes(swagger, path, operation, res, config, info) {
   var result = [];
   var ndxC;
   var ndxP;
 
-  if (!isEmpty(consumes)) { // consumes is defined
-    for (ndxC in consumes) {
-      if (!isEmpty(produces)) { // produces is defined
-        for (ndxP in produces) {
-          if (produces[ndxP] !== undefined) {
+  if (!isEmpty(info.consumes)) { // consumes is defined
+    for (ndxC in info.consumes) {
+      if (!isEmpty(info.produces)) { // produces is defined
+        for (ndxP in info.produces) {
+          if (info.produces[ndxP] !== undefined) {
             result.push(testGenResponse(
               swagger, path, operation, res, config,
-              consumes[ndxC], produces[ndxP]));
+              info.consumes[ndxC], info.produces[ndxP], info));
           }
         }
       } else { // produces is not defined
         result.push(testGenResponse(
           swagger, path, operation, res, config,
-          consumes[ndxC], TYPE_JSON));
+          info.consumes[ndxC], TYPE_JSON, info));
       }
     }
-  } else if (!isEmpty(produces)) {
+  } else if (!isEmpty(info.produces)) {
     // consumes is undefined but produces is defined
-    for (ndxP in produces) {
-      if (produces[ndxP] !== undefined) {
+    for (ndxP in info.produces) {
+      if (info.produces[ndxP] !== undefined) {
         result.push(testGenResponse(
           swagger, path, operation, res, config,
-          TYPE_JSON, produces[ndxP]));
+          TYPE_JSON, info.produces[ndxP], info));
       }
     }
   } else { // neither produces nor consumes are defined
     result.push(testGenResponse(
       swagger, path, operation, res, config,
-      TYPE_JSON, TYPE_JSON));
+      TYPE_JSON, TYPE_JSON, info));
   }
 
   return result;
@@ -270,42 +262,48 @@ function testGenContentTypes(swagger, path, operation, res, config) {
  * @param  {string} path API path to generate tests for
  * @param  {string} operation operation of the path to generate tests for
  * @param  {json} config configuration for testGen
+ * @param  {info} info for cascading properties
  * @returns {string|Array} set of all tests for a path's operation
  */
-function testGenOperation(swagger, path, operation, config) {
+function testGenOperation(swagger, path, operation, config, info) {
   var responses = swagger.paths[path][operation].responses;
   var result = [];
+  var source;
+  var innerDescribeFn;
+
+  source = read(join(__dirname, '/templates/innerDescribe.handlebars'), 'utf8');
+  innerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   // determines which produce types to use
   if (!isEmpty(swagger.paths[path][operation].produces)) {
-    produces = swagger.paths[path][operation].produces;
+    info.produces = swagger.paths[path][operation].produces;
   } else if (!isEmpty(swagger.produces)) {
-    produces = swagger.produces;
+    info.produces = swagger.produces;
   } else {
-    produces = [];
+    info.produces = [];
   }
 
   // determines which consumes types to use
   if (!isEmpty(swagger.paths[path][operation].consumes)) {
-    consumes = swagger.paths[path][operation].consumes;
+    info.consumes = swagger.paths[path][operation].consumes;
   } else if (!isEmpty(swagger.consumes)) {
-    consumes = swagger.consumes;
+    info.consumes = swagger.consumes;
   } else {
-    consumes = [];
+    info.consumes = [];
   }
 
   // determines which security to use
   if (!isEmpty(swagger.paths[path][operation].security)) {
-    security = swagger.paths[path][operation].security;
+    info.security = swagger.paths[path][operation].security;
   } else if (!isEmpty(swagger.security)) {
-    security = swagger.security;
+    info.security = swagger.security;
   } else {
-    security = [];
+    info.security = [];
   }
 
   _.forEach(responses, function(response, responseCode) {
     result = result.concat(testGenContentTypes(swagger, path, operation,
-      responseCode, config));
+      responseCode, config, info));
   });
 
   var output;
@@ -332,12 +330,25 @@ function testGenPath(swagger, path, config) {
   var childProperty = swagger.paths[path];
   var result = [];
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
+  var allDeprecated = true;
+  var outerDescribeFn;
+  var source;
+  var info = {
+    importValidator: false,
+    importEnv: false,
+    consumes: [],
+    produces: [],
+    security: []
+  };
+
+  source = read(join(__dirname, '/templates/outerDescribe.handlebars'), 'utf8');
+  outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   _.forEach(childProperty, function(property, propertyName) {
     if (_.includes(validOps, propertyName) && !property.deprecated) {
       allDeprecated = false;
       result.push(
-        testGenOperation(swagger, path, propertyName, config));
+        testGenOperation(swagger, path, propertyName, config, info));
     }
   });
 
@@ -349,13 +360,13 @@ function testGenPath(swagger, path, config) {
     scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
-    importValidator: importValidator,
-    importEnv: importEnv
+    importValidator: info.importValidator,
+    importEnv: info.importEnv
   };
 
   if (!allDeprecated) {
     output = outerDescribeFn(data);
-    importValidator = false;
+    info.importValidator = false;
   }
   return output;
 }
@@ -375,17 +386,16 @@ function testGen(swagger, config) {
   var i = 0;
   var source;
   var filename;
+  var schemaTemp;
+  var environment;
 
-  importEnv = false;
+
   source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
-  source = read(join(__dirname, '/templates/innerDescribe.handlebars'), 'utf8');
-  innerDescribeFn = handlebars.compile(source, {noEscape: true});
-  source = read(join(__dirname, '/templates/outerDescribe.handlebars'), 'utf8');
-  outerDescribeFn = handlebars.compile(source, {noEscape: true});
   source = read(join(__dirname, '/templates/environment.handlebars'), 'utf8');
   environment = handlebars.compile(source, {noEscape: true});
+  len = 80;
 
   if (config.maxLen && !isNaN(config.maxLen)) {
     len = config.maxLen;
