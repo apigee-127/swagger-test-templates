@@ -20,7 +20,7 @@
       {{#if headerParameters}}
       .set({
         {{#each headerParameters}}
-        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
         {{/each}}
       })
       {{/if}}

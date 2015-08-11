@@ -19,9 +19,13 @@ chai.should();
 {{#is assertion 'assert'}}
 var assert = chai.assert;
 {{/is}}
+{{#if importArete}}
+var arete = require('arete');
+{{/if}}
 {{#if importEnv}}
 
-require('dotenv').load();{{/if}}
+require('dotenv').load();
+{{/if}}
 
 describe('{{description}}', function() {
 {{#each tests}}

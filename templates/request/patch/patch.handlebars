@@ -15,9 +15,7 @@
         {{/ifCond}}        method: 'PATCH',
         headers: {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
-          'Custom-Header': { {{#each headerParameters}}
-            {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}
-          }{{/if}}{{#if headerApiKey}},
+          {{#each headerParameters}}'{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
           {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         },
@@ -98,3 +96,92 @@
         done();
       });
     });
+{{#if isLoadTest}}
+    it('load tests with {{length description}}', function(done) {
+      arete.loadTest({
+        name: '{{loadName}}',
+        requests: {{requests}},
+        concurrentRequests: {{concurrent}},
+        targetFunction: function(callback) {
+          request({
+            url: '{{pathify path}}',
+            {{#ifCond queryParameters queryApiKey}}
+            qs: {
+              {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+              {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+            },
+            {{/ifCond}}
+            method: 'PATCH',
+            headers: {
+              'Content-Type': '{{contentType}}'{{#if headerParameters}},
+              {{#each headerParameters}}'{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
+              {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
+              Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
+            },
+            {{#is contentType 'application/json'}}
+            json: {
+              {{#each bodyParameters}}
+              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+              {{/each}}
+            }
+          },
+            {{/is}}
+            {{#is contentType 'application/x-www-form-urlencoded'}}
+            form: {
+              {{#each formParameters}}
+              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+              {{/each}}
+            }
+          },
+            {{/is}}
+            {{#is contentType 'multipart/form-data'}}
+            form: {
+              {{#each formParameters}}
+              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+              {{/each}}
+            }
+          },
+            {{/is}}
+            {{#is contentType 'application/xml'}}
+            body: 'XML STRING GOES HERE'
+          },
+            {{/is}}
+          function(error, res, body) {
+            callback(error, body);
+          });
+        },
+        printResponses: false, // true or false
+        printReport: true, // true or false
+        printSteps: true, // true or false
+        callback: function(error, report) {
+          if (error) return done(error);
+
+          {{#is assertion 'expect'}}
+          expect(report.successfulResponses.length).
+          to.equal(report.results.length);
+          expect(report.averageResponseTimeInternal).
+          to.be.lessThan('TIME DATA HERE');
+          expect(report.timeElapsed).
+          to.be.lessThan('TIME DATA HERE');
+          {{/is}}
+          {{#is assertion 'should'}}
+          report.successfulResponses.length.
+          should.equal(report.results.length);
+          (report.averageResponseTimeInternal).
+          should.be.lessThan('TIME DATA HERE');
+          (report.timeElapsed).
+          should.be.lessThan('TIME DATA HERE');
+          {{/is}}
+          {{#is assertion 'assert'}}
+          assert.equal(report.successfulResponses.length,
+          report.results.length);
+          assert.isBelow(report.averageResponseTimeInternal,
+          'TIME DATA HERE');
+          assert.isBelow(report.timeElapsed,
+          'TIME DATA HERE');
+          {{/is}}
+          done();
+        }
+      });
+    });
+{{/if}}

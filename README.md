@@ -21,6 +21,7 @@ var config = {
   assertionFormat: 'should',
   testModule: 'supertest',
   pathNames: ['/user', '/user/{id}'],
+  loadTest: [{pathName:'/user', operation:'get', load:{requests: 1000, concurrent: 100}}, { /* ... */ }],
   maxLen: 80
 };
 
@@ -36,6 +37,7 @@ testGen(swagger, config);
 * **`assertionFormat`** *required*: One of `should`, `expect` or `assert`. Choose which assertion method should be used in output test code.
 * **`testModule`** *required*: One of `supertest` or `request`. Choose between direct API calls (`request`) vs. programatic access to your API (`supertest`).
 * **`pathNames`** *required*: List of path names available in your Swagger API spec used to generate tests for. Empty array leads to **all paths**.
+* **`loadTest`** *optional*: List of objects info in your Swagger API spec used to generate stress tests. If specify, pathName & operation are **required**. Optional fields requests defaults to `1000`, concurrent defaults to `100`.
 * **`maxLen`** *optional*: Maximum line length. Defaults to `80`.
 
 #### Return value
