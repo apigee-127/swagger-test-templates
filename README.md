@@ -20,7 +20,8 @@ var swagger = require('/path/to/swagger.json');
 var config = {
   assertionFormat: 'should',
   testModule: 'supertest',
-  pathNames: ['/user', '/user/{id}']
+  pathNames: ['/user', '/user/{id}'],
+  maxLen: 80
 };
 
 // Generates an array of JavaScript test files following specified configuration
@@ -32,9 +33,10 @@ testGen(swagger, config);
 `swagger-test-templates` module exports a function with following arguments and return values:
 
 #### Arguments
-* **`assertionFormat`** *optional*: One of `should`, `expect` or `assert`. Choose which assertion method should be used in output test code. Defaults to `should`.
-* **`testModule`** *optional*: One of `supertest` or `request`. Choose between direct API calls (`request`) vs. programatic access to your API (`supertest`). Defaults to `supertest`.
-* **`pathNames`** *optional*: List of path names available in your Swagger API spec used to generate tests for. Defaults to **all paths**.
+* **`assertionFormat`** *required*: One of `should`, `expect` or `assert`. Choose which assertion method should be used in output test code.
+* **`testModule`** *required*: One of `supertest` or `request`. Choose between direct API calls (`request`) vs. programatic access to your API (`supertest`).
+* **`pathNames`** *required*: List of path names available in your Swagger API spec used to generate tests for. Empty array leads to **all paths**.
+* **`maxLen`** *optional*: Maximum line length. Defaults to `80`.
 
 #### Return value
 An array in which each string is content of a test file and the file name. Use this information to write those files to disk.
