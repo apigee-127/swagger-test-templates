@@ -1,0 +1,284 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Simple API"
+    },
+    "securityDefinitions": {
+      "oauth": {
+        "type": "oauth2",
+        "authorizationUrl": "http://swagger.io/api/oauth/dialog",
+        "flow": "implicit",
+        "scopes": {
+          "test": "just for test"
+        }
+      },
+      "key": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "accessToken"
+      },
+      "basicAuth": {
+        "type": "basic",
+        "description": "just for basic auth"
+      }
+  },
+    "host": "api.uber.com",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/": {
+            "get": {
+              "security":[
+                {
+                  "key": []
+                }
+              ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "NOT OK",
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "meta": "string",
+                                "data": "number"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema": {
+                            "properties": {
+                                "meta":"string",
+                                "data":"number",
+                                "UserObj": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "username": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+               "security": [
+                 {
+                   "oauth": ["test"]
+                 }
+               ],
+                "parameters": [
+                    {
+                        "name": "X-latitude",
+                        "in": "header",
+                        "description": "Latitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "longitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "NOT OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "500": {
+                        "description": "SERVER ERROR",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+              "security":[
+                {
+                  "oauth": ["test"]
+                }
+              ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "NOT OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR"
+                    }
+                }
+            },
+            "post": {
+              "security": [
+                {
+                  "basicAuth": []
+                }
+              ],
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "body",
+                        "description": "Latitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "longitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "NOT OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR"
+                    }
+                }
+            },
+            "put": {
+              "security": [
+                {
+                  "oauth": ["test"]
+                }
+              ],
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "body",
+                        "description": "Latitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "longitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "NOT OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR"
+                    }
+                }
+            },
+            "patch": {
+              "security": [
+                {
+                  "oauth": ["test"]
+                }
+              ],
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "body",
+                        "description": "Latitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+              "security":[
+                {
+                  "basicAuth": ["test"]
+                }
+              ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

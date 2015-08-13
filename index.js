@@ -74,8 +74,29 @@ function getData(swagger, path, operation, response, config, info) {
     queryApiKey: null,
     headerApiKey: null,
     headerSecurity: null,
-    path: ''
+    path: '',
+    isLoadTest: false,
+    loadName: '',
+    requests: 0,
+    concurrent: 0
   };
+
+  // cope with loadTest info
+  if (info.loadTest != null) {
+    _.forEach(info.loadTest, function(loadTestParam) {
+      if (loadTestParam.pathName === path
+        && loadTestParam.operation === operation) {
+        data.loadName = path.replace(/\//g, '_') +
+          '_' + operation + '_load_test';
+        info.importArete = true;
+        data.isLoadTest = true;
+        data.requests = loadTestParam.load.requests !== undefined ?
+          loadTestParam.load.requests : 1000;
+        data.concurrent = loadTestParam.load.concurrent !== undefined ?
+          loadTestParam.load.concurrent : 100;
+      }
+    });
+  }
 
   // deal with the security properties
   if (info.security && info.security.length !== 0) {
@@ -336,10 +357,16 @@ function testGenPath(swagger, path, config) {
   var info = {
     importValidator: false,
     importEnv: false,
+    importArete: false,
     consumes: [],
     produces: [],
-    security: []
+    security: [],
+    loadTest: null
   };
+
+  if (config.loadTest) {
+    info.loadTest = config.loadTest;
+  }
 
   source = read(join(__dirname, '/templates/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
@@ -361,7 +388,8 @@ function testGenPath(swagger, path, config) {
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
     importValidator: info.importValidator,
-    importEnv: info.importEnv
+    importEnv: info.importEnv,
+    importArete: info.importArete
   };
 
   if (!allDeprecated) {

@@ -4,7 +4,6 @@ var request = require('request');
 
 chai.should();
 
-
 describe('/{id}', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
