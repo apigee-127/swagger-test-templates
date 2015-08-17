@@ -15,7 +15,7 @@ npm install --save swagger-test-templates
 Use your [Swagger](http://swagger.io) API spec file to generate test for your API.
 
 ```javascript
-var testGen = require('swagger-test-templates');
+var stt = require('swagger-test-templates');
 var swagger = require('/path/to/swagger.json');
 var config = {
   assertionFormat: 'should',
@@ -26,7 +26,7 @@ var config = {
 };
 
 // Generates an array of JavaScript test files following specified configuration
-testGen(swagger, config);
+stt.testGen(swagger, config);
 ```
 
 ## API
