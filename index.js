@@ -416,6 +416,7 @@ function testGen(swagger, config) {
   var filename;
   var schemaTemp;
   var environment;
+  var ndx = 0;
 
 
   source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
@@ -429,7 +430,7 @@ function testGen(swagger, config) {
     len = config.maxLen;
   }
 
-  if (config.pathName.length === 0) {
+  if (!targets || targets.length === 0) {
     // builds tests for all paths in API
     _.forEach(paths, function(path, pathName) {
       result.push(testGenPath(swagger, pathName, config));
@@ -442,7 +443,7 @@ function testGen(swagger, config) {
   }
 
   // no specified paths to build, so build all of them
-  if (config.pathName.length === 0) {
+  if (!targets || targets.length === 0) {
     _.forEach(result, function(results) {
       output.push({
         name: '-test.js',
@@ -475,7 +476,7 @@ function testGen(swagger, config) {
       }
       output.push({
         name: filename,
-        test: target
+        test: result[ndx++]
       });
     });
   }

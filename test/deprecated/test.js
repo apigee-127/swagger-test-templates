@@ -36,7 +36,7 @@ var read = require('fs').readFileSync;
 rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
-describe('security swagger', function() {
+describe('deprecated swagger', function() {
   describe('assert-option', function() {
     describe('expect', function() {
       var output1 = testGen(swagger, {
