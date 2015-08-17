@@ -20,7 +20,7 @@ var swagger = require('/path/to/swagger.json');
 var config = {
   assertionFormat: 'should',
   testModule: 'supertest',
-  pathNames: ['/user', '/user/{id}'],
+  pathName: ['/user', '/user/{id}'],
   loadTest: [{pathName:'/user', operation:'get', load:{requests: 1000, concurrent: 100}}, { /* ... */ }],
   maxLen: 80
 };
