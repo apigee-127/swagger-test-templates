@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/apigee-127/swagger-test-templates.svg?branch=master)](https://travis-ci.org/apigee-127/swagger-test-templates)
 
-> Generate test code from a [Swagger](http://swagger.io) spec
+> Generate test code from a [Swagger](http://swagger.io) spec(version 2.0) 
 
 ## Usage
 
