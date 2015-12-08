@@ -116,4 +116,47 @@ describe('pathParams swagger', function() {
       });
     });
   });
+
+  describe('user-supplied', function() {
+    describe('pathParams', function() {
+      var output3 = testGen(swagger, {
+        assertionFormat: 'should',
+        pathName: [],
+        testModule: 'supertest',
+        pathParams: {
+          id: 'userSuppliedID'
+        }
+      });
+
+      var paths3 = [];
+      var ndx;
+
+      for (ndx in output3) {
+        if (output3) {
+          paths3.push(join(__dirname, '/compare/output3-' + output3[ndx].name));
+        }
+      }
+
+
+      it('should have a path parameter where "{id}" was', function() {
+        assert.isArray(output3);
+        assert.lengthOf(output3, 1);
+
+        var generatedCode;
+
+        for (ndx in paths3) {
+          if (paths3 !== undefined) {
+            generatedCode = read(paths3[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output3[ndx].test, generatedCode);
+          }
+        }
+
+        for (ndx in output3) {
+          if (output3 !== undefined) {
+            assert.lengthOf(linter.verify(output3[ndx].test, rules), 0);
+          }
+        }
+      });
+    });
+  });
 });

@@ -78,8 +78,14 @@ function getData(swagger, path, operation, response, config, info) {
     isLoadTest: false,
     loadName: '',
     requests: 0,
-    concurrent: 0
+    concurrent: 0,
+    pathParams: {}
   };
+
+  // get pathParams from config
+  if (config.pathParams) {
+    data.pathParams = config.pathParams;
+  }
 
   // cope with loadTest info
   if (info.loadTest != null) {
@@ -548,21 +554,61 @@ handlebars.registerHelper('validateResponse', function(type, noSchema,
 });
 
 /**
- * replaces path params with obvious indeicator for filling values
+ * replaces path params with obvious indicator for filling values
+ * (i.e. if any part of the path is surrounded in curly braces {})
  * @param  {string} path  request path to be pathified
+ * @param  {object} pathParams contains path parameters to replace with
  * @returns {string}          pathified string
  */
-handlebars.registerHelper('pathify', function(path) {
-  if (arguments.length < 2) {
+handlebars.registerHelper('pathify', function(path, pathParams) {
+  var r;
+
+  if (arguments.length < 3) {
     throw new Error('Handlebars Helper \'pathify\'' +
-      ' needs 1 parameter');
+      ' needs 2 parameters');
   }
 
   if ((typeof path) !== 'string') {
     throw new TypeError('Handlebars Helper \'pathify\'' +
       'requires path to be a string');
   }
-  return path.replace(/\{(.*?)\}/g, '{$1 PARAM GOES HERE}');
+
+  if ((typeof pathParams) !== 'object') {
+    throw new TypeError('Handlebars Helper \'pathify\'' +
+      'requires pathParams to be an object');
+  }
+
+  if (Object.keys(pathParams).length > 0) {
+    var re = new RegExp(/(?:\{+)(.*?(?=\}))(?:\}+)/g);
+    var re2;
+    var matches = [];
+    var m = re.exec(path);
+    var i;
+
+    while (m) {
+      matches.push(m[1]);
+      m = re.exec(path);
+    }
+
+    for (i = 0; i < matches.length; i++) {
+      var match = matches[i];
+
+      re2 = new RegExp('(\\{+)' + match + '(?=\\})(\\}+)');
+
+      if (typeof (pathParams[match]) !== 'undefined' &&
+          pathParams[match] !== null) {
+        // console.log("Match found for "+match+": "+pathParams[match]);
+        path = path.replace(re2, pathParams[match]);
+      } else {
+        // console.log("No match found for "+match+": "+pathParams[match]);
+        path = path.replace(re2, '{' + match + ' PARAM GOES HERE}');
+      }
+    }
+    return path;
+  }
+
+  r = new RegExp(/(?:\{+)(.*?(?=\}))(?:\}+)/g);
+  return path.replace(r, '{$1 PARAM GOES HERE}');
 });
 
 /**

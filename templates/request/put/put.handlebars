@@ -6,7 +6,7 @@
       /*eslint-enable*/
       {{/validateResponse}}
       request({
-        url: '{{pathify path}}',
+        url: '{{pathify path pathParams}}',
         {{#ifCond queryParameters queryApiKey}}
         qs: {
           {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
@@ -105,7 +105,7 @@
         concurrentRequests: {{concurrent}},
         targetFunction: function(callback) {
           request({
-            url: '{{pathify path}}',
+            url: '{{pathify path pathParams}}',
             {{#ifCond queryParameters queryApiKey}}
             qs: {
               {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
