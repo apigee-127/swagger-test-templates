@@ -1,7 +1,9 @@
 'use strict';
 var chai = require('chai');{{#if importValidator}}
 var ZSchema = require('z-schema');
-var validator = new ZSchema({});{{/if}}
+var validator = new ZSchema({
+  ignoreUnknownFormats: true
+});{{/if}}
 {{#is testmodule 'request'}}
 var request = require('request');
 {{/is}}
