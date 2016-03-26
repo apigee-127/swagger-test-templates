@@ -64,8 +64,9 @@ describe('deprecated swagger', function() {
 
         for (ndx in paths1) {
           if (paths1 !== undefined) {
-            generatedCode = read(paths1[ndx], 'utf8');
-            assert.equal(output1[ndx].test, generatedCode);
+            generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output1[ndx].test.replace(/\r\n/g, '\n'),
+              generatedCode);
           }
         }
 
