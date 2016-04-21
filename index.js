@@ -183,8 +183,13 @@ function getData(swagger, path, operation, response, config, info) {
   if (grandProperty.responses[response]
       .hasOwnProperty('schema')) {
     data.noSchema = false;
-    data.schema = grandProperty.responses[response].schema;
-    data.schema = JSON.stringify(data.schema, null, 2);
+    if (config.runtime) {
+      data.schema = config.runtime + '.paths' + '["' + path + '"]' +
+        '["' + operation + '"]' + '.responses' + '["' + response + '"].schema';
+    } else {
+      data.schema = grandProperty.responses[response].schema;
+      data.schema = JSON.stringify(data.schema, null, 2);
+    }
   }
 
   // request url case
