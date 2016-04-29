@@ -14,7 +14,7 @@ describe('/', function() {
       .query({
         accessToken: process.env.KEY
       })
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
@@ -29,7 +29,7 @@ describe('/', function() {
   describe('head', function() {
     it('should respond with 200 OK', function(done) {
       api.head('/')
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .set('accessToken', process.env.KEY_2)
       .expect(200)
       .end(function(err) {
