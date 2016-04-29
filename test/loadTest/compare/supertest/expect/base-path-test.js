@@ -29,7 +29,7 @@ describe('/', function() {
       .query({
         accessToken: process.env.KEY
       })
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
@@ -54,7 +54,7 @@ describe('/', function() {
       .query({
         accessToken: process.env.KEY
       })
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(400)
       .end(function(err, res) {
         if (err) return done(err);
@@ -91,7 +91,7 @@ describe('/', function() {
       .query({
         accessToken: process.env.KEY
       })
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(500)
       .end(function(err, res) {
         if (err) return done(err);
@@ -127,7 +127,7 @@ describe('/', function() {
         longitude: 'DATA GOES HERE'
       })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .set({
         'X-latitude': 'DATA GOES HERE'
       })
@@ -154,7 +154,7 @@ describe('/', function() {
         longitude: 'DATA GOES HERE'
       })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .set({
         'X-latitude': 'DATA GOES HERE'
       })
@@ -181,7 +181,7 @@ describe('/', function() {
         longitude: 'DATA GOES HERE'
       })
       .set('Authorization', 'Bearer ' + process.env.OAUTH)
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .set({
         'X-latitude': 'DATA GOES HERE'
       })

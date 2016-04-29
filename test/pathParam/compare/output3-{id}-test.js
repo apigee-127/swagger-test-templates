@@ -9,7 +9,7 @@ describe('/{id}', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       api.get('/userSuppliedID')
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
@@ -24,7 +24,7 @@ describe('/{id}', function() {
   describe('head', function() {
     it('should respond with 200 OK', function(done) {
       api.head('/userSuppliedID')
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(200)
       .end(function(err) {
         if (err) return done(err);
