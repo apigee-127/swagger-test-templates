@@ -15,7 +15,7 @@ describe('/hello', function() {
         Key: process.env.KEY
       })
       .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);

@@ -12,7 +12,7 @@ describe('/', function() {
     it('should respond with 200 Will send `Authenticated...', function(done) {
       api.get('/')
       .set('Authorization', 'Basic ' + process.env.BASIC_AUTH)
-      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);

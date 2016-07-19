@@ -32,6 +32,7 @@ var read = require('fs').readFileSync;
 var _ = require('lodash');
 var strObj = require('string');
 var join = require('path').join;
+var deref = require('json-schema-deref-sync');
 var len;
 
 /**
@@ -424,7 +425,7 @@ function testGen(swagger, config) {
   var environment;
   var ndx = 0;
 
-
+  swagger = deref(swagger);
   source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
