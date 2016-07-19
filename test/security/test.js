@@ -104,8 +104,9 @@ describe('security swagger', function() {
 
         for (ndx in paths2) {
           if (paths2 !== undefined) {
-            generatedCode = read(paths2[ndx], 'utf8');
-            assert.equal(output2[ndx].test, generatedCode);
+            generatedCode = read(paths2[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'),
+              generatedCode);
           }
         }
 

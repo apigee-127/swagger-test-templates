@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/apigee-127/swagger-test-templates.svg?branch=master)](https://travis-ci.org/apigee-127/swagger-test-templates)
 
-> Generate test code from a [Swagger](http://swagger.io) spec(version 2.0) 
+> Generate test code from a [Swagger](http://swagger.io) spec(version 2.0)
 
 ## Usage
 
@@ -22,7 +22,10 @@ var config = {
   testModule: 'supertest',
   pathName: ['/user', '/user/{id}'],
   loadTest: [{pathName:'/user', operation:'get', load:{requests: 1000, concurrent: 100}}, { /* ... */ }],
-  maxLen: 80
+  maxLen: 80,
+  pathParams: {
+    "id": "0123"
+  }
 };
 
 // Generates an array of JavaScript test files following specified configuration
@@ -39,6 +42,7 @@ stt.testGen(swagger, config);
 * **`pathNames`** *required*: List of path names available in your Swagger API spec used to generate tests for. Empty array leads to **all paths**.
 * **`loadTest`** *optional*: List of objects info in your Swagger API spec used to generate stress tests. If specify, pathName & operation are **required**. Optional fields requests defaults to `1000`, concurrent defaults to `100`.
 * **`maxLen`** *optional*: Maximum line length. Defaults to `80`.
+* **`pathParams`** *optional*: Object containing the values of a specific path parameters.
 
 #### Return value
 An array in which each string is content of a test file and the file name. Use this information to write those files to disk.
