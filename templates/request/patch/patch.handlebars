@@ -1,4 +1,4 @@
-  it('should respond with {{length description}}', function(done) {
+  it('should respond with {{description}}{{#if inputs}}, {{inputs.body.message}}{{/if}}', function(done) {
       {{#validateResponse returnType noSchema}}
       /*eslint-disable*/
       {{> schema-partial this}}
@@ -20,6 +20,9 @@
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         },
         {{#is contentType 'application/json'}}
+        {{#if inputs.body}}
+        json: {{printJSON inputs.body.data}}
+        {{else}}
         json: {
           {{#each bodyParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
