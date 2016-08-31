@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node mocha.js",
-    "pretest": "npm install"
+    "pretest": "npm install && node pretest.js"
   },
   "repository": {
     "type": "git",
@@ -38,14 +38,15 @@
   "homepage": "https://github.com/apigee-127/swagger-test-templates#readme",
   "devDependencies": {
     "chai": "^3.0.0",
+    "dotenv": "^1.2.0",
     "eslint": "^0.24.0",
     "js-yaml": "^3.3.1",
     "mocha": "^2.2.5",
     "mocha-eslint": "^0.1.7",
+    "ncp": "^2.0.0",
+    "rewire": "^2.3.4",
     "walk": "^2.3.9",
-    "z-schema": "^3.12.0",
-    "dotenv": "^1.2.0",
-    "rewire": "^2.3.4"
+    "z-schema": "^3.12.0"
   },
   "dependencies": {
     "handlebars": "^3.0.3",
