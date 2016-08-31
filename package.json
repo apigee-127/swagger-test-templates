@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node mocha.js",
-    "pretest": "npm install"
+    "pretest": "npm install && node pretest.js"
   },
   "repository": {
     "type": "git",
