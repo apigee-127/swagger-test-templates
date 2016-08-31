@@ -446,6 +446,7 @@ function testGen(swagger, config) {
   var schemaTemp;
   var environment;
   var ndx = 0;
+  var len;
 
   swagger = deref(swagger);
   source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
