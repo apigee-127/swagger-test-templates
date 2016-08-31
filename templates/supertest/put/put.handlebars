@@ -84,7 +84,7 @@
       });
     });
 {{#if isLoadTest}}
-    it('load tests with {{length description}}', function(done) {
+    it('load tests with {{description}}', function(done) {
       arete.loadTest({
         name: '{{loadName}}',
         requests: {{requests}},
