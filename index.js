@@ -30,11 +30,9 @@ var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
 var read = require('fs').readFileSync;
 var _ = require('lodash');
-var strObj = require('string');
 var join = require('path').join;
 var deref = require('json-schema-deref-sync');
 var helpers = require('./lib/helpers.js');
-var len;
 
 /**
  * To check if it is an empty array or undefined
@@ -89,8 +87,9 @@ function getData(swagger, path, operation, response, config, info) {
     data.pathParams = config.pathParams;
   }
 
-  //used for checking inputTesting table
-  var tempPath = (((swagger.basePath !== undefined) && (swagger.basePath !== '/'))
+  // used for checking inputTesting table
+  var tempPath = (((swagger.basePath !== undefined) &&
+      (swagger.basePath !== '/'))
       ? swagger.basePath : '') + path;
 
   // get inputTesting from config if defined for this path:operation:response
@@ -254,7 +253,7 @@ function testGenResponse(swagger, path, operation, response, config,
   templateFn = handlebars.compile(source, {noEscape: true});
 
   if (data.inputTesting && data.inputTesting.length > 0) {
-    result = "";
+    result = '';
     for (var i = 0; i < data.inputTesting.length; i++) {
       data.inputs = data.inputTesting[i];
       result += templateFn(data);
