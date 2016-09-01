@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "id32": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "id64": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "idDouble": {
+      "type": "integer",
+      "format": "double"
+    },
+    "float": {
+      "type": "integer",
+      "format": "float"
+    },
+    "dateRegister": {
+      "type": "string",
+      "format": "date"
+    },
+    "password": {
+      "type": "string",
+      "format": "password"
+    }
+  }
+}
