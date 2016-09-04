@@ -1,6 +1,8 @@
 'use strict';
 var chai = require('chai');
 var ZSchema = require('z-schema');
+
+require('./custom-formats')(ZSchema);
 var validator = new ZSchema({});
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
