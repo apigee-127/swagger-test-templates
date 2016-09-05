@@ -1,0 +1,29 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Simple API"
+    },
+  "host": "basic.herokuapp.com",
+    "paths": {
+        "/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                      "description": "NOK"
+                    },
+                    "404": {
+                      "description": "not found"
+                    },
+                    "500": {
+                      "description": "very bad things happening"
+                    }
+                }
+            }
+
+        }
+    }
+}
