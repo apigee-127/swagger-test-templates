@@ -644,5 +644,10 @@ handlebars.registerHelper('length', function(description) {
     throw new TypeError('Handlebars Helper \'length\'' +
       'requires path to be a string');
   }
+
+  if (len === -1) { // turn off description truncation, behaves as a noop
+    return description;
+  }
+
   return strObj(description).truncate(len - 50).s;
 });
