@@ -1,4 +1,4 @@
-  it('should respond with {{description}}{{#if inputs}}, {{inputs.body.message}}{{/if}}', function(done) {
+  it('should respond with {{length description}}{{#if inputs}}, {{inputs.body.message}}{{/if}}', function(done) {
       {{#validateResponse returnType noSchema}}
       /*eslint-disable*/
       {{> schema-partial this}}
@@ -71,7 +71,7 @@
       });
     });
 {{#if isLoadTest}}
-    it('load tests with {{description}}', function(done) {
+    it('load tests with {{length description}}', function(done) {
       arete.loadTest({
         name: '{{loadName}}',
         requests: {{requests}},
