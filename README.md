@@ -41,7 +41,7 @@ stt.testGen(swagger, config);
 * **`testModule`** *required*: One of `supertest` or `request`. Choose between direct API calls (`request`) vs. programatic access to your API (`supertest`).
 * **`pathNames`** *required*: List of path names available in your Swagger API spec used to generate tests for. Empty array leads to **all paths**.
 * **`loadTest`** *optional*: List of objects info in your Swagger API spec used to generate stress tests. If specify, pathName & operation are **required**. Optional fields requests defaults to `1000`, concurrent defaults to `100`.
-* **`maxLen`** *optional*: Maximum line length. Defaults to `80`.
+* **`maxLen`** *optional*: Maximum line length. If set to `-1`, descriptions will not be truncated. Defaults to `80`.
 * **`pathParams`** *optional*: Object containing the values of a specific path parameters.
 
 #### Return value
