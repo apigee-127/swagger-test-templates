@@ -294,7 +294,17 @@ function testGenContentTypes(swagger, path, operation, res, config, info) {
  * @returns {string|Array} set of all tests for a path's operation
  */
 function testGenOperation(swagger, path, operation, config, info) {
+
   var responses = swagger.paths[path][operation].responses;
+
+  // filter out the wanted codes
+  if (config.statusCodes) {
+    responses = {};
+    config.statusCodes.forEach(function(code) {
+      responses[code] = swagger.paths[path][operation].responses[code];
+    });
+  }
+
   var result = [];
   var source;
   var innerDescribeFn;

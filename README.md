@@ -40,6 +40,7 @@ stt.testGen(swagger, config);
 * **`assertionFormat`** *required*: One of `should`, `expect` or `assert`. Choose which assertion method should be used in output test code.
 * **`testModule`** *required*: One of `supertest` or `request`. Choose between direct API calls (`request`) vs. programatic access to your API (`supertest`).
 * **`pathNames`** *required*: List of path names available in your Swagger API spec used to generate tests for. Empty array leads to **all paths**.
+* **`statusCodes`** *optional* Array with status codes to generate tests for. Useful for generating only happy-flow tests. Excluding this param will generate tests for all responses.
 * **`loadTest`** *optional*: List of objects info in your Swagger API spec used to generate stress tests. If specify, pathName & operation are **required**. Optional fields requests defaults to `1000`, concurrent defaults to `100`.
 * **`maxLen`** *optional*: Maximum line length. Defaults to `80`.
 * **`pathParams`** *optional*: Object containing the values of a specific path parameters.
