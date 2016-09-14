@@ -28,6 +28,7 @@ var TYPE_JSON = 'application/json';
 
 var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
+var fs = require('fs');
 var read = require('fs').readFileSync;
 var _ = require('lodash');
 var strObj = require('string');
@@ -399,10 +400,13 @@ function testGenPath(swagger, path, config) {
   });
 
   var output = '';
+  var customFormats = fs.readFileSync(require.resolve('./custom-formats'), 'utf-8');
+
   var data = {
     description: path,
     assertion: config.assertionFormat,
     testmodule: config.testModule,
+    customFormats: customFormats,
     scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
