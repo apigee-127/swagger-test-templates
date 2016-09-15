@@ -246,7 +246,7 @@ function testGenResponse(swagger, path, operation, response, config,
   data.returnType = produce;
 
   // compile template source and return test string
-  var templatePath = join(__dirname, '/templates',
+  var templatePath = join(config.templatesPath,
     config.testModule, operation, operation + '.handlebars');
 
   source = read(templatePath, 'utf8');
@@ -321,7 +321,8 @@ function testGenOperation(swagger, path, operation, config, info) {
   var source;
   var innerDescribeFn;
 
-  source = read(join(__dirname, '/templates/innerDescribe.handlebars'), 'utf8');
+  source = read(join(config.templatesPath,
+    '/innerDescribe.handlebars'), 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   // determines which produce types to use
@@ -397,7 +398,8 @@ function testGenPath(swagger, path, config) {
     info.loadTest = config.loadTest;
   }
 
-  source = read(join(__dirname, '/templates/outerDescribe.handlebars'), 'utf8');
+  source = read(join(config.templatesPath,
+    '/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   _.forEach(childProperty, function(property, propertyName) {
@@ -447,11 +449,16 @@ function testGen(swagger, config) {
   var environment;
   var ndx = 0;
 
+  // see if templatePath is set by user in config.
+  // else set it te the default location so we can pass it on.
+  config.templatesPath = (config.templatesPath) ?
+    config.templatesPath : join(__dirname, 'templates');
+
   swagger = deref(swagger);
-  source = read(join(__dirname, 'templates/schema.handlebars'), 'utf8');
+  source = read(join(config.templatesPath, '/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
-  source = read(join(__dirname, '/templates/environment.handlebars'), 'utf8');
+  source = read(join(config.templatesPath, '/environment.handlebars'), 'utf8');
   environment = handlebars.compile(source, {noEscape: true});
   helpers.len = 80;
 

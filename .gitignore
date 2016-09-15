@@ -74,3 +74,4 @@ node_modules
 ################################################################################
 .idea
 test/instagram
+test/templatesPath/userTemplateDirectory/**/*.handlebars
