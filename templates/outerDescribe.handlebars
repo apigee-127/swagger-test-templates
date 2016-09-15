@@ -1,17 +1,8 @@
 'use strict';
 var chai = require('chai');{{#if importValidator}}
 var ZSchema = require('z-schema');
-
-ZSchema.registerFormat("int32", function (str) {
-return !isNaN(str);
-});
-var validator = new ZSchema({});
-ZSchema.registerFormat("int64", function (str) {
-return !isNaN(str);
-});
-ZSchema.registerFormat("double", function (str) {
-return !isNaN(str);
-});
+var customFormats = {{customFormats}}
+customFormats(ZSchema);
 
 var validator = new ZSchema({});{{/if}}
 {{#is testmodule 'request'}}

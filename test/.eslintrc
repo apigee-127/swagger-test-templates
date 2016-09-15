@@ -4,3 +4,5 @@
     mocha: true
   rules:
     no-unused-expressions: false
+    valid-jsdoc: 0;
+

@@ -28,6 +28,7 @@ var TYPE_JSON = 'application/json';
 
 var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
+var fs = require('fs');
 var read = require('fs').readFileSync;
 var _ = require('lodash');
 var join = require('path').join;
@@ -316,7 +317,17 @@ function testGenContentTypes(swagger, path, operation, res, config, info) {
  * @returns {string|Array} set of all tests for a path's operation
  */
 function testGenOperation(swagger, path, operation, config, info) {
+
   var responses = swagger.paths[path][operation].responses;
+
+  // filter out the wanted codes
+  if (config.statusCodes) {
+    responses = {};
+    config.statusCodes.forEach(function(code) {
+      responses[code] = swagger.paths[path][operation].responses[code];
+    });
+  }
+
   var result = [];
   var source;
   var innerDescribeFn;
@@ -411,10 +422,13 @@ function testGenPath(swagger, path, config) {
   });
 
   var output = '';
+  var customFormats = fs.readFileSync(require.resolve('./custom-formats'), 'utf-8');
+
   var data = {
     description: path,
     assertion: config.assertionFormat,
     testmodule: config.testModule,
+    customFormats: customFormats,
     scheme: (swagger.schemes !== undefined ? swagger.schemes[0] : 'http'),
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
