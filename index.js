@@ -59,10 +59,13 @@ function getData(swagger, apiPath, operation, response, config, info) {
   var childProperty = swagger.paths[apiPath];
   var grandProperty = swagger.paths[apiPath][operation];
   var securityType;
+
+  var responseDescription = (swagger.paths[apiPath][operation].responses[response]) ?
+    swagger.paths[apiPath][operation].responses[response].description : '';
   var data = { // request payload
     responseCode: response,
     default: response === 'default' ? 'default' : null,
-    description: (response + ' ' + swagger.paths[apiPath][operation].responses[response].description),
+    description: (response + ' ' + responseDescription),
     assertion: config.assertionFormat,
     noSchema: true,
     bodyParameters: [],
@@ -194,7 +197,7 @@ function getData(swagger, apiPath, operation, response, config, info) {
 
   // request url case
   if (config.testModule === 'request') {
-    data.path = url.format( {
+    data.path = url.format({
       protocol: swagger.schemes !== undefined ? swagger.schemes[0] : 'http',
       host: swagger.host !== undefined ? swagger.host : 'localhost:10010',
       pathname: requestPath
@@ -247,7 +250,7 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
     result = '';
     for (var i = 0; i < data.requestData.length; i++) {
       data.request = JSON.stringify(data.requestData[i].body);
-      data.requestMessage = data.requestData[i].message;
+      data.requestMessage = data.requestData[i].description.replace(/'/g, "\\'");  // eslint-disable-line quotes
       result += templateFn(data);
     }
   } else {
@@ -450,16 +453,15 @@ function testGen(swagger, config) {
   handlebars.registerPartial('schema-partial', schemaTemp);
   source = fs.readFileSync(path.join(config.templatesPath, '/environment.handlebars'), 'utf8');
   environment = handlebars.compile(source, {noEscape: true});
-  helpers.len = 80;
+  helpers.setLen(80);
 
   if (config.maxLen && !isNaN(config.maxLen)) {
-    console.log('set mex', config.maxLen)
-    helpers.len = config.maxLen;
+    helpers.setLen(config.maxLen);
   }
 
   if (!targets || targets.length === 0) {
     // builds tests for all paths in API
-    _.forEach(paths, function(path, pathName) {
+    _.forEach(paths, function(apipath, pathName) {
       result.push(testGenPath(swagger, pathName, config));
     });
   } else {
@@ -479,7 +481,7 @@ function testGen(swagger, config) {
     });
 
     // build file names with paths
-    _.forEach(paths, function(path, pathName) {
+    _.forEach(paths, function(apipath, pathName) {
       // for output file name, replace / with -, and truncate the first /
       // eg: /hello/world -> hello-world
       filename = sanitize((pathName.replace(/\//g, '-').substring(1))

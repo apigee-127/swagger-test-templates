@@ -1,4 +1,4 @@
-  it('should respond with {{length description}}{{#if inputs}}, {{inputs.body.message}}{{/if}}', function(done) {
+  it('should respond with {{length description}}{{#if requestMessage}} and {{requestMessage}}{{/if}}', function(done) {
       {{#validateResponse returnType noSchema}}
       /*eslint-disable*/
       {{> schema-partial this}}
@@ -28,8 +28,8 @@
       .set('{{headerApiKey.type}}', process.env.{{headerApiKey.name}})
       {{/if}}
       {{#is contentType 'application/json'}}
-      {{#if inputs.body}}
-      .send({{printJSON inputs.body.data}})
+      {{#if request}}
+      .send({{ request }})
       {{else}}
       .send({
         {{#each bodyParameters}}
