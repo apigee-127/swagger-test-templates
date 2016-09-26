@@ -25,13 +25,12 @@
 'use strict';
 
 var TYPE_JSON = 'application/json';
-
 var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
 var fs = require('fs');
-var read = require('fs').readFileSync;
 var _ = require('lodash');
-var join = require('path').join;
+var url = require('url');
+var path = require('path');
 var deref = require('json-schema-deref-sync');
 var helpers = require('./lib/helpers.js');
 
@@ -49,22 +48,21 @@ function isEmpty(val) {
  * Populate property of the swagger project
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
+ * @param  {string} apiPath API path to generate tests for
  * @param  {string} operation operation of the path to generate tests for
  * @param  {string} response response type of operation of current path
  * @param  {json} config configuration for testGen
  * @param  {info} info for cascading properties
  * @returns {json} return all the properties information
  */
-function getData(swagger, path, operation, response, config, info) {
-  var childProperty = swagger.paths[path];
-  var grandProperty = swagger.paths[path][operation];
+function getData(swagger, apiPath, operation, response, config, info) {
+  var childProperty = swagger.paths[apiPath];
+  var grandProperty = swagger.paths[apiPath][operation];
   var securityType;
   var data = { // request payload
     responseCode: response,
     default: response === 'default' ? 'default' : null,
-    description: (response + ' ' +
-    swagger.paths[path][operation].responses[response].description),
+    description: (response + ' ' + swagger.paths[apiPath][operation].responses[response].description),
     assertion: config.assertionFormat,
     noSchema: true,
     bodyParameters: [],
@@ -88,32 +86,26 @@ function getData(swagger, path, operation, response, config, info) {
     data.pathParams = config.pathParams;
   }
 
-  // used for checking inputTesting table
-  var tempPath = (((swagger.basePath !== undefined) &&
-      (swagger.basePath !== '/'))
-      ? swagger.basePath : '') + path;
+  // used for checking requestData table
+  var requestPath = (swagger.basePath) ? path.join(swagger.basePath, apiPath) : apiPath;
 
-  // get inputTesting from config if defined for this path:operation:response
-  if (config.inputTesting &&
-      config.inputTesting[tempPath] &&
-      config.inputTesting[tempPath][operation] &&
-      config.inputTesting[tempPath][operation][response]) {
-    data.inputTesting = config.inputTesting[tempPath][operation][response];
+  // get requestData from config if defined for this path:operation:response
+  if (config.requestData &&
+      config.requestData[requestPath] &&
+      config.requestData[requestPath][operation] &&
+      config.requestData[requestPath][operation][response]) {
+    data.requestData = config.requestData[requestPath][operation][response];
   }
 
   // cope with loadTest info
   if (info.loadTest != null) {
     _.forEach(info.loadTest, function(loadTestParam) {
-      if (loadTestParam.pathName === path
-        && loadTestParam.operation === operation) {
-        data.loadName = path.replace(/\//g, '_') +
-          '_' + operation + '_load_test';
+      if (loadTestParam.pathName === apiPath && loadTestParam.operation === operation) {
+        data.loadName = apiPath.replace(/\//g, '_') + '_' + operation + '_load_test';
         info.importArete = true;
         data.isLoadTest = true;
-        data.requests = loadTestParam.load.requests !== undefined ?
-          loadTestParam.load.requests : 1000;
-        data.concurrent = loadTestParam.load.concurrent !== undefined ?
-          loadTestParam.load.concurrent : 100;
+        data.requests = loadTestParam.load.requests !== undefined ? loadTestParam.load.requests : 1000;
+        data.concurrent = loadTestParam.load.concurrent !== undefined ? loadTestParam.load.concurrent : 100;
       }
     });
   }
@@ -194,8 +186,7 @@ function getData(swagger, path, operation, response, config, info) {
     });
   }
 
-  if (grandProperty.responses[response]
-      .hasOwnProperty('schema')) {
+  if (grandProperty.responses[response].hasOwnProperty('schema')) {
     data.noSchema = false;
     data.schema = grandProperty.responses[response].schema;
     data.schema = JSON.stringify(data.schema, null, 2);
@@ -203,38 +194,38 @@ function getData(swagger, path, operation, response, config, info) {
 
   // request url case
   if (config.testModule === 'request') {
-    data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
-      + '://' + (swagger.host !== undefined ? swagger.host : 'localhost:10010');
+    data.path = url.format( {
+      protocol: swagger.schemes !== undefined ? swagger.schemes[0] : 'http',
+      host: swagger.host !== undefined ? swagger.host : 'localhost:10010',
+      pathname: requestPath
+    });
+  } else {
+    data.path = requestPath;
   }
-
-  data.path += (((swagger.basePath !== undefined) && (swagger.basePath !== '/'))
-      ? swagger.basePath : '') + path;
-
   return data;
 }
 
 /**
- * Builds a unit test stubs for the response code of a path's operation
+ * Builds a unit test stubs for the response code of a apiPath's operation
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
- * @param  {string} operation operation of the path to generate tests for
- * @param  {string} response response type of operation of current path
+ * @param  {string} apiPath API apiPath to generate tests for
+ * @param  {string} operation operation of the apiPath to generate tests for
+ * @param  {string} response response type of operation of current apiPath
  * @param  {json} config configuration for testGen
  * @param  {string} consume content-type consumed by request
  * @param {string} produce content-type produced by the response
  * @param  {info} info for cascading properties
  * @returns {string} generated test for response type
  */
-function testGenResponse(swagger, path, operation, response, config,
-  consume, produce, info) {
+function testGenResponse(swagger, apiPath, operation, response, config, consume, produce, info) {
   var result;
   var templateFn;
   var source;
   var data;
 
   // get the data
-  data = getData(swagger, path, operation, response, config, info);
+  data = getData(swagger, apiPath, operation, response, config, info);
   if (produce === TYPE_JSON && !data.noSchema) {
     info.importValidator = true;
   }
@@ -247,16 +238,16 @@ function testGenResponse(swagger, path, operation, response, config,
   data.returnType = produce;
 
   // compile template source and return test string
-  var templatePath = join(config.templatesPath,
-    config.testModule, operation, operation + '.handlebars');
+  var templatePath = path.join(config.templatesPath, config.testModule, operation, operation + '.handlebars');
 
-  source = read(templatePath, 'utf8');
+  source = fs.readFileSync(templatePath, 'utf8');
   templateFn = handlebars.compile(source, {noEscape: true});
 
-  if (data.inputTesting && data.inputTesting.length > 0) {
+  if (data.requestData && data.requestData.length > 0) {
     result = '';
-    for (var i = 0; i < data.inputTesting.length; i++) {
-      data.inputs = data.inputTesting[i];
+    for (var i = 0; i < data.requestData.length; i++) {
+      data.request = JSON.stringify(data.requestData[i].body);
+      data.requestMessage = data.requestData[i].message;
       result += templateFn(data);
     }
   } else {
@@ -266,7 +257,7 @@ function testGenResponse(swagger, path, operation, response, config,
   return result;
 }
 
-function testGenContentTypes(swagger, path, operation, res, config, info) {
+function testGenContentTypes(swagger, apiPath, operation, res, config, info) {
   var result = [];
   var ndxC;
   var ndxP;
@@ -276,30 +267,22 @@ function testGenContentTypes(swagger, path, operation, res, config, info) {
       if (!isEmpty(info.produces)) { // produces is defined
         for (ndxP in info.produces) {
           if (info.produces[ndxP] !== undefined) {
-            result.push(testGenResponse(
-              swagger, path, operation, res, config,
-              info.consumes[ndxC], info.produces[ndxP], info));
+            result.push(testGenResponse(swagger, apiPath, operation, res, config, info.consumes[ndxC], info.produces[ndxP], info));
           }
         }
       } else { // produces is not defined
-        result.push(testGenResponse(
-          swagger, path, operation, res, config,
-          info.consumes[ndxC], TYPE_JSON, info));
+        result.push(testGenResponse(swagger, apiPath, operation, res, config, info.consumes[ndxC], TYPE_JSON, info));
       }
     }
   } else if (!isEmpty(info.produces)) {
     // consumes is undefined but produces is defined
     for (ndxP in info.produces) {
       if (info.produces[ndxP] !== undefined) {
-        result.push(testGenResponse(
-          swagger, path, operation, res, config,
-          TYPE_JSON, info.produces[ndxP], info));
+        result.push(testGenResponse(swagger, apiPath, operation, res, config, TYPE_JSON, info.produces[ndxP], info));
       }
     }
   } else { // neither produces nor consumes are defined
-    result.push(testGenResponse(
-      swagger, path, operation, res, config,
-      TYPE_JSON, TYPE_JSON, info));
+    result.push(testGenResponse(swagger, apiPath, operation, res, config, TYPE_JSON, TYPE_JSON, info));
   }
 
   return result;
@@ -307,24 +290,24 @@ function testGenContentTypes(swagger, path, operation, res, config, info) {
 
 /**
  * Builds a set of unit test stubs for all response codes of a
- *  path's operation
+ *  apiPath's operation
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
- * @param  {string} operation operation of the path to generate tests for
+ * @param  {string} apiPath API apiPath to generate tests for
+ * @param  {string} operation operation of the apiPath to generate tests for
  * @param  {json} config configuration for testGen
  * @param  {info} info for cascading properties
- * @returns {string|Array} set of all tests for a path's operation
+ * @returns {string|Array} set of all tests for a apiPath's operation
  */
-function testGenOperation(swagger, path, operation, config, info) {
+function testGenOperation(swagger, apiPath, operation, config, info) {
 
-  var responses = swagger.paths[path][operation].responses;
+  var responses = swagger.paths[apiPath][operation].responses;
 
   // filter out the wanted codes
   if (config.statusCodes) {
     responses = {};
     config.statusCodes.forEach(function(code) {
-      responses[code] = swagger.paths[path][operation].responses[code];
+      responses[code] = swagger.paths[apiPath][operation].responses[code];
     });
   }
 
@@ -332,13 +315,12 @@ function testGenOperation(swagger, path, operation, config, info) {
   var source;
   var innerDescribeFn;
 
-  source = read(join(config.templatesPath,
-    '/innerDescribe.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/innerDescribe.handlebars'), 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   // determines which produce types to use
-  if (!isEmpty(swagger.paths[path][operation].produces)) {
-    info.produces = swagger.paths[path][operation].produces;
+  if (!isEmpty(swagger.paths[apiPath][operation].produces)) {
+    info.produces = swagger.paths[apiPath][operation].produces;
   } else if (!isEmpty(swagger.produces)) {
     info.produces = swagger.produces;
   } else {
@@ -346,8 +328,8 @@ function testGenOperation(swagger, path, operation, config, info) {
   }
 
   // determines which consumes types to use
-  if (!isEmpty(swagger.paths[path][operation].consumes)) {
-    info.consumes = swagger.paths[path][operation].consumes;
+  if (!isEmpty(swagger.paths[apiPath][operation].consumes)) {
+    info.consumes = swagger.paths[apiPath][operation].consumes;
   } else if (!isEmpty(swagger.consumes)) {
     info.consumes = swagger.consumes;
   } else {
@@ -355,8 +337,8 @@ function testGenOperation(swagger, path, operation, config, info) {
   }
 
   // determines which security to use
-  if (!isEmpty(swagger.paths[path][operation].security)) {
-    info.security = swagger.paths[path][operation].security;
+  if (!isEmpty(swagger.paths[apiPath][operation].security)) {
+    info.security = swagger.paths[apiPath][operation].security;
   } else if (!isEmpty(swagger.security)) {
     info.security = swagger.security;
   } else {
@@ -364,8 +346,7 @@ function testGenOperation(swagger, path, operation, config, info) {
   }
 
   _.forEach(responses, function(response, responseCode) {
-    result = result.concat(testGenContentTypes(swagger, path, operation,
-      responseCode, config, info));
+    result = result.concat(testGenContentTypes(swagger, apiPath, operation, responseCode, config, info));
   });
 
   var output;
@@ -381,15 +362,15 @@ function testGenOperation(swagger, path, operation, config, info) {
 }
 
 /**
- * Builds a set of unit test stubs for all of a path's operations
+ * Builds a set of unit test stubs for all of a apiPath's operations
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
+ * @param  {string} apiPath API apiPath to generate tests for
  * @param  {json} config configuration for testGen
- * @returns {string|Array} set of all tests for a path
+ * @returns {string|Array} set of all tests for a apiPath
  */
-function testGenPath(swagger, path, config) {
-  var childProperty = swagger.paths[path];
+function testGenPath(swagger, apiPath, config) {
+  var childProperty = swagger.paths[apiPath];
   var result = [];
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
   var allDeprecated = true;
@@ -409,15 +390,13 @@ function testGenPath(swagger, path, config) {
     info.loadTest = config.loadTest;
   }
 
-  source = read(join(config.templatesPath,
-    '/outerDescribe.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   _.forEach(childProperty, function(property, propertyName) {
     if (_.includes(validOps, propertyName) && !property.deprecated) {
       allDeprecated = false;
-      result.push(
-        testGenOperation(swagger, path, propertyName, config, info));
+      result.push(testGenOperation(swagger, apiPath, propertyName, config, info));
     }
   });
 
@@ -425,7 +404,7 @@ function testGenPath(swagger, path, config) {
   var customFormats = fs.readFileSync(require.resolve('./custom-formats'), 'utf-8');
 
   var data = {
-    description: path,
+    description: apiPath,
     assertion: config.assertionFormat,
     testmodule: config.testModule,
     customFormats: customFormats,
@@ -463,16 +442,13 @@ function testGen(swagger, config) {
   var environment;
   var ndx = 0;
 
-  // see if templatePath is set by user in config.
-  // else set it te the default location so we can pass it on.
-  config.templatesPath = (config.templatesPath) ?
-    config.templatesPath : join(__dirname, 'templates');
+  config.templatesPath = (config.templatesPath) ? config.templatesPath : path.join(__dirname, 'templates');
 
   swagger = deref(swagger);
-  source = read(join(config.templatesPath, '/schema.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
-  source = read(join(config.templatesPath, '/environment.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/environment.handlebars'), 'utf8');
   environment = handlebars.compile(source, {noEscape: true});
   helpers.len = 80;
 
