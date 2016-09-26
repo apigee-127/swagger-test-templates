@@ -11,6 +11,15 @@
                 "responses": {
                     "200": {
                         "description": "OK, and this description is extra long for a simple length toggle test!"
+                    },
+                    "400": {
+                      "description": "NOK"
+                    },
+                    "404": {
+                      "description": "not found"
+                    },
+                    "500": {
+                      "description": "very bad things happening"
                     }
                 }
             }

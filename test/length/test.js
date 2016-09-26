@@ -46,6 +46,7 @@ describe('Toggle description truncation', function() {
     assertionFormat: 'should',
     pathNames: [],
     testModule: 'request',
+    statusCodes: [200],
     maxLen: -1
 
   });

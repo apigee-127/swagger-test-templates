@@ -453,6 +453,7 @@ function testGen(swagger, config) {
   helpers.len = 80;
 
   if (config.maxLen && !isNaN(config.maxLen)) {
+    console.log('set mex')
     helpers.len = config.maxLen;
   }
 
@@ -530,6 +531,7 @@ handlebars.registerHelper('validateResponse', helpers.validateResponse);
 handlebars.registerHelper('length', helpers.length);
 handlebars.registerHelper('pathify', helpers.pathify);
 handlebars.registerHelper('printJSON', helpers.printJSON);
+
 
 module.exports = {
   testGen: testGen
