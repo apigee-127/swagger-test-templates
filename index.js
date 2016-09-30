@@ -25,16 +25,14 @@
 'use strict';
 
 var TYPE_JSON = 'application/json';
-
 var handlebars = require('handlebars');
 var sanitize = require('sanitize-filename');
 var fs = require('fs');
-var read = require('fs').readFileSync;
 var _ = require('lodash');
-var strObj = require('string');
-var join = require('path').join;
+var url = require('url');
+var path = require('path');
 var deref = require('json-schema-deref-sync');
-var len;
+var helpers = require('./lib/helpers.js');
 
 /**
  * To check if it is an empty array or undefined
@@ -50,22 +48,24 @@ function isEmpty(val) {
  * Populate property of the swagger project
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
+ * @param  {string} apiPath API path to generate tests for
  * @param  {string} operation operation of the path to generate tests for
  * @param  {string} response response type of operation of current path
  * @param  {json} config configuration for testGen
  * @param  {info} info for cascading properties
  * @returns {json} return all the properties information
  */
-function getData(swagger, path, operation, response, config, info) {
-  var childProperty = swagger.paths[path];
-  var grandProperty = swagger.paths[path][operation];
+function getData(swagger, apiPath, operation, response, config, info) {
+  var childProperty = swagger.paths[apiPath];
+  var grandProperty = swagger.paths[apiPath][operation];
   var securityType;
+
+  var responseDescription = (swagger.paths[apiPath][operation].responses[response]) ?
+    swagger.paths[apiPath][operation].responses[response].description : '';
   var data = { // request payload
     responseCode: response,
     default: response === 'default' ? 'default' : null,
-    description: (response + ' ' +
-    swagger.paths[path][operation].responses[response].description),
+    description: (response + ' ' + responseDescription),
     assertion: config.assertionFormat,
     noSchema: true,
     bodyParameters: [],
@@ -89,19 +89,26 @@ function getData(swagger, path, operation, response, config, info) {
     data.pathParams = config.pathParams;
   }
 
+  // used for checking requestData table
+  var requestPath = (swagger.basePath) ? path.join(swagger.basePath, apiPath) : apiPath;
+
+  // get requestData from config if defined for this path:operation:response
+  if (config.requestData &&
+      config.requestData[requestPath] &&
+      config.requestData[requestPath][operation] &&
+      config.requestData[requestPath][operation][response]) {
+    data.requestData = config.requestData[requestPath][operation][response];
+  }
+
   // cope with loadTest info
   if (info.loadTest != null) {
     _.forEach(info.loadTest, function(loadTestParam) {
-      if (loadTestParam.pathName === path
-        && loadTestParam.operation === operation) {
-        data.loadName = path.replace(/\//g, '_') +
-          '_' + operation + '_load_test';
+      if (loadTestParam.pathName === apiPath && loadTestParam.operation === operation) {
+        data.loadName = apiPath.replace(/\//g, '_') + '_' + operation + '_load_test';
         info.importArete = true;
         data.isLoadTest = true;
-        data.requests = loadTestParam.load.requests !== undefined ?
-          loadTestParam.load.requests : 1000;
-        data.concurrent = loadTestParam.load.concurrent !== undefined ?
-          loadTestParam.load.concurrent : 100;
+        data.requests = loadTestParam.load.requests !== undefined ? loadTestParam.load.requests : 1000;
+        data.concurrent = loadTestParam.load.concurrent !== undefined ? loadTestParam.load.concurrent : 100;
       }
     });
   }
@@ -182,8 +189,7 @@ function getData(swagger, path, operation, response, config, info) {
     });
   }
 
-  if (grandProperty.responses[response]
-      .hasOwnProperty('schema')) {
+  if (grandProperty.responses[response].hasOwnProperty('schema')) {
     data.noSchema = false;
     data.schema = grandProperty.responses[response].schema;
     data.schema = JSON.stringify(data.schema, null, 2);
@@ -191,38 +197,38 @@ function getData(swagger, path, operation, response, config, info) {
 
   // request url case
   if (config.testModule === 'request') {
-    data.path = (swagger.schemes !== undefined ? swagger.schemes[0] : 'http')
-      + '://' + (swagger.host !== undefined ? swagger.host : 'localhost:10010');
+    data.path = url.format({
+      protocol: swagger.schemes !== undefined ? swagger.schemes[0] : 'http',
+      host: swagger.host !== undefined ? swagger.host : 'localhost:10010',
+      pathname: requestPath
+    });
+  } else {
+    data.path = requestPath;
   }
-
-  data.path += (((swagger.basePath !== undefined) && (swagger.basePath !== '/'))
-      ? swagger.basePath : '') + path;
-
   return data;
 }
 
 /**
- * Builds a unit test stubs for the response code of a path's operation
+ * Builds a unit test stubs for the response code of a apiPath's operation
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
- * @param  {string} operation operation of the path to generate tests for
- * @param  {string} response response type of operation of current path
+ * @param  {string} apiPath API apiPath to generate tests for
+ * @param  {string} operation operation of the apiPath to generate tests for
+ * @param  {string} response response type of operation of current apiPath
  * @param  {json} config configuration for testGen
  * @param  {string} consume content-type consumed by request
  * @param {string} produce content-type produced by the response
  * @param  {info} info for cascading properties
  * @returns {string} generated test for response type
  */
-function testGenResponse(swagger, path, operation, response, config,
-  consume, produce, info) {
+function testGenResponse(swagger, apiPath, operation, response, config, consume, produce, info) {
   var result;
   var templateFn;
   var source;
   var data;
 
   // get the data
-  data = getData(swagger, path, operation, response, config, info);
+  data = getData(swagger, apiPath, operation, response, config, info);
   if (produce === TYPE_JSON && !data.noSchema) {
     info.importValidator = true;
   }
@@ -235,16 +241,26 @@ function testGenResponse(swagger, path, operation, response, config,
   data.returnType = produce;
 
   // compile template source and return test string
-  var templatePath = join(config.templatesPath,
-    config.testModule, operation, operation + '.handlebars');
+  var templatePath = path.join(config.templatesPath, config.testModule, operation, operation + '.handlebars');
 
-  source = read(templatePath, 'utf8');
+  source = fs.readFileSync(templatePath, 'utf8');
   templateFn = handlebars.compile(source, {noEscape: true});
-  result = templateFn(data);
+
+  if (data.requestData && data.requestData.length > 0) {
+    result = '';
+    for (var i = 0; i < data.requestData.length; i++) {
+      data.request = JSON.stringify(data.requestData[i].body);
+      data.requestMessage = data.requestData[i].description.replace(/'/g, "\\'");  // eslint-disable-line quotes
+      result += templateFn(data);
+    }
+  } else {
+    result = templateFn(data);
+  }
+
   return result;
 }
 
-function testGenContentTypes(swagger, path, operation, res, config, info) {
+function testGenContentTypes(swagger, apiPath, operation, res, config, info) {
   var result = [];
   var ndxC;
   var ndxP;
@@ -254,30 +270,22 @@ function testGenContentTypes(swagger, path, operation, res, config, info) {
       if (!isEmpty(info.produces)) { // produces is defined
         for (ndxP in info.produces) {
           if (info.produces[ndxP] !== undefined) {
-            result.push(testGenResponse(
-              swagger, path, operation, res, config,
-              info.consumes[ndxC], info.produces[ndxP], info));
+            result.push(testGenResponse(swagger, apiPath, operation, res, config, info.consumes[ndxC], info.produces[ndxP], info));
           }
         }
       } else { // produces is not defined
-        result.push(testGenResponse(
-          swagger, path, operation, res, config,
-          info.consumes[ndxC], TYPE_JSON, info));
+        result.push(testGenResponse(swagger, apiPath, operation, res, config, info.consumes[ndxC], TYPE_JSON, info));
       }
     }
   } else if (!isEmpty(info.produces)) {
     // consumes is undefined but produces is defined
     for (ndxP in info.produces) {
       if (info.produces[ndxP] !== undefined) {
-        result.push(testGenResponse(
-          swagger, path, operation, res, config,
-          TYPE_JSON, info.produces[ndxP], info));
+        result.push(testGenResponse(swagger, apiPath, operation, res, config, TYPE_JSON, info.produces[ndxP], info));
       }
     }
   } else { // neither produces nor consumes are defined
-    result.push(testGenResponse(
-      swagger, path, operation, res, config,
-      TYPE_JSON, TYPE_JSON, info));
+    result.push(testGenResponse(swagger, apiPath, operation, res, config, TYPE_JSON, TYPE_JSON, info));
   }
 
   return result;
@@ -285,24 +293,24 @@ function testGenContentTypes(swagger, path, operation, res, config, info) {
 
 /**
  * Builds a set of unit test stubs for all response codes of a
- *  path's operation
+ *  apiPath's operation
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
- * @param  {string} operation operation of the path to generate tests for
+ * @param  {string} apiPath API apiPath to generate tests for
+ * @param  {string} operation operation of the apiPath to generate tests for
  * @param  {json} config configuration for testGen
  * @param  {info} info for cascading properties
- * @returns {string|Array} set of all tests for a path's operation
+ * @returns {string|Array} set of all tests for a apiPath's operation
  */
-function testGenOperation(swagger, path, operation, config, info) {
+function testGenOperation(swagger, apiPath, operation, config, info) {
 
-  var responses = swagger.paths[path][operation].responses;
+  var responses = swagger.paths[apiPath][operation].responses;
 
   // filter out the wanted codes
   if (config.statusCodes) {
     responses = {};
     config.statusCodes.forEach(function(code) {
-      responses[code] = swagger.paths[path][operation].responses[code];
+      responses[code] = swagger.paths[apiPath][operation].responses[code];
     });
   }
 
@@ -310,13 +318,12 @@ function testGenOperation(swagger, path, operation, config, info) {
   var source;
   var innerDescribeFn;
 
-  source = read(join(config.templatesPath,
-    '/innerDescribe.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/innerDescribe.handlebars'), 'utf8');
   innerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   // determines which produce types to use
-  if (!isEmpty(swagger.paths[path][operation].produces)) {
-    info.produces = swagger.paths[path][operation].produces;
+  if (!isEmpty(swagger.paths[apiPath][operation].produces)) {
+    info.produces = swagger.paths[apiPath][operation].produces;
   } else if (!isEmpty(swagger.produces)) {
     info.produces = swagger.produces;
   } else {
@@ -324,8 +331,8 @@ function testGenOperation(swagger, path, operation, config, info) {
   }
 
   // determines which consumes types to use
-  if (!isEmpty(swagger.paths[path][operation].consumes)) {
-    info.consumes = swagger.paths[path][operation].consumes;
+  if (!isEmpty(swagger.paths[apiPath][operation].consumes)) {
+    info.consumes = swagger.paths[apiPath][operation].consumes;
   } else if (!isEmpty(swagger.consumes)) {
     info.consumes = swagger.consumes;
   } else {
@@ -333,8 +340,8 @@ function testGenOperation(swagger, path, operation, config, info) {
   }
 
   // determines which security to use
-  if (!isEmpty(swagger.paths[path][operation].security)) {
-    info.security = swagger.paths[path][operation].security;
+  if (!isEmpty(swagger.paths[apiPath][operation].security)) {
+    info.security = swagger.paths[apiPath][operation].security;
   } else if (!isEmpty(swagger.security)) {
     info.security = swagger.security;
   } else {
@@ -342,8 +349,7 @@ function testGenOperation(swagger, path, operation, config, info) {
   }
 
   _.forEach(responses, function(response, responseCode) {
-    result = result.concat(testGenContentTypes(swagger, path, operation,
-      responseCode, config, info));
+    result = result.concat(testGenContentTypes(swagger, apiPath, operation, responseCode, config, info));
   });
 
   var output;
@@ -359,15 +365,15 @@ function testGenOperation(swagger, path, operation, config, info) {
 }
 
 /**
- * Builds a set of unit test stubs for all of a path's operations
+ * Builds a set of unit test stubs for all of a apiPath's operations
  * @private
  * @param  {json} swagger swagger file containing API
- * @param  {string} path API path to generate tests for
+ * @param  {string} apiPath API apiPath to generate tests for
  * @param  {json} config configuration for testGen
- * @returns {string|Array} set of all tests for a path
+ * @returns {string|Array} set of all tests for a apiPath
  */
-function testGenPath(swagger, path, config) {
-  var childProperty = swagger.paths[path];
+function testGenPath(swagger, apiPath, config) {
+  var childProperty = swagger.paths[apiPath];
   var result = [];
   var validOps = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
   var allDeprecated = true;
@@ -387,15 +393,13 @@ function testGenPath(swagger, path, config) {
     info.loadTest = config.loadTest;
   }
 
-  source = read(join(config.templatesPath,
-    '/outerDescribe.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/outerDescribe.handlebars'), 'utf8');
   outerDescribeFn = handlebars.compile(source, {noEscape: true});
 
   _.forEach(childProperty, function(property, propertyName) {
     if (_.includes(validOps, propertyName) && !property.deprecated) {
       allDeprecated = false;
-      result.push(
-        testGenOperation(swagger, path, propertyName, config, info));
+      result.push(testGenOperation(swagger, apiPath, propertyName, config, info));
     }
   });
 
@@ -403,7 +407,7 @@ function testGenPath(swagger, path, config) {
   var customFormats = fs.readFileSync(require.resolve('./custom-formats'), 'utf-8');
 
   var data = {
-    description: path,
+    description: apiPath,
     assertion: config.assertionFormat,
     testmodule: config.testModule,
     customFormats: customFormats,
@@ -441,26 +445,23 @@ function testGen(swagger, config) {
   var environment;
   var ndx = 0;
 
-  // see if templatePath is set by user in config.
-  // else set it te the default location so we can pass it on.
-  config.templatesPath = (config.templatesPath) ?
-    config.templatesPath : join(__dirname, 'templates');
+  config.templatesPath = (config.templatesPath) ? config.templatesPath : path.join(__dirname, 'templates');
 
   swagger = deref(swagger);
-  source = read(join(config.templatesPath, '/schema.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
   handlebars.registerPartial('schema-partial', schemaTemp);
-  source = read(join(config.templatesPath, '/environment.handlebars'), 'utf8');
+  source = fs.readFileSync(path.join(config.templatesPath, '/environment.handlebars'), 'utf8');
   environment = handlebars.compile(source, {noEscape: true});
-  len = 80;
+  helpers.setLen(80);
 
   if (config.maxLen && !isNaN(config.maxLen)) {
-    len = config.maxLen;
+    helpers.setLen(config.maxLen);
   }
 
   if (!targets || targets.length === 0) {
     // builds tests for all paths in API
-    _.forEach(paths, function(path, pathName) {
+    _.forEach(paths, function(apipath, pathName) {
       result.push(testGenPath(swagger, pathName, config));
     });
   } else {
@@ -480,7 +481,7 @@ function testGen(swagger, config) {
     });
 
     // build file names with paths
-    _.forEach(paths, function(path, pathName) {
+    _.forEach(paths, function(apipath, pathName) {
       // for output file name, replace / with -, and truncate the first /
       // eg: /hello/world -> hello-world
       filename = sanitize((pathName.replace(/\//g, '-').substring(1))
@@ -526,127 +527,14 @@ function testGen(swagger, config) {
   return output;
 }
 
+handlebars.registerHelper('is', helpers.is);
+handlebars.registerHelper('ifCond', helpers.ifCond);
+handlebars.registerHelper('validateResponse', helpers.validateResponse);
+handlebars.registerHelper('length', helpers.length);
+handlebars.registerHelper('pathify', helpers.pathify);
+handlebars.registerHelper('printJSON', helpers.printJSON);
+
+
 module.exports = {
   testGen: testGen
 };
-
-// http://goo.gl/LFoiYG
-handlebars.registerHelper('is', function(lvalue, rvalue, options) {
-  if (arguments.length < 3) {
-    throw new Error('Handlebars Helper \'is\' needs 2 parameters');
-  }
-
-  if (lvalue !== rvalue) {
-    return options.inverse(this);
-  } else {
-    return options.fn(this);
-  }
-});
-
-// http://goo.gl/LFoiYG
-handlebars.registerHelper('ifCond', function(v1, v2, options) {
-  if (arguments.length < 3) {
-    throw new Error('Handlebars Helper \'ifCond\' needs 2 parameters');
-  }
-  if (v1.length > 0 || v2) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
-
-/**
- * determines if content types are able to be validated
- * @param  {string} type     content type to be evaluated
- * @param  {boolean} noSchema whether or not there is a defined schema
- * @param  {Object} options  handlebars built-in options
- * @returns {boolean}          whether or not the content can be validated
- */
-handlebars.registerHelper('validateResponse', function(type, noSchema,
-  options) {
-  if (arguments.length < 3) {
-    throw new Error('Handlebars Helper \'validateResponse\'' +
-      'needs 2 parameters');
-  }
-
-  if (!noSchema && type === TYPE_JSON) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
-});
-
-/**
- * replaces path params with obvious indicator for filling values
- * (i.e. if any part of the path is surrounded in curly braces {})
- * @param  {string} path  request path to be pathified
- * @param  {object} pathParams contains path parameters to replace with
- * @returns {string}          pathified string
- */
-handlebars.registerHelper('pathify', function(path, pathParams) {
-  var r;
-
-  if (arguments.length < 3) {
-    throw new Error('Handlebars Helper \'pathify\'' +
-      ' needs 2 parameters');
-  }
-
-  if ((typeof path) !== 'string') {
-    throw new TypeError('Handlebars Helper \'pathify\'' +
-      'requires path to be a string');
-  }
-
-  if ((typeof pathParams) !== 'object') {
-    throw new TypeError('Handlebars Helper \'pathify\'' +
-      'requires pathParams to be an object');
-  }
-
-  if (Object.keys(pathParams).length > 0) {
-    var re = new RegExp(/(?:\{+)(.*?(?=\}))(?:\}+)/g);
-    var re2;
-    var matches = [];
-    var m = re.exec(path);
-    var i;
-
-    while (m) {
-      matches.push(m[1]);
-      m = re.exec(path);
-    }
-
-    for (i = 0; i < matches.length; i++) {
-      var match = matches[i];
-
-      re2 = new RegExp('(\\{+)' + match + '(?=\\})(\\}+)');
-
-      if (typeof (pathParams[match]) !== 'undefined' &&
-          pathParams[match] !== null) {
-        // console.log("Match found for "+match+": "+pathParams[match]);
-        path = path.replace(re2, pathParams[match]);
-      } else {
-        // console.log("No match found for "+match+": "+pathParams[match]);
-        path = path.replace(re2, '{' + match + ' PARAM GOES HERE}');
-      }
-    }
-    return path;
-  }
-
-  r = new RegExp(/(?:\{+)(.*?(?=\}))(?:\}+)/g);
-  return path.replace(r, '{$1 PARAM GOES HERE}');
-});
-
-/**
- * split the long description into multiple lines
- * @param  {string} description  request description to be splitted
- * @returns {string}        multiple lines
- */
-handlebars.registerHelper('length', function(description) {
-  if (arguments.length < 2) {
-    throw new Error('Handlebar Helper \'length\'' +
-    ' needs 1 parameter');
-  }
-
-  if ((typeof description) !== 'string') {
-    throw new TypeError('Handlebars Helper \'length\'' +
-      'requires path to be a string');
-  }
-  return strObj(description).truncate(len - 50).s;
-});
