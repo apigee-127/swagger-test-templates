@@ -215,7 +215,11 @@ function getData(swagger, apiPath, operation, response, config, info) {
           return mock.hasOwnProperty(parameter.name);
         })[0][parameter.name];
       });
-      data.pathParams = mockParameters;
+      // only write parameters if they are not already defined in config
+      // @todo we should rework this with code above to be more readable
+      if (!config.pathParams) {
+        data.pathParams = mockParameters;
+      }
     }
   }
   return data;

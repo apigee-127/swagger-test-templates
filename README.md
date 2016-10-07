@@ -72,6 +72,13 @@ so, for example this could be:
                  },
                  description: 'the description for this data'
                }]
+         },
+         get: {
+            '200': [ {
+              guid: 'somestringtoplaceinpath,
+              anotherPathParam: 100,
+              description: 'valid path or query parameters'
+            }]
          }
      }
  }`
