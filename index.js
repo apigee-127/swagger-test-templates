@@ -92,13 +92,6 @@ function getData(swagger, apiPath, operation, response, config, info) {
   // used for checking requestData table
   var requestPath = (swagger.basePath) ? path.join(swagger.basePath, apiPath) : apiPath;
 
-  // get requestData from config if defined for this path:operation:response
-  if (config.requestData &&
-      config.requestData[requestPath] &&
-      config.requestData[requestPath][operation] &&
-      config.requestData[requestPath][operation][response]) {
-    data.requestData = config.requestData[requestPath][operation][response];
-  }
 
   // cope with loadTest info
   if (info.loadTest != null) {
@@ -204,6 +197,26 @@ function getData(swagger, apiPath, operation, response, config, info) {
     });
   } else {
     data.path = requestPath;
+  }
+
+  // get requestData from config if defined for this path:operation:response
+  if (config.requestData &&
+    config.requestData[requestPath] &&
+    config.requestData[requestPath][operation] &&
+    config.requestData[requestPath][operation][response]) {
+    data.requestData = config.requestData[requestPath][operation][response];
+    // if we have a GET request AND requestData, fill the path params accordingly
+    if (operation === 'get') {
+      var mockParameters = {};
+
+      data.pathParameters.forEach(function(parameter) {
+        // find the mock data for this parameter name
+        mockParameters[parameter.name] = data.requestData.filter(function(mock) {
+          return mock.hasOwnProperty(parameter.name);
+        })[0][parameter.name];
+      });
+      data.pathParams = mockParameters;
+    }
   }
   return data;
 }
