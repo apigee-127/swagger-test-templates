@@ -1,0 +1,59 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Simple API"
+    },
+    "host": "api.uber.com",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "latitude",
+                        "in": "body",
+                        "description": "Latitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "longitude component of location.",
+                        "required": true,
+                        "type": "number",
+                        "format": "double"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "NOT OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
