@@ -82,7 +82,7 @@ so, for example this could be:
          },
          get: {
             '200': [ {
-              guid: 'some_string_to_place_in_path,
+              guid: 'some_string_to_place_in_path',
               anotherPathParam: 100,
               description: 'valid path or query parameters'
             }]
