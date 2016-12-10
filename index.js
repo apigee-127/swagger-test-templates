@@ -90,7 +90,7 @@ function getData(swagger, apiPath, operation, response, config, info) {
   }
 
   // used for checking requestData table
-  var requestPath = (swagger.basePath) ? path.join(swagger.basePath, apiPath) : apiPath;
+  var requestPath = (swagger.basePath) ? path.posix.join(swagger.basePath, apiPath) : apiPath;
 
 
   // cope with loadTest info
