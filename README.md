@@ -96,5 +96,5 @@ so, for example this could be:
 Note: for get-requests matching data will be transferred to the pathParams. So setting config.pathParams directly will have the same effect (see above).
 
 Every mockData item in the `responseCode` array will be used to generate a test. The description will be added to the "it" function for reference.
-##License
+## License
 [MIT](/LICENSE)
