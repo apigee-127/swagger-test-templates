@@ -22,7 +22,7 @@ module.exports = function(zSchema) {
 
   zSchema.registerFormat('float', function(val) {
     // better parsing for custom "float" format
-    if(Number.parseFloat(val)){
+    if (Number.parseFloat(val)) {
       return true;
     } else {
       return false;

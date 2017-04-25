@@ -24,8 +24,12 @@ var customFormats = module.exports = function(zSchema) {
   });
 
   zSchema.registerFormat('float', function(val) {
-    // should parse
-    return Number.isInteger(val);
+    // better parsing for custom "float" format
+    if (Number.parseFloat(val)) {
+      return true;
+    } else {
+      return false;
+    }
   });
 
   zSchema.registerFormat('date', function(val) {
