@@ -10,7 +10,7 @@
         {{#ifCond queryParameters queryApiKey}}
         qs: {
           {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
         },
         {{/ifCond}}
         method: 'DELETE',

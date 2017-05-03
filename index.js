@@ -256,6 +256,7 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
 
   data.contentType = consume;
   data.returnType = produce;
+  data.requestParameters = {};
 
   // compile template source and return test string
   var templatePath = path.join(config.templatesPath, config.testModule, operation, operation + '.handlebars');
@@ -267,6 +268,13 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
     result = '';
     for (var i = 0; i < data.requestData.length; i++) {
       data.request = JSON.stringify(data.requestData[i].body);
+
+      for (var key in data.requestData[i]) {
+        if (['body', 'description'].indexOf(key) === -1) {
+          data.requestParameters[key] = data.requestData[i][key];
+        }
+      }
+
       data.requestMessage = data.requestData[i].description.replace(/'/g, "\\'");  // eslint-disable-line quotes
       result += templateFn(data);
     }
@@ -550,6 +558,7 @@ handlebars.registerHelper('validateResponse', helpers.validateResponse);
 handlebars.registerHelper('length', helpers.length);
 handlebars.registerHelper('pathify', helpers.pathify);
 handlebars.registerHelper('printJSON', helpers.printJSON);
+handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamFormatter);
 
 
 module.exports = {
