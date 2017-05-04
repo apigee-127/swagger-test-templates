@@ -26,7 +26,9 @@
 
 var assert = require('chai').assert;
 var testGen = require('../../index.js').testGen;
-var swagger = require('./swagger.json');
+var swaggerPost = require('./swagger-post.json');
+var swaggerGet = require('./swagger-get.json');
+var swaggerGet2 = require('./swagger-get2.json');
 var yaml = require('js-yaml');
 var join = require('path').join;
 var rules;
@@ -36,17 +38,102 @@ rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('request data population', function() {
-  describe('with descriptipn', function() {
+  describe('with request body', function() {
+    describe('with description', function() {
+      describe('expect', function() {
+        var output1 = testGen(swaggerPost, {
+          assertionFormat: 'expect',
+          pathName: [],
+          testModule: 'request',
+          maxLen: -1,
+          requestData: {
+            '/user': {
+              post: {
+                200: [{body: {"my-id": 2}, description: 'some description'}]
+              }
+            }
+          }
+        });
+
+        var paths1 = [];
+        var ndx;
+
+        for (ndx in output1) {
+          if (output1) {
+            paths1.push(join(__dirname, '/compare/request/expect/' + output1[ndx].name));
+          }
+        }
+
+        it('should have a extended description and test data in the json request', function() {
+
+          assert.isArray(output1);
+          assert.lengthOf(output1, 1);
+
+          var generatedCode;
+
+          for (ndx in paths1) {
+            if (paths1 !== undefined) {
+              generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+              assert.equal(output1[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+            }
+          }
+        });
+      });
+    });
+
+    describe('and query string', function() {
+      describe('expect', function() {
+        var output2 = testGen(swaggerPost, {
+          assertionFormat: 'expect',
+          pathName: [],
+          testModule: 'request',
+          maxLen: -1,
+          requestData: {
+            '/user': {
+              post: {
+                200: [{body: {"my-id": 2}, longitude: 10, description: 'some description'}]
+              }
+            }
+          }
+        });
+
+        var paths1 = [];
+        var ndx;
+
+        for (ndx in output2) {
+          if (output2) {
+            paths1.push(join(__dirname, '/compare/request/expect/qs1-' + output2[ndx].name));
+          }
+        }
+
+        it('should populate query parameters in test description', function() {
+          assert.isArray(output2);
+          assert.lengthOf(output2, 1);
+
+          var generatedCode;
+
+          for (ndx in paths1) {
+            if (paths1 !== undefined) {
+              generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+              assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+            }
+          }
+        });
+      });
+    });
+  });
+
+  describe('with query string', function() {
     describe('expect', function() {
-      var output1 = testGen(swagger, {
+      var output3 = testGen(swaggerGet, {
         assertionFormat: 'expect',
         pathName: [],
         testModule: 'request',
         maxLen: -1,
         requestData: {
           '/user': {
-            post: {
-              200: [{body: {"my-id": 2}, description: 'some description'}]
+            get: {
+              200: [{longitude: 10, description: 'some description'}]
             }
           }
         }
@@ -55,25 +142,65 @@ describe('request data population', function() {
       var paths1 = [];
       var ndx;
 
-      for (ndx in output1) {
-        if (output1) {
-          paths1.push(join(__dirname, '/compare/request/expect/' + output1[ndx].name));
+      for (ndx in output3) {
+        if (output3) {
+          paths1.push(join(__dirname, '/compare/request/expect/qs2-' + output3[ndx].name));
         }
       }
 
-      it('should have a extended description and test data in the json request', function() {
-
-        assert.isArray(output1);
-        assert.lengthOf(output1, 1);
+      it('should populate query parameters in test description', function() {
+        assert.isArray(output3);
+        assert.lengthOf(output3, 1);
 
         var generatedCode;
 
         for (ndx in paths1) {
           if (paths1 !== undefined) {
             generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output1[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+            assert.equal(output3[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
           }
         }
+      });
+    });
+
+    describe('with string parameter', function() {
+      describe('expect', function() {
+        var output4 = testGen(swaggerGet2, {
+          assertionFormat: 'expect',
+          pathName: [],
+          testModule: 'request',
+          maxLen: -1,
+          requestData: {
+            '/user': {
+              get: {
+                200: [{name: 'Simon', description: 'some description'}]
+              }
+            }
+          }
+        });
+
+        var paths1 = [];
+        var ndx;
+
+        for (ndx in output4) {
+          if (output4) {
+            paths1.push(join(__dirname, '/compare/request/expect/qs3-' + output4[ndx].name));
+          }
+        }
+
+        it('should populate query parameters in test description', function() {
+          assert.isArray(output4);
+          assert.lengthOf(output4, 1);
+
+          var generatedCode;
+
+          for (ndx in paths1) {
+            if (paths1 !== undefined) {
+              generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+              assert.equal(output4[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+            }
+          }
+        });
       });
     });
   });
