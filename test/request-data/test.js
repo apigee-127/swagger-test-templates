@@ -29,6 +29,7 @@ var testGen = require('../../index.js').testGen;
 var swaggerPost = require('./swagger-post.json');
 var swaggerGet = require('./swagger-get.json');
 var swaggerGet2 = require('./swagger-get2.json');
+var swaggerGetWithHeaders = require('./swagger-get-with-headers.json');
 var yaml = require('js-yaml');
 var join = require('path').join;
 var rules;
@@ -201,6 +202,48 @@ describe('request data population', function() {
             }
           }
         });
+      });
+    });
+  });
+
+  describe('with HTTP headers', function() {
+    describe('expect', function() {
+      var output1 = testGen(swaggerGetWithHeaders, {
+        assertionFormat: 'expect',
+        pathName: [],
+        testModule: 'request',
+        maxLen: -1,
+        requestData: {
+          '/user': {
+            get: {
+              200: [{'X-Token': 'sadfg', description: 'some description'}]
+            }
+          }
+        }
+      });
+
+      var paths1 = [];
+      var ndx;
+
+      for (ndx in output1) {
+        if (output1) {
+          paths1.push(join(__dirname, '/compare/request/expect/with-headers-' + output1[ndx].name));
+        }
+      }
+
+      it('should populate the token header value', function() {
+
+        assert.isArray(output1);
+        assert.lengthOf(output1, 1);
+
+        var generatedCode;
+
+        for (ndx in paths1) {
+          if (paths1 !== undefined) {
+            generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output1[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+          }
+        }
       });
     });
   });
