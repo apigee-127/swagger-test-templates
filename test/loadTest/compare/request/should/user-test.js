@@ -12,6 +12,7 @@ describe('/user', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -31,6 +32,7 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -50,6 +52,7 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -72,6 +75,7 @@ describe('/user', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -80,7 +84,7 @@ describe('/user', function() {
           'Content-Type': 'application/json',
           Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -109,7 +113,7 @@ describe('/user', function() {
               'Content-Type': 'application/json',
               Authorization: 'Basic ' + process.env.BASIC_AUTH
             },
-            json: {
+            body: {
               latitude: 'DATA GOES HERE'
             }
           },
@@ -137,6 +141,7 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -145,7 +150,7 @@ describe('/user', function() {
           'Content-Type': 'application/json',
           Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -174,7 +179,7 @@ describe('/user', function() {
               'Content-Type': 'application/json',
               Authorization: 'Basic ' + process.env.BASIC_AUTH
             },
-            json: {
+            body: {
               latitude: 'DATA GOES HERE'
             }
           },
@@ -202,6 +207,7 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -210,7 +216,7 @@ describe('/user', function() {
           'Content-Type': 'application/json',
           Authorization: 'Basic ' + process.env.BASIC_AUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -239,7 +245,7 @@ describe('/user', function() {
               'Content-Type': 'application/json',
               Authorization: 'Basic ' + process.env.BASIC_AUTH
             },
-            json: {
+            body: {
               latitude: 'DATA GOES HERE'
             }
           },
@@ -270,6 +276,7 @@ describe('/user', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -278,7 +285,7 @@ describe('/user', function() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -295,6 +302,7 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -303,7 +311,7 @@ describe('/user', function() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -320,6 +328,7 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -328,7 +337,7 @@ describe('/user', function() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -348,12 +357,13 @@ describe('/user', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -373,6 +383,7 @@ describe('/user', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

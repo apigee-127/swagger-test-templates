@@ -5,13 +5,10 @@ var expect = chai.expect;
 
 describe('/user', function() {
   describe('get', function() {
-    it('should respond with 200 OK and some description', function(done) {
+    it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
         json: true,
-        qs: {
-          name: 'Simon'
-        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -31,9 +28,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         json: true,
-        qs: {
-          name: 'DATA GOES HERE'
-        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -53,9 +47,6 @@ describe('/user', function() {
       request({
         url: 'https://api.uber.com/user',
         json: true,
-        qs: {
-          name: 'DATA GOES HERE'
-        },
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

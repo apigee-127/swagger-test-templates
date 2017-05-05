@@ -11,6 +11,7 @@ describe('/', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
