@@ -74,6 +74,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
@@ -105,6 +106,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
@@ -148,6 +150,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
@@ -189,6 +192,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -197,7 +201,7 @@ describe('/', function() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -220,6 +224,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -228,7 +233,7 @@ describe('/', function() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -251,6 +256,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -259,7 +265,7 @@ describe('/', function() {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },

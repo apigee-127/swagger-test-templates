@@ -4,18 +4,15 @@ var request = require('request');
 var expect = chai.expect;
 
 describe('/user', function() {
-  describe('get', function() {
-    it('should respond with 200 OK and some description', function(done) {
+  describe('post', function() {
+    it('should respond with 200 OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
-        json: true,
-        qs: {
-          name: 'Simon'
-        },
-        method: 'GET',
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
         if (error) return done(error);
@@ -30,14 +27,11 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
-        json: true,
-        qs: {
-          name: 'DATA GOES HERE'
-        },
-        method: 'GET',
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
         if (error) return done(error);
@@ -52,14 +46,11 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
-        json: true,
-        qs: {
-          name: 'DATA GOES HERE'
-        },
-        method: 'GET',
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/xml'
+        },
+        body: 'XML STRING GOES HERE'
       },
       function(error, res, body) {
         if (error) return done(error);

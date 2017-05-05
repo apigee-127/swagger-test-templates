@@ -1,0 +1,34 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Simple API"
+    },
+    "host": "api.uber.com",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "consumes": [
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/xml"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "NOT OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR"
+                    }
+                }
+            }
+        }
+    }
+}

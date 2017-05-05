@@ -9,6 +9,7 @@ describe('/{id}', function() {
     it('should respond with 200 OK', function(done) {
       request({
         url: 'http://localhost:10010/{id PARAM GOES HERE}',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

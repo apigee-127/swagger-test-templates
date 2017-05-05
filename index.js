@@ -559,6 +559,7 @@ handlebars.registerHelper('length', helpers.length);
 handlebars.registerHelper('pathify', helpers.pathify);
 handlebars.registerHelper('printJSON', helpers.printJSON);
 handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamFormatter);
+handlebars.registerHelper('isJsonRepresentation', helpers.isJsonRepresentation);
 
 
 module.exports = {
