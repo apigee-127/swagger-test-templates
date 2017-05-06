@@ -8,6 +8,7 @@ describe('/user', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -28,6 +29,7 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -48,6 +50,7 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
