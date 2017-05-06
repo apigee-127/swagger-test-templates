@@ -11,6 +11,7 @@ describe('/', function() {
     it('should respond with 200 Will send `Authenticated...', function(done) {
       request({
         url: 'http://basic.herokuapp.com/',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

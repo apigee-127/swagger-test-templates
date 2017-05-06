@@ -9,6 +9,7 @@ describe('/', function() {
     it('should respond with 200 OK, and this description is extra long for a simple length toggle test!', function(done) {
       request({
         url: 'http://basic.herokuapp.com/',
+        json: true,
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

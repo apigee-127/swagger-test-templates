@@ -75,6 +75,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
@@ -106,6 +107,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
@@ -149,6 +151,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           accessToken: process.env.KEY
         },
@@ -190,6 +193,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -199,7 +203,7 @@ describe('/', function() {
           'X-latitude': 'DATA GOES HERE',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
         }
       },
       function(error, res, body) {
@@ -221,6 +225,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -230,7 +235,7 @@ describe('/', function() {
           'X-latitude': 'DATA GOES HERE',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
         }
       },
       function(error, res, body) {
@@ -252,6 +257,7 @@ describe('/', function() {
       /*eslint-enable*/
       request({
         url: 'https://api.uber.com/',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -261,7 +267,7 @@ describe('/', function() {
           'X-latitude': 'DATA GOES HERE',
           Authorization: 'Bearer ' + process.env.OAUTH
         },
-        json: {
+        body: {
         }
       },
       function(error, res, body) {

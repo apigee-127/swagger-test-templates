@@ -7,6 +7,9 @@
       {{/validateResponse}}
       request({
         url: '{{pathify path pathParams}}',
+        {{#isJsonRepresentation contentType returnType}}
+        json: true,
+        {{/isJsonRepresentation}}
         {{#ifCond queryParameters queryApiKey}}
         qs: {
           {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
@@ -21,10 +24,10 @@
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         },
         {{#is contentType 'application/json'}}
-        {{#if request}}json: {
+        {{#if request}}body: {
         {{ request }}
         }
-        {{else}}json: {
+        {{else}}body: {
           {{#each bodyParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
@@ -123,7 +126,7 @@
               Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
             },
             {{#is contentType 'application/json'}}
-            json: {
+            body: {
               {{#each bodyParameters}}
               {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
               {{/each}}
