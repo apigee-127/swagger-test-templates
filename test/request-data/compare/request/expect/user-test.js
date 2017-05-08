@@ -8,6 +8,7 @@ describe('/user', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -15,7 +16,7 @@ describe('/user', function() {
         headers: {
           'Content-Type': 'application/json'
         },
-        json: {"my-id":2}
+        body: {"my-id":2}
       },
       function(error, res, body) {
         if (error) return done(error);
@@ -30,6 +31,7 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -37,7 +39,7 @@ describe('/user', function() {
         headers: {
           'Content-Type': 'application/json'
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },
@@ -54,6 +56,7 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -61,7 +64,7 @@ describe('/user', function() {
         headers: {
           'Content-Type': 'application/json'
         },
-        json: {
+        body: {
           latitude: 'DATA GOES HERE'
         }
       },

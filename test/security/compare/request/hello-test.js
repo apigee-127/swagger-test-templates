@@ -11,6 +11,7 @@ describe('/hello', function() {
     it('should respond with 200 Will send `Authenticated...', function(done) {
       request({
         url: 'http://basic.herokuapp.com/hello',
+        json: true,
         qs: {
           Key: process.env.KEY
         },

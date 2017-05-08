@@ -8,6 +8,7 @@ describe('/user', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 10
         },
@@ -29,6 +30,7 @@ describe('/user', function() {
     it('should respond with 400 NOT OK', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
@@ -50,6 +52,7 @@ describe('/user', function() {
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
         url: 'https://api.uber.com/user',
+        json: true,
         qs: {
           longitude: 'DATA GOES HERE'
         },
