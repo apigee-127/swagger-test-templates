@@ -19,7 +19,8 @@
         method: 'POST',
         headers: {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
-          {{#each headerParameters}}'{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
+          {{#each headerParameters}}'{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},
+          {{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
           {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         },
