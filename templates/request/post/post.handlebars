@@ -24,14 +24,14 @@
           {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         },
-        {{#is contentType 'application/json'}}
+        {{#isJsonMediaType contentType}}
         {{#if request}}body: {{ request }}{{else}}body: {
           {{#each bodyParameters}}
           {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
           {{/each}}
         }{{/if}}
       },
-        {{/is}}
+        {{/isJsonMediaType}}
         {{#is contentType 'application/x-www-form-urlencoded'}}
         form: {
           {{#each formParameters}}
@@ -123,14 +123,14 @@
               {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
               Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
             },
-            {{#is contentType 'application/json'}}
+            {{#isJsonMediaType contentType}}
             body: {
               {{#each bodyParameters}}
               {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
               {{/each}}
             }
           },
-            {{/is}}
+            {{/isJsonMediaType}}
             {{#is contentType 'application/x-www-form-urlencoded'}}
             form: {
               {{#each formParameters}}
