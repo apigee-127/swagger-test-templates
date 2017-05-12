@@ -101,7 +101,7 @@ describe('/products/{id}', function() {
         json: true,
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/vnd:something+json'
+          'Content-Type': 'application/vnd:something+Json'
         },
         body: {}
       },

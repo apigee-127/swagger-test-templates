@@ -57,7 +57,7 @@
             },
             "put": {
                 "consumes": [
-                    "application/vnd:something+json"
+                    "application/vnd:something+Json"
                 ],
                 "parameters": [
                     {
