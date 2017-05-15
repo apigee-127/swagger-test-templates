@@ -78,23 +78,23 @@
         {{/is}}
 
         {{#validateResponse returnType noSchema}}
-        {{#is ../assertion 'expect'}}
+        {{#is assertion 'expect'}}
         expect(validator.validate(body, schema)).to.be.true;
         {{/is}}
-        {{#is ../assertion 'should'}}
+        {{#is assertion 'should'}}
         validator.validate(body, schema).should.be.true;
         {{/is}}
-        {{#is ../assertion 'assert'}}
+        {{#is assertion 'assert'}}
         assert.true(validator.validate(body, schema));
         {{/is}}
         {{else}}
-        {{#is ../assertion 'expect'}}
+        {{#is assertion 'expect'}}
         expect(body).to.equal(null); // non-json response or no schema
         {{/is}}
-        {{#is ../assertion 'should'}}
+        {{#is assertion 'should'}}
         body.should.equal(null); // non-json response or no schema
         {{/is}}
-        {{#is ../assertion 'assert'}}
+        {{#is assertion 'assert'}}
         assert.isNull(body); // non-json response or no schema
         {{/is}}
         {{/validateResponse}}
