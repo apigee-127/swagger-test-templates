@@ -30,6 +30,7 @@ var swaggerPost = require('./swagger-post.json');
 var swaggerGet = require('./swagger-get.json');
 var swaggerGet2 = require('./swagger-get2.json');
 var swaggerGetWithHeaders = require('./swagger-get-with-headers.json');
+var swaggerNonStandardContentType = require('./swagger-with-non-standard-content-type.json');
 var yaml = require('js-yaml');
 var join = require('path').join;
 var rules;
@@ -69,6 +70,71 @@ describe('request data population', function() {
 
           assert.isArray(output1);
           assert.lengthOf(output1, 1);
+
+          var generatedCode;
+
+          for (ndx in paths1) {
+            if (paths1 !== undefined) {
+              generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+              assert.equal(output1[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+            }
+          }
+        });
+      });
+    });
+
+    describe('with non-standard content type', function() {
+      describe('expect', function() {
+        var output1 = testGen(swaggerNonStandardContentType, {
+          assertionFormat: 'expect',
+          pathName: [],
+          testModule: 'request',
+          maxLen: -1,
+          requestData: {
+            '/products': {
+              post: {
+                200: [
+                  {
+                    body: {},
+                    description: 'some description'
+                  }
+                ]
+              }
+            },
+            '/products/{id}': {
+              get: {
+                200: [
+                  {
+                    id: 2,
+                    description: 'some description'
+                  }
+                ]
+              },
+              put: {
+                200: [
+                  {
+                    id: 2,
+                    body: {},
+                    description: 'some description'
+                  }
+                ]
+              }
+            }
+          }
+        });
+
+        var paths1 = [];
+        var ndx;
+
+        for (ndx in output1) {
+          if (output1) {
+            paths1.push(join(__dirname, '/compare/request/expect/non-standard-c-type-' + output1[ndx].name));
+          }
+        }
+
+        it('should populate request data', function() {
+          assert.isArray(output1);
+          assert.lengthOf(output1, 2);
 
           var generatedCode;
 

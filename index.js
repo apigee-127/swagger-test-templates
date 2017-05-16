@@ -205,21 +205,19 @@ function getData(swagger, apiPath, operation, response, config, info) {
     config.requestData[requestPath][operation] &&
     config.requestData[requestPath][operation][response]) {
     data.requestData = config.requestData[requestPath][operation][response];
-    // if we have a GET request AND requestData, fill the path params accordingly
-    if (operation === 'get') {
-      var mockParameters = {};
+    // if we have requestData, fill the path params accordingly
+    var mockParameters = {};
 
-      data.pathParameters.forEach(function(parameter) {
-        // find the mock data for this parameter name
-        mockParameters[parameter.name] = data.requestData.filter(function(mock) {
-          return mock.hasOwnProperty(parameter.name);
-        })[0][parameter.name];
-      });
-      // only write parameters if they are not already defined in config
-      // @todo we should rework this with code above to be more readable
-      if (!config.pathParams) {
-        data.pathParams = mockParameters;
-      }
+    data.pathParameters.forEach(function(parameter) {
+      // find the mock data for this parameter name
+      mockParameters[parameter.name] = data.requestData.filter(function(mock) {
+        return mock.hasOwnProperty(parameter.name);
+      })[0][parameter.name];
+    });
+    // only write parameters if they are not already defined in config
+    // @todo we should rework this with code above to be more readable
+    if (!config.pathParams) {
+      data.pathParams = mockParameters;
     }
   }
   return data;
@@ -246,7 +244,7 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
 
   // get the data
   data = getData(swagger, apiPath, operation, response, config, info);
-  if (produce === TYPE_JSON && !data.noSchema) {
+  if (helpers.mediaTypeContainsJson(produce) && !data.noSchema) {
     info.importValidator = true;
   }
 
@@ -560,6 +558,7 @@ handlebars.registerHelper('pathify', helpers.pathify);
 handlebars.registerHelper('printJSON', helpers.printJSON);
 handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamFormatter);
 handlebars.registerHelper('isJsonRepresentation', helpers.isJsonRepresentation);
+handlebars.registerHelper('isJsonMediaType', helpers.isJsonMediaType);
 
 
 module.exports = {
