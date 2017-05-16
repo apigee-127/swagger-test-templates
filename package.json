@@ -1,6 +1,6 @@
 {
   "name": "swagger-test-templates",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Generate test code from a Swagger spec",
   "main": "index.js",
   "scripts": {
