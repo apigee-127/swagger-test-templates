@@ -8,6 +8,7 @@
     "schemes": [
         "https"
     ],
+    "basePath":"/v1",
     "paths": {
         "/user": {
             "post": {

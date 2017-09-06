@@ -7,7 +7,7 @@ describe('/user', function() {
   describe('post', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: 'https://api.uber.com/v1/user',
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -30,7 +30,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: 'https://api.uber.com/v1/user',
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -55,7 +55,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: 'https://api.uber.com/v1/user',
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'

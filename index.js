@@ -201,10 +201,10 @@ function getData(swagger, apiPath, operation, response, config, info) {
 
   // get requestData from config if defined for this path:operation:response
   if (config.requestData &&
-    config.requestData[requestPath] &&
-    config.requestData[requestPath][operation] &&
-    config.requestData[requestPath][operation][response]) {
-    data.requestData = config.requestData[requestPath][operation][response];
+    config.requestData[apiPath] &&
+    config.requestData[apiPath][operation] &&
+    config.requestData[apiPath][operation][response]) {
+    data.requestData = config.requestData[apiPath][operation][response];
     // if we have requestData, fill the path params accordingly
     var mockParameters = {};
 
