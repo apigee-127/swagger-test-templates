@@ -1,6 +1,8 @@
 # Swagger Test Templates
 
-[![Build Status](https://travis-ci.org/apigee-127/swagger-test-templates.svg?branch=master)](https://travis-ci.org/apigee-127/swagger-test-templates)
+| Linux | Windows |
+| ----- | ------- |
+| [![Build Status](https://travis-ci.org/apigee-127/swagger-test-templates.svg?branch=master)](https://travis-ci.org/apigee-127/swagger-test-templates) | [![Build Status](https://ci.appveyor.com/api/projects/status/github/apigee-127/swagger-test-templates?svg=true&branch=master)](https://ci.appveyor.com/project/noahdietz/swagger-test-templates) |
 
 > Generate test code from a [Swagger](http://swagger.io) spec(version 2.0)
 
@@ -8,7 +10,7 @@
 
 Install via npm
 
-```
+```bash
 npm install --save swagger-test-templates
 ```
 
