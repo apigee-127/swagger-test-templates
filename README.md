@@ -50,7 +50,7 @@ var tests = stt.testGen(swagger, config);
 * **`maxLen`** *optional*: Maximum line length. If set to `-1`, descriptions will not be truncated. Defaults to `80`.
 * **`pathParams`** *optional*: Object containing the values of a specific path parameters.
 * **`templatesPath`** *optional* String indicating a custom handlebars-template path for generating the tests. Note: copy all the templates to your custom directory, this is a 'all-or-nothing' path
-* **`requestData`** *optional* Array containing data to send with the request See section on requestData for more details
+* **`requestData`** *optional* Object containing data to send with the request See section on requestData for more details
 
 ### Return value
 
