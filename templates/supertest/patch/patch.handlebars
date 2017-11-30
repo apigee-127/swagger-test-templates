@@ -151,7 +151,7 @@
           {{#is assertion 'expect'}}
           expect(report.successfulResponses.length).
           to.equal(report.results.length);
-          expect(report.averageResponseTimeInternal).
+          expect(report.averageResponseTimeInterval).
           to.be.lessThan('TIME DATA HERE');
           expect(report.timeElapsed).
           to.be.lessThan('TIME DATA HERE');
@@ -159,7 +159,7 @@
           {{#is assertion 'should'}}
           report.successfulResponses.length.
           should.equal(report.results.length);
-          (report.averageResponseTimeInternal).
+          (report.averageResponseTimeInterval).
           should.be.lessThan('TIME DATA HERE');
           (report.timeElapsed).
           should.be.lessThan('TIME DATA HERE');
@@ -167,7 +167,7 @@
           {{#is assertion 'assert'}}
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
