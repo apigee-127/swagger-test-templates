@@ -53,7 +53,7 @@ describe('/user', function() {
 
           expect(report.successfulResponses.length).
           to.equal(report.results.length);
-          expect(report.averageResponseTimeInternal).
+          expect(report.averageResponseTimeInterval).
           to.be.lessThan('TIME DATA HERE');
           expect(report.timeElapsed).
           to.be.lessThan('TIME DATA HERE');
@@ -107,7 +107,7 @@ describe('/user', function() {
 
           expect(report.successfulResponses.length).
           to.equal(report.results.length);
-          expect(report.averageResponseTimeInternal).
+          expect(report.averageResponseTimeInterval).
           to.be.lessThan('TIME DATA HERE');
           expect(report.timeElapsed).
           to.be.lessThan('TIME DATA HERE');
@@ -161,7 +161,7 @@ describe('/user', function() {
 
           expect(report.successfulResponses.length).
           to.equal(report.results.length);
-          expect(report.averageResponseTimeInternal).
+          expect(report.averageResponseTimeInterval).
           to.be.lessThan('TIME DATA HERE');
           expect(report.timeElapsed).
           to.be.lessThan('TIME DATA HERE');

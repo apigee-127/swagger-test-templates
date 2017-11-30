@@ -129,7 +129,7 @@ describe('/user', function() {
 
           report.successfulResponses.length.
           should.equal(report.results.length);
-          (report.averageResponseTimeInternal).
+          (report.averageResponseTimeInterval).
           should.be.lessThan('TIME DATA HERE');
           (report.timeElapsed).
           should.be.lessThan('TIME DATA HERE');
@@ -195,7 +195,7 @@ describe('/user', function() {
 
           report.successfulResponses.length.
           should.equal(report.results.length);
-          (report.averageResponseTimeInternal).
+          (report.averageResponseTimeInterval).
           should.be.lessThan('TIME DATA HERE');
           (report.timeElapsed).
           should.be.lessThan('TIME DATA HERE');
@@ -261,7 +261,7 @@ describe('/user', function() {
 
           report.successfulResponses.length.
           should.equal(report.results.length);
-          (report.averageResponseTimeInternal).
+          (report.averageResponseTimeInterval).
           should.be.lessThan('TIME DATA HERE');
           (report.timeElapsed).
           should.be.lessThan('TIME DATA HERE');

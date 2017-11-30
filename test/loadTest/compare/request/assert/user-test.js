@@ -53,7 +53,7 @@ describe('/user', function() {
 
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
@@ -107,7 +107,7 @@ describe('/user', function() {
 
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
@@ -161,7 +161,7 @@ describe('/user', function() {
 
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
@@ -311,7 +311,7 @@ describe('/user', function() {
 
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
@@ -377,7 +377,7 @@ describe('/user', function() {
 
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
@@ -443,7 +443,7 @@ describe('/user', function() {
 
           assert.equal(report.successfulResponses.length,
           report.results.length);
-          assert.isBelow(report.averageResponseTimeInternal,
+          assert.isBelow(report.averageResponseTimeInterval,
           'TIME DATA HERE');
           assert.isBelow(report.timeElapsed,
           'TIME DATA HERE');
