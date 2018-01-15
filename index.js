@@ -182,7 +182,7 @@ function getData(swagger, apiPath, operation, response, config, info) {
     });
   }
 
-  if (grandProperty.responses[response].hasOwnProperty('schema')) {
+  if (grandProperty.responses[response] && grandProperty.responses[response].hasOwnProperty('schema')) {
     data.noSchema = false;
     data.schema = grandProperty.responses[response].schema;
     data.schema = JSON.stringify(data.schema, null, 2);
@@ -220,6 +220,32 @@ function getData(swagger, apiPath, operation, response, config, info) {
       data.pathParams = mockParameters;
     }
   }
+  return data;
+}
+
+/**
+* Populate path params from request data array
+* @private
+* @param  {json} data Generated Data
+* @param  {json} config configuration for testGen
+* @param  {int} idx Index of request for response
+* @returns {json} return all the properties information
+*/
+function setPathParamsFromArray(data, config, idx) {
+  // only write parameters if they are not already defined in config
+  if (data.requestData === undefined || config.pathParams) {
+    return data;
+  }
+  // if we have requestData, fill the path params accordingly
+  var mockParameters = {};
+
+  data.pathParameters.forEach(function(parameter) {
+    // find the mock data for this parameter name
+    mockParameters[parameter.name] = data.requestData.filter(function(mock) {
+      return mock.hasOwnProperty(parameter.name);
+    })[idx][parameter.name];
+  });
+  data.pathParams = mockParameters;
   return data;
 }
 
@@ -265,6 +291,7 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
   if (data.requestData && data.requestData.length > 0) {
     result = '';
     for (var i = 0; i < data.requestData.length; i++) {
+      data = setPathParamsFromArray(data, config, i);
       data.request = JSON.stringify(data.requestData[i].body);
 
       for (var key in data.requestData[i]) {
@@ -333,7 +360,9 @@ function testGenOperation(swagger, apiPath, operation, config, info) {
   if (config.statusCodes) {
     responses = {};
     config.statusCodes.forEach(function(code) {
-      responses[code] = swagger.paths[apiPath][operation].responses[code];
+      if (swagger.paths[apiPath][operation].responses[code]) {
+        responses[code] = swagger.paths[apiPath][operation].responses[code];
+      }
     });
   }
 

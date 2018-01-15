@@ -91,6 +91,42 @@ describe('/products/{id}', function() {
         done();
       });
     });
+  it('should respond with 200 Return product and some other description', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      };
+
+      /*eslint-enable*/
+      request({
+        url: 'https://api.uber.com/products/3',
+        json: true,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(200);
+
+        expect(validator.validate(body, schema)).to.be.true;
+        done();
+      });
+    });
 
   });
 
@@ -98,6 +134,25 @@ describe('/products/{id}', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
         url: 'https://api.uber.com/products/2',
+        json: true,
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/vnd:something+Json'
+        },
+        body: {}
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(200);
+
+        expect(body).to.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  it('should respond with 200 OK and some other description', function(done) {
+      request({
+        url: 'https://api.uber.com/products/3',
         json: true,
         method: 'PUT',
         headers: {

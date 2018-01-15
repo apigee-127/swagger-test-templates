@@ -36,7 +36,7 @@ var join = require('path').join;
 var rules;
 var read = require('fs').readFileSync;
 
-rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
+rules = yaml.safeLoad(read(join(__dirname, './.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('request data population', function() {
@@ -51,7 +51,10 @@ describe('request data population', function() {
           requestData: {
             '/user': {
               post: {
-                200: [{body: {"my-id": 2}, description: 'some description'}]
+                200: [
+                  {body: {"my-id": 2}, description: 'some description'},
+                  {body: {"my-id": 3}, description: 'some other description'}
+                ]
               }
             }
           }
@@ -97,6 +100,10 @@ describe('request data population', function() {
                   {
                     body: {},
                     description: 'some description'
+                  },
+                  {
+                    body: {id: 1, name: 'product'},
+                    description: 'some description'
                   }
                 ]
               }
@@ -107,6 +114,10 @@ describe('request data population', function() {
                   {
                     id: 2,
                     description: 'some description'
+                  },
+                  {
+                    id: 3,
+                    description: 'some other description'
                   }
                 ]
               },
@@ -116,6 +127,11 @@ describe('request data population', function() {
                     id: 2,
                     body: {},
                     description: 'some description'
+                  },
+                  {
+                    id: 3,
+                    body: {},
+                    description: 'some other description'
                   }
                 ]
               }
@@ -158,7 +174,10 @@ describe('request data population', function() {
           requestData: {
             '/user': {
               post: {
-                200: [{body: {"my-id": 2}, longitude: 10, description: 'some description'}]
+                200: [
+                  {body: {"my-id": 2}, longitude: 10, description: 'some description'},
+                  {body: {"my-id": 3}, longitude: 20, description: 'some other description'}
+              ]
               }
             }
           }
@@ -200,7 +219,10 @@ describe('request data population', function() {
         requestData: {
           '/user': {
             get: {
-              200: [{longitude: 10, description: 'some description'}]
+              200: [
+                {longitude: 10, description: 'some description'},
+                {longitude: 20, description: 'some other description'}
+              ]
             }
           }
         }
@@ -240,7 +262,10 @@ describe('request data population', function() {
           requestData: {
             '/user': {
               get: {
-                200: [{name: 'Simon', description: 'some description'}]
+                200: [
+                  {name: 'Simon', description: 'some description'},
+                  {name: 'Garfunkel', description: 'some other description'}
+                ]
               }
             }
           }
@@ -282,7 +307,10 @@ describe('request data population', function() {
         requestData: {
           '/user': {
             get: {
-              200: [{'X-Token': 'sadfg', description: 'some description'}]
+              200: [
+                {'X-Token': 'sadfg', description: 'some description'},
+                {'X-Token': 'qwerty', description: 'some other description'}
+            ]
             }
           }
         }
