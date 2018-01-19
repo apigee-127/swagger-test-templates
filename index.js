@@ -308,6 +308,7 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
   if (data.requestData && data.requestData.length > 0) {
     result = '';
     for (var i = 0; i < data.requestData.length; i++) {
+      data.requestParameters = {};
       data = setPathParamsFromArray(data, config, i);
       data.request = JSON.stringify(data.requestData[i].body);
 

@@ -309,7 +309,8 @@ describe('request data population', function() {
               get: {
                 200: [
                   {name: 'Miles', description: 'some description'},
-                  {name: 'John', nickname: 'Trane', description: 'some other description'}
+                  {name: 'John', nickname: 'Trane', description: 'some other description'},
+                  {name: 'Dave', description: 'yet another description'}
                 ]
               }
             }
