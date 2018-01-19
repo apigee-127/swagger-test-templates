@@ -250,6 +250,23 @@ function setPathParamsFromArray(data, config, idx) {
 }
 
 /**
+* Filter out optional query parameters with no value provided in request data
+* @private
+* @param  {json} data Generated Data
+* @returns {json} return all the properties information
+*/
+function filterOutOptionalQueryParams(data) {
+  data.queryParameters = data.queryParameters.filter(function(queryParam) {
+    // Let's be conservative and treat params without explicit required field as not-optional
+    var optional = queryParam.required !== undefined && !queryParam.required;
+    var dataProvided = data.requestParameters.hasOwnProperty(queryParam.name);
+
+    return !optional || dataProvided;
+  });
+  return data;
+}
+
+/**
  * Builds a unit test stubs for the response code of a apiPath's operation
  * @private
  * @param  {json} swagger swagger file containing API
@@ -299,9 +316,12 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
           data.requestParameters[key] = data.requestData[i][key];
         }
       }
-
       data.requestMessage = data.requestData[i].description.replace(/'/g, "\\'");  // eslint-disable-line quotes
-      result += templateFn(data);
+
+      var filteredData = _.cloneDeep(data);
+
+      filteredData = filterOutOptionalQueryParams(filteredData);
+      result += templateFn(filteredData);
     }
   } else {
     result = templateFn(data);

@@ -1,0 +1,44 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Simple API"
+    },
+    "host": "api.uber.com",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/user": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nickname",
+                        "in": "query",
+                        "description": "nickname.",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "NOT OK"
+                    },
+                    "500": {
+                        "description": "SERVER ERROR"
+                    }
+                }
+            }
+        }
+    }
+}
