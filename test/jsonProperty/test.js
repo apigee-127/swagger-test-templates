@@ -48,7 +48,7 @@ describe('json property', function() {
     });
   });
 
-  describe('when set to non-json media type', function() {
+  describe('when set to non-json media type and no schema is defined', function() {
     describe('expect', function() {
       var output1 = testGen(swaggerNonJson, {
         assertionFormat: 'expect',

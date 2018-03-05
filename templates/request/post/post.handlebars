@@ -52,7 +52,7 @@
         body: 'XML STRING GOES HERE'
       },
         {{/is}}
-      function(error, res, body) {
+      function(error, res{{#isNecessaryBody returnType noSchema}}, body{{/isNecessaryBody}}) {
         if (error) return done(error);
 
         {{#is assertion 'expect'}}
@@ -78,6 +78,7 @@
         {{/is}}
 
         {{#validateResponse returnType noSchema}}
+        {{#isJsonMediaType returnType}}
         {{#is assertion 'expect'}}
         expect(validator.validate(body, schema)).to.be.true;
         {{/is}}
@@ -87,6 +88,23 @@
         {{#is assertion 'assert'}}
         assert.true(validator.validate(body, schema));
         {{/is}}
+        done();
+        {{/isJsonMediaType}}
+        {{#isXmlMediaType returnType}}
+        parseString(res.text, function(parseErr, result) {
+          if (parseErr) return done(parseErr);
+        {{#is assertion 'expect'}}
+          expect(validator.validate(result, schema)).to.be.true;
+        {{/is}}
+        {{#is assertion 'should'}}
+          validator.validate(result, schema).should.be.true;
+        {{/is}}
+        {{#is assertion 'assert'}}
+          assert.true(validator.validate(result, schema));
+        {{/is}}
+          done();
+        });
+        {{/isXmlMediaType}}
         {{else}}
         {{#is assertion 'expect'}}
         expect(body).to.equal(null); // non-json response or no schema
@@ -97,8 +115,8 @@
         {{#is assertion 'assert'}}
         assert.isNull(body); // non-json response or no schema
         {{/is}}
-        {{/validateResponse}}
         done();
+        {{/validateResponse}}
       });
     });
 {{#if isLoadTest}}

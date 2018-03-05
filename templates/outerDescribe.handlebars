@@ -1,4 +1,5 @@
-'use strict';
+'use strict';{{#if importXml2js}}
+var parseString = require('xml2js').parseString;{{/if}}
 var chai = require('chai');{{#if importValidator}}
 var ZSchema = require('z-schema');
 var customFormats = {{customFormats}}

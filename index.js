@@ -244,8 +244,12 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
 
   // get the data
   data = getData(swagger, apiPath, operation, response, config, info);
-  if (helpers.mediaTypeContainsJson(produce) && !data.noSchema) {
+  if ((helpers.mediaTypeContainsJson(produce) || helpers.mediaTypeContainsXml(produce)) && !data.noSchema) {
     info.importValidator = true;
+  }
+
+  if (helpers.mediaTypeContainsXml(produce) && !data.noSchema) {
+    info.importXml2js = true;
   }
 
   if (info.security && info.security.length !== 0) {
@@ -438,6 +442,7 @@ function testGenPath(swagger, apiPath, config) {
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
     importValidator: info.importValidator,
+    importXml2js: info.importXml2js,
     importEnv: info.importEnv,
     importArete: info.importArete
   };
@@ -559,6 +564,8 @@ handlebars.registerHelper('printJSON', helpers.printJSON);
 handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamFormatter);
 handlebars.registerHelper('isJsonRepresentation', helpers.isJsonRepresentation);
 handlebars.registerHelper('isJsonMediaType', helpers.isJsonMediaType);
+handlebars.registerHelper('isXmlMediaType', helpers.isXmlMediaType);
+handlebars.registerHelper('isNecessaryBody', helpers.isNecessaryBody);
 
 
 module.exports = {
