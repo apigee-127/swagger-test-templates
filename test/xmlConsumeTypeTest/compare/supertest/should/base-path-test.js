@@ -84,7 +84,9 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           validator.validate(result, schema).should.be.true;
           done();
@@ -112,7 +114,9 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           validator.validate(result, schema).should.be.true;
           done();
@@ -152,7 +156,9 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           validator.validate(result, schema).should.be.true;
           done();
@@ -196,7 +202,9 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           validator.validate(result, schema).should.be.true;
           done();
@@ -226,7 +234,9 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           validator.validate(result, schema).should.be.true;
           done();
@@ -256,7 +266,9 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           validator.validate(result, schema).should.be.true;
           done();

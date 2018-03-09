@@ -45,6 +45,16 @@ function isEmpty(val) {
 }
 
 /**
+ * To get xml2js's config as a string
+ * @private
+ * @param  {object} xml2jsConfig a xml2js's config
+ * @returns {string} return xml2js's config as a string
+ */
+function getStringXml2jsConfig(xml2jsConfig) {
+  return JSON.stringify(xml2jsConfig || {}).replace(/"(.+)":/, '$1: ').replace('"', '\'');
+}
+
+/**
  * Populate property of the swagger project
  * @private
  * @param  {json} swagger swagger file containing API
@@ -88,6 +98,8 @@ function getData(swagger, apiPath, operation, response, config, info) {
   if (config.pathParams) {
     data.pathParams = config.pathParams;
   }
+
+  data.xml2jsConfig = getStringXml2jsConfig(config.xml2js);
 
   // used for checking requestData table
   var requestPath = (swagger.basePath) ? path.posix.join(swagger.basePath, apiPath) : apiPath;

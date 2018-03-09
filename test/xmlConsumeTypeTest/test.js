@@ -40,7 +40,10 @@ describe('test xml mime type', function() {
   describe('request-option', function() {
 
     describe('assert', function() {
-      var output2 = testGen(swagger, {
+      var output = testGen(swagger, {
+        xml2js: {
+          explicitArray: false
+        },
         assertionFormat: 'assert',
         pathName: [],
         testModule: 'request',
@@ -50,40 +53,44 @@ describe('test xml mime type', function() {
             load: {requests: 1000, concurrent: 100}}]
       });
 
-      var paths2 = [];
+      var paths = [];
       var ndx;
 
-      for (ndx in output2) {
-        if (output2) {
-          paths2.push(join(__dirname, '/compare/request/assert/'
-            + output2[ndx].name));
+      for (ndx in output) {
+        if (output) {
+          paths.push(join(__dirname, '/compare/request/assert/'
+            + output[ndx].name));
         }
       }
 
       it('should be able to generate test for request that produces xml', function() {
-        assert.isArray(output2);
-        assert.lengthOf(output2, 2);
+
+        assert.isArray(output);
+        assert.lengthOf(output, 2);
 
         var generatedCode;
 
-        for (ndx in paths2) {
-          if (paths2 !== undefined) {
-            generatedCode = read(paths2[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'),
+        for (ndx in paths) {
+          if (paths !== undefined) {
+            generatedCode = read(paths[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output[ndx].test.replace(/\r\n/g, '\n'),
               generatedCode);
           }
         }
 
-        for (ndx in output2 && output2[ndx].name !== '.env') {
-          if (output2 !== undefined) {
-            assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+        for (ndx in output && output[ndx].name !== '.env') {
+          if (output !== undefined) {
+            assert.lengthOf(linter.verify(output[ndx].test, rules), 0);
           }
         }
       });
     });
 
     describe('expect', function() {
-      var output1 = testGen(swagger, {
+      var output = testGen(swagger, {
+        xml2js: {
+          explicitArray: false
+        },
         assertionFormat: 'expect',
         pathName: [],
         testModule: 'request',
@@ -91,33 +98,33 @@ describe('test xml mime type', function() {
           load: {requests: 1000, concurrent: 100}}]
       });
 
-      var paths1 = [];
+      var paths = [];
       var ndx;
 
-      for (ndx in output1) {
-        if (output1) {
-          paths1.push(join(__dirname, '/compare/request/expect/' +
-            output1[ndx].name));
+      for (ndx in output) {
+        if (output) {
+          paths.push(join(__dirname, '/compare/request/expect/' +
+            output[ndx].name));
         }
       }
 
       it('should be able to generate test for request that produces xml', function() {
-        assert.isArray(output1);
-        assert.lengthOf(output1, 2);
+        assert.isArray(output);
+        assert.lengthOf(output, 2);
 
         var generatedCode;
 
-        for (ndx in paths1) {
-          if (paths1 !== undefined) {
-            generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output1[ndx].test.replace(/\r\n/g, '\n'),
+        for (ndx in paths) {
+          if (paths !== undefined) {
+            generatedCode = read(paths[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output[ndx].test.replace(/\r\n/g, '\n'),
               generatedCode);
           }
         }
 
-        for (ndx in output1) {
-          if (output1 !== undefined && output1[ndx].name !== '.env') {
-            assert.lengthOf(linter.verify(output1[ndx].test, rules), 0);
+        for (ndx in output) {
+          if (output !== undefined && output[ndx].name !== '.env') {
+            assert.lengthOf(linter.verify(output[ndx].test, rules), 0);
           }
         }
 
@@ -125,7 +132,10 @@ describe('test xml mime type', function() {
     });
 
     describe('should', function() {
-      var output2 = testGen(swagger, {
+      var output = testGen(swagger, {
+        xml2js: {
+          explicitArray: false
+        },
         assertionFormat: 'should',
         pathName: [],
         testModule: 'request',
@@ -133,33 +143,33 @@ describe('test xml mime type', function() {
           load: {requests: 1000, concurrent: 100}}]
       });
 
-      var paths2 = [];
+      var paths = [];
       var ndx;
 
-      for (ndx in output2) {
-        if (output2) {
-          paths2.push(join(__dirname, '/compare/request/should/'
-            + output2[ndx].name));
+      for (ndx in output) {
+        if (output) {
+          paths.push(join(__dirname, '/compare/request/should/'
+            + output[ndx].name));
         }
       }
 
       it('should be able to generate test for request that produces xml', function() {
-        assert.isArray(output2);
-        assert.lengthOf(output2, 2);
+        assert.isArray(output);
+        assert.lengthOf(output, 2);
 
         var generatedCode;
 
-        for (ndx in paths2) {
-          if (paths2 !== undefined) {
-            generatedCode = read(paths2[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'),
+        for (ndx in paths) {
+          if (paths !== undefined) {
+            generatedCode = read(paths[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output[ndx].test.replace(/\r\n/g, '\n'),
               generatedCode);
           }
         }
 
-        for (ndx in output2 && output2[ndx].name !== '.env') {
-          if (output2 !== undefined) {
-            assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+        for (ndx in output && output[ndx].name !== '.env') {
+          if (output !== undefined) {
+            assert.lengthOf(linter.verify(output[ndx].test, rules), 0);
           }
         }
       });
@@ -169,7 +179,10 @@ describe('test xml mime type', function() {
   describe('supertest-option', function() {
 
     describe('assert', function() {
-      var output2 = testGen(swagger, {
+      var output = testGen(swagger, {
+        xml2js: {
+          explicitArray: false
+        },
         assertionFormat: 'assert',
         pathName: [],
         testModule: 'supertest',
@@ -179,40 +192,43 @@ describe('test xml mime type', function() {
             load: {requests: 1000, concurrent: 100}}]
       });
 
-      var paths2 = [];
+      var paths = [];
       var ndx;
 
-      for (ndx in output2) {
-        if (output2) {
-          paths2.push(join(__dirname, '/compare/supertest/assert/'
-            + output2[ndx].name));
+      for (ndx in output) {
+        if (output) {
+          paths.push(join(__dirname, '/compare/supertest/assert/'
+            + output[ndx].name));
         }
       }
 
       it('should be able to generate test for request that produces xml', function() {
-        assert.isArray(output2);
-        assert.lengthOf(output2, 2);
+        assert.isArray(output);
+        assert.lengthOf(output, 2);
 
         var generatedCode;
 
-        for (ndx in paths2) {
-          if (paths2 !== undefined) {
-            generatedCode = read(paths2[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'),
+        for (ndx in paths) {
+          if (paths !== undefined) {
+            generatedCode = read(paths[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output[ndx].test.replace(/\r\n/g, '\n'),
               generatedCode);
           }
         }
 
-        for (ndx in output2 && output2[ndx].name !== '.env') {
-          if (output2 !== undefined) {
-            assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+        for (ndx in output && output[ndx].name !== '.env') {
+          if (output !== undefined) {
+            assert.lengthOf(linter.verify(output[ndx].test, rules), 0);
           }
         }
       });
     });
 
     describe('expect', function() {
-      var output2 = testGen(swagger, {
+      var output = testGen(swagger, {
+        xml2js: {
+          explicitArray: false
+        },
         assertionFormat: 'expect',
         pathName: [],
         testModule: 'supertest',
@@ -220,40 +236,43 @@ describe('test xml mime type', function() {
           load: {requests: 1000, concurrent: 100}}]
       });
 
-      var paths2 = [];
+      var paths = [];
       var ndx;
 
-      for (ndx in output2) {
-        if (output2) {
-          paths2.push(join(__dirname, '/compare/supertest/expect/'
-            + output2[ndx].name));
+      for (ndx in output) {
+        if (output) {
+          paths.push(join(__dirname, '/compare/supertest/expect/'
+            + output[ndx].name));
         }
       }
 
       it('should be able to generate test for request that produces xml', function() {
-        assert.isArray(output2);
-        assert.lengthOf(output2, 2);
+        assert.isArray(output);
+        assert.lengthOf(output, 2);
 
         var generatedCode;
 
-        for (ndx in paths2) {
-          if (paths2 !== undefined) {
-            generatedCode = read(paths2[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'),
+        for (ndx in paths) {
+          if (paths !== undefined) {
+            generatedCode = read(paths[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output[ndx].test.replace(/\r\n/g, '\n'),
               generatedCode);
           }
         }
 
-        for (ndx in output2 && output2[ndx].name !== '.env') {
-          if (output2 !== undefined) {
-            assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+        for (ndx in output && output[ndx].name !== '.env') {
+          if (output !== undefined) {
+            assert.lengthOf(linter.verify(output[ndx].test, rules), 0);
           }
         }
       });
     });
 
     describe('should', function() {
-      var output2 = testGen(swagger, {
+      var output = testGen(swagger, {
+        xml2js: {
+          explicitArray: false
+        },
         assertionFormat: 'should',
         pathName: [],
         testModule: 'supertest',
@@ -261,33 +280,33 @@ describe('test xml mime type', function() {
           load: {requests: 1000, concurrent: 100}}]
       });
 
-      var paths2 = [];
+      var paths = [];
       var ndx;
 
-      for (ndx in output2) {
-        if (output2) {
-          paths2.push(join(__dirname, '/compare/supertest/should/'
-            + output2[ndx].name));
+      for (ndx in output) {
+        if (output) {
+          paths.push(join(__dirname, '/compare/supertest/should/'
+            + output[ndx].name));
         }
       }
 
       it('should be able to generate test for request that produces xml', function() {
-        assert.isArray(output2);
-        assert.lengthOf(output2, 2);
+        assert.isArray(output);
+        assert.lengthOf(output, 2);
 
         var generatedCode;
 
-        for (ndx in paths2) {
-          if (paths2 !== undefined) {
-            generatedCode = read(paths2[ndx], 'utf8').replace(/\r\n/g, '\n');
-            assert.equal(output2[ndx].test.replace(/\r\n/g, '\n'),
+        for (ndx in paths) {
+          if (paths !== undefined) {
+            generatedCode = read(paths[ndx], 'utf8').replace(/\r\n/g, '\n');
+            assert.equal(output[ndx].test.replace(/\r\n/g, '\n'),
               generatedCode);
           }
         }
 
-        for (ndx in output2 && output2[ndx].name !== '.env') {
-          if (output2 !== undefined) {
-            assert.lengthOf(linter.verify(output2[ndx].test, rules), 0);
+        for (ndx in output && output[ndx].name !== '.env') {
+          if (output !== undefined) {
+            assert.lengthOf(linter.verify(output[ndx].test, rules), 0);
           }
         }
       });

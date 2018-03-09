@@ -89,7 +89,9 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 200);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           assert.true(validator.validate(result, schema));
           done();
@@ -124,7 +126,9 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 400);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           assert.true(validator.validate(result, schema));
           done();
@@ -171,7 +175,9 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 500);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           assert.true(validator.validate(result, schema));
           done();
@@ -220,7 +226,9 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 200);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           assert.true(validator.validate(result, schema));
           done();
@@ -255,7 +263,9 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 400);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           assert.true(validator.validate(result, schema));
           done();
@@ -290,7 +300,9 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 500);
 
-        parseString(res.text, function(parseErr, result) {
+        var xml2jsConfig = {explicitArray: false};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
           if (parseErr) return done(parseErr);
           assert.true(validator.validate(result, schema));
           done();
