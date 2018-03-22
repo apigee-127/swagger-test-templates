@@ -61,6 +61,17 @@
         assert.true(validator.validate(body, schema));
         {{/is}}
         {{else}}
+        {{#isPdfMediaType returnType}}
+        {{#is assertion 'expect'}}
+        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        {{/is}}
+        {{#is assertion 'should'}}
+        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        {{/is}}
+        {{else}}
         {{#is assertion 'expect'}}
         expect(body).to.equal(null); // non-json response or no schema
         {{/is}}
@@ -70,6 +81,7 @@
         {{#is assertion 'assert'}}
         assert.isNull(body); // non-json response or no schema
         {{/is}}
+        {{/isPdfMediaType}}
         {{/validateResponse}}
         done();
       });
