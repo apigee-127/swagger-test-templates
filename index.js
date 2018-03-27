@@ -580,7 +580,6 @@ handlebars.registerHelper('isXmlMediaType', helpers.isXmlMediaType);
 handlebars.registerHelper('isPdfMediaType', helpers.isPdfMediaType);
 handlebars.registerHelper('isNecessaryBody', helpers.isNecessaryBody);
 
-
 module.exports = {
   testGen: testGen
 };

@@ -20,7 +20,7 @@
       {{#if headerParameters}}
       .set({
         {{#each headerParameters}}
-        '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        '{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},{{/unless}}
         {{/each}}
       })
       {{/if}}
