@@ -577,6 +577,7 @@ handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamF
 handlebars.registerHelper('isJsonRepresentation', helpers.isJsonRepresentation);
 handlebars.registerHelper('isJsonMediaType', helpers.isJsonMediaType);
 handlebars.registerHelper('isXmlMediaType', helpers.isXmlMediaType);
+handlebars.registerHelper('isHtmlMediaType', helpers.isHtmlMediaType);
 handlebars.registerHelper('isPdfMediaType', helpers.isPdfMediaType);
 handlebars.registerHelper('isNecessaryBody', helpers.isNecessaryBody);
 

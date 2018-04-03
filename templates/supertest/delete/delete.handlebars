@@ -75,7 +75,7 @@
         {{#is assertion 'assert'}}
         assert.isNull(res.body); // non-json response or no schema
         {{/is}}
-        done();
+            done();
         {{/validateResponse}}
       });
     });
