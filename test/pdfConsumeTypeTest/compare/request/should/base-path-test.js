@@ -25,7 +25,7 @@ describe('/', function() {
 
         res.statusCode.should.equal(200);
 
-        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -47,7 +47,7 @@ describe('/', function() {
 
         res.statusCode.should.equal(400);
 
-        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -69,7 +69,7 @@ describe('/', function() {
 
         res.statusCode.should.equal(500);
 
-        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -98,7 +98,7 @@ describe('/', function() {
 
         res.statusCode.should.equal(200);
 
-        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -124,7 +124,7 @@ describe('/', function() {
 
         res.statusCode.should.equal(400);
 
-        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -150,7 +150,7 @@ describe('/', function() {
 
         res.statusCode.should.equal(500);
 
-        body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });

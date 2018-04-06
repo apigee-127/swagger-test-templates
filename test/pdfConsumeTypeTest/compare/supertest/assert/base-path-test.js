@@ -18,7 +18,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(res.body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -33,7 +33,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(res.body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -48,7 +48,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(res.body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -72,7 +72,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(res.body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -93,7 +93,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(res.body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -114,7 +114,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(res.body.length, Number(res.header['content-length']));
         done();
       });
     });

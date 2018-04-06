@@ -24,7 +24,7 @@ describe('/', function() {
 
         expect(res.statusCode).to.equal(200);
 
-        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        expect(body.length).to.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -46,7 +46,7 @@ describe('/', function() {
 
         expect(res.statusCode).to.equal(400);
 
-        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        expect(body.length).to.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -68,7 +68,7 @@ describe('/', function() {
 
         expect(res.statusCode).to.equal(500);
 
-        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        expect(body.length).to.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -97,7 +97,7 @@ describe('/', function() {
 
         expect(res.statusCode).to.equal(200);
 
-        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        expect(body.length).to.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -123,7 +123,7 @@ describe('/', function() {
 
         expect(res.statusCode).to.equal(400);
 
-        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        expect(body.length).to.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -149,7 +149,7 @@ describe('/', function() {
 
         expect(res.statusCode).to.equal(500);
 
-        expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        expect(body.length).to.equal(Number(res.header['content-length']));
         done();
       });
     });

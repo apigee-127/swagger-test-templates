@@ -19,7 +19,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        res.body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -34,7 +34,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        res.body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -49,7 +49,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        res.body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -73,7 +73,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        res.body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -94,7 +94,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        res.body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });
@@ -115,7 +115,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        res.body.length.should.equal(Number(res.header['content-length']));
         done();
       });
     });

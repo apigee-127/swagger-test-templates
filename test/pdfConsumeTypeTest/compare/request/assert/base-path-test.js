@@ -24,7 +24,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 200);
 
-        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -46,7 +46,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 400);
 
-        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -68,7 +68,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 500);
 
-        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -97,7 +97,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 200);
 
-        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -123,7 +123,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 400);
 
-        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(body.length, Number(res.header['content-length']));
         done();
       });
     });
@@ -149,7 +149,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 500);
 
-        assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+        assert.equal(body.length, Number(res.header['content-length']));
         done();
       });
     });

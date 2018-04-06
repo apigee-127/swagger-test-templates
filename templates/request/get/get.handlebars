@@ -83,13 +83,13 @@
       {{else}}
         {{#isPdfMediaType returnType}}
           {{#is assertion 'expect'}}
-            expect(body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+            expect(body.length).to.equal(Number(res.header['content-length']));
           {{/is}}
           {{#is assertion 'should'}}
-            body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+            body.length.should.equal(Number(res.header['content-length']));
           {{/is}}
           {{#is assertion 'assert'}}
-            assert.deepEqual(body, new Buffer(Number(res.header['content-length'])));
+            assert.equal(body.length, Number(res.header['content-length']));
           {{/is}}
         {{else}}
         {{#isHtmlMediaType returnType}}
