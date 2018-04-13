@@ -10,7 +10,9 @@
       .query({
         {{#if queryApiKey}}
         {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-        {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+        {{/if}}{{/if}}
+        {{#if queryParameters}}{{#each queryParameters}}{{#hasWriteParameter this ../requestParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}
+        {{/hasWriteParameter}}{{/each}}{{/if}}
       })
       {{/ifCond}}
       {{#if headerSecurity}}
@@ -20,7 +22,7 @@
       {{#if headerParameters}}
       .set({
         {{#each headerParameters}}
-        '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+          '{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},{{/unless}}
         {{/each}}
       })
       {{/if}}
@@ -60,30 +62,74 @@
       .end(function(err, res) {
         if (err) return done(err);
 
-        {{#validateResponse returnType noSchema}}
+    {{#validateResponse returnType noSchema}}
+      {{#isJsonMediaType returnType}}
         {{#is assertion 'expect'}}
-        expect(validator.validate(res.body, schema)).to.be.true;
+          expect(validator.validate(res.body, schema)).to.be.true;
         {{/is}}
         {{#is assertion 'should'}}
-        validator.validate(res.body, schema).should.be.true;
+          validator.validate(res.body, schema).should.be.true;
         {{/is}}
         {{#is assertion 'assert'}}
-        assert.true(validator.validate(res.body, schema));
+          assert.true(validator.validate(res.body, schema));
         {{/is}}
-        {{else}}
-        {{#is assertion 'expect'}}
-        expect(res.body).to.equal(null); // non-json response or no schema
-        {{/is}}
-        {{#is assertion 'should'}}
-        res.body.should.equal(null); // non-json response or no schema
-        {{/is}}
-        {{#is assertion 'assert'}}
-        assert.isNull(res.body); // non-json response or no schema
-        {{/is}}
-        {{/validateResponse}}
         done();
-      });
+      {{/isJsonMediaType}}
+      {{#isXmlMediaType returnType}}
+          var xml2jsConfig = {{xml2jsConfig}};
+
+          parseString(res.text, xml2jsConfig, function(parseErr, result) {
+            if (parseErr) return done(parseErr);
+        {{#is assertion 'expect'}}
+            expect(validator.validate(result, schema)).to.be.true;
+        {{/is}}
+        {{#is assertion 'should'}}
+            validator.validate(result, schema).should.be.true;
+        {{/is}}
+        {{#is assertion 'assert'}}
+            assert.true(validator.validate(result, schema));
+        {{/is}}
+            done();
+          });
+      {{/isXmlMediaType}}
+    {{else}}
+      {{#isPdfMediaType returnType}}
+        {{#is assertion 'expect'}}
+          expect(res.body.length).to.equal(Number(res.header['content-length']));
+        {{/is}}
+        {{#is assertion 'should'}}
+          res.body.length.should.equal(Number(res.header['content-length']));
+        {{/is}}
+        {{#is assertion 'assert'}}
+          assert.equal(res.body.length, Number(res.header['content-length']));
+        {{/is}}
+      {{else}}
+      {{#isHtmlMediaType returnType}}
+        {{#is assertion 'expect'}}
+          expect(res.text).to.include('<!DOCTYPE html>');
+        {{/is}}
+        {{#is assertion 'should'}}
+          res.text.should.include('<!DOCTYPE html>');
+        {{/is}}
+        {{#is assertion 'assert'}}
+          assert.include(res.text, '<!DOCTYPE html>');
+        {{/is}}
+      {{else}}
+        {{#is assertion 'expect'}}
+          expect(res.body).to.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is assertion 'should'}}
+          res.body.should.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is assertion 'assert'}}
+          assert.isNull(res.body); // non-json response or no schema
+        {{/is}}
+        {{/isHtmlMediaType}}
+      {{/isPdfMediaType}}
+          done();
+    {{/validateResponse}}
     });
+  });
 {{#if isLoadTest}}
     it('load tests with {{length description}}', function(done) {
       arete.loadTest({
@@ -115,7 +161,7 @@
           {{#is contentType 'application/json'}}
           .send({
             {{#each bodyParameters}}
-            '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+            '{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},{{/unless}}
             {{/each}}
           })
           {{/is}}

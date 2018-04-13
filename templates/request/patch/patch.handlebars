@@ -13,7 +13,9 @@
         {{#ifCond queryParameters queryApiKey}}
         qs: {
           {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+          {{/if}}{{/if}}
+        {{#if queryParameters}}{{#each queryParameters}}{{#hasWriteParameter this ../requestParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}
+        {{/hasWriteParameter}}{{/each}}{{/if}}
         },
         {{/ifCond}}        method: 'PATCH',
         headers: {
@@ -54,53 +56,75 @@
         body: 'XML STRING GOES HERE'
       },
         {{/is}}
-      function(error, res, body) {
+      function(error, res{{#isNecessaryBody returnType noSchema}}, body{{/isNecessaryBody}}) {
         if (error) return done(error);
 
-        {{#is assertion 'expect'}}
-        {{#if default}}
-        expect(res.statusCode).to.equal('DEFAULT RESPONSE CODE HERE');
-        {{else}}
-        expect(res.statusCode).to.equal({{responseCode}});
-        {{/if}}
-        {{/is}}
-        {{#is assertion 'should'}}
-        {{#if default}}
-        res.statusCode.should.equal('DEFAULT RESPONSE CODE HERE');
-        {{else}}
-        res.statusCode.should.equal({{responseCode}});
-        {{/if}}
-        {{/is}}
-        {{#is assertion 'assert'}}
-        {{#if default}}
-        assert.equal(res.statusCode, 'DEFAULT RESPONSE CODE HERE');
-        {{else}}
-        assert.equal(res.statusCode, {{responseCode}});
-        {{/if}}
-        {{/is}}
+      {{#validateResponse returnType noSchema}}
+        {{#isJsonMediaType returnType}}
+          {{#is assertion 'expect'}}
+            expect(validator.validate(body, schema)).to.be.true;
+          {{/is}}
+          {{#is assertion 'should'}}
+            validator.validate(body, schema).should.be.true;
+          {{/is}}
+          {{#is assertion 'assert'}}
+            assert.true(validator.validate(body, schema));
+          {{/is}}
+          done();
+        {{/isJsonMediaType}}
+        {{#isXmlMediaType returnType}}
+            var xml2jsConfig = {{xml2jsConfig}};
 
-        {{#validateResponse returnType noSchema}}
-        {{#is assertion 'expect'}}
-        expect(validator.validate(body, schema)).to.be.true;
-        {{/is}}
-        {{#is assertion 'should'}}
-        validator.validate(body, schema).should.be.true;
-        {{/is}}
-        {{#is assertion 'assert'}}
-        assert.true(validator.validate(body, schema));
-        {{/is}}
+            parseString(res.text, xml2jsConfig, function(parseErr, result) {
+              if (parseErr) return done(parseErr);
+          {{#is assertion 'expect'}}
+              expect(validator.validate(result, schema)).to.be.true;
+          {{/is}}
+          {{#is assertion 'should'}}
+              validator.validate(result, schema).should.be.true;
+          {{/is}}
+          {{#is assertion 'assert'}}
+              assert.true(validator.validate(result, schema));
+          {{/is}}
+              done();
+            });
+        {{/isXmlMediaType}}
+      {{else}}
+        {{#isPdfMediaType returnType}}
+          {{#is assertion 'expect'}}
+            expect(body.length).to.equal(Number(res.header['content-length']));
+          {{/is}}
+          {{#is assertion 'should'}}
+            body.length.should.equal(Number(res.header['content-length']));
+          {{/is}}
+          {{#is assertion 'assert'}}
+            assert.equal(body.length, Number(res.header['content-length']));
+          {{/is}}
         {{else}}
-        {{#is assertion 'expect'}}
-        expect(body).to.equal(null); // non-json response or no schema
-        {{/is}}
-        {{#is assertion 'should'}}
-        body.should.equal(null); // non-json response or no schema
-        {{/is}}
-        {{#is assertion 'assert'}}
-        assert.isNull(body); // non-json response or no schema
-        {{/is}}
-        {{/validateResponse}}
-        done();
+        {{#isHtmlMediaType returnType}}
+          {{#is assertion 'expect'}}
+            expect(res.text).to.include('<!DOCTYPE html>');
+          {{/is}}
+          {{#is assertion 'should'}}
+            res.text.should.include('<!DOCTYPE html>');
+          {{/is}}
+          {{#is assertion 'assert'}}
+            assert.include(res.text, '<!DOCTYPE html>');
+          {{/is}}
+        {{else}}
+          {{#is assertion 'expect'}}
+            expect(body).to.equal(null); // non-json response or no schema
+          {{/is}}
+          {{#is assertion 'should'}}
+            body.should.equal(null); // non-json response or no schema
+          {{/is}}
+          {{#is assertion 'assert'}}
+            assert.isNull(body); // non-json response or no schema
+          {{/is}}
+          {{/isHtmlMediaType}}
+        {{/isPdfMediaType}}
+            done();
+      {{/validateResponse}}
       });
     });
 {{#if isLoadTest}}
@@ -121,7 +145,7 @@
             method: 'PATCH',
             headers: {
               'Content-Type': '{{contentType}}'{{#if headerParameters}},
-              {{#each headerParameters}}'{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
+              {{#each headerParameters}}'{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
               {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
               Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
             },

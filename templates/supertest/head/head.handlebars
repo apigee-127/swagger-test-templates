@@ -10,7 +10,9 @@
       .query({
         {{#if queryApiKey}}
         {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-        {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+        {{/if}}{{/if}}
+        {{#if queryParameters}}{{#each queryParameters}}{{#hasWriteParameter this ../requestParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}
+        {{/hasWriteParameter}}{{/each}}{{/if}}
       })
       {{/ifCond}}
       {{#if headerSecurity}}
@@ -20,7 +22,7 @@
       {{#if headerParameters}}
       .set({
         {{#each headerParameters}}
-        '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        '{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},{{/unless}}
         {{/each}}
       })
       {{/if}}

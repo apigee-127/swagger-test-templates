@@ -45,6 +45,16 @@ function isEmpty(val) {
 }
 
 /**
+ * To get xml2js's config as a string
+ * @private
+ * @param  {object} xml2jsConfig a xml2js's config
+ * @returns {string} return xml2js's config as a string
+ */
+function getStringXml2jsConfig(xml2jsConfig) {
+  return JSON.stringify(xml2jsConfig || {}).replace(/"(.+)":/, '$1: ').replace('"', '\'');
+}
+
+/**
  * Populate property of the swagger project
  * @private
  * @param  {json} swagger swagger file containing API
@@ -88,6 +98,8 @@ function getData(swagger, apiPath, operation, response, config, info) {
   if (config.pathParams) {
     data.pathParams = config.pathParams;
   }
+
+  data.xml2jsConfig = getStringXml2jsConfig(config.xml2js);
 
   // used for checking requestData table
   var requestPath = (swagger.basePath) ? path.posix.join(swagger.basePath, apiPath) : apiPath;
@@ -244,8 +256,12 @@ function testGenResponse(swagger, apiPath, operation, response, config, consume,
 
   // get the data
   data = getData(swagger, apiPath, operation, response, config, info);
-  if (helpers.mediaTypeContainsJson(produce) && !data.noSchema) {
+  if ((helpers.mediaTypeContainsJson(produce) || helpers.mediaTypeContainsXml(produce)) && !data.noSchema) {
     info.importValidator = true;
+  }
+
+  if (helpers.mediaTypeContainsXml(produce) && !data.noSchema) {
+    info.importXml2js = true;
   }
 
   if (info.security && info.security.length !== 0) {
@@ -438,6 +454,7 @@ function testGenPath(swagger, apiPath, config) {
     host: (swagger.host !== undefined ? swagger.host : 'localhost:10010'),
     tests: result,
     importValidator: info.importValidator,
+    importXml2js: info.importXml2js,
     importEnv: info.importEnv,
     importArete: info.importArete
   };
@@ -559,7 +576,11 @@ handlebars.registerHelper('printJSON', helpers.printJSON);
 handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamFormatter);
 handlebars.registerHelper('isJsonRepresentation', helpers.isJsonRepresentation);
 handlebars.registerHelper('isJsonMediaType', helpers.isJsonMediaType);
-
+handlebars.registerHelper('isXmlMediaType', helpers.isXmlMediaType);
+handlebars.registerHelper('isHtmlMediaType', helpers.isHtmlMediaType);
+handlebars.registerHelper('isPdfMediaType', helpers.isPdfMediaType);
+handlebars.registerHelper('isNecessaryBody', helpers.isNecessaryBody);
+handlebars.registerHelper('hasWriteParameter', helpers.hasWriteParameter);
 
 module.exports = {
   testGen: testGen

@@ -13,7 +13,9 @@
         {{#ifCond queryParameters queryApiKey}}
         qs: {
           {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+          {{/if}}{{/if}}
+        {{#if queryParameters}}{{#each queryParameters}}{{#hasWriteParameter this ../requestParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}
+        {{/hasWriteParameter}}{{/each}}{{/if}}
         },
         {{/ifCond}}
         method: 'DELETE',
@@ -25,7 +27,7 @@
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
         }
       },
-      function(error, res, body) {
+      function(error, res{{#isNecessaryBody returnType noSchema}}, body{{/isNecessaryBody}}) {
         if (error) return done(error);
 
         {{#is assertion 'expect'}}
@@ -51,6 +53,7 @@
         {{/is}}
 
         {{#validateResponse returnType noSchema}}
+        {{#isJsonMediaType returnType}}
         {{#is assertion 'expect'}}
         expect(validator.validate(body, schema)).to.be.true;
         {{/is}}
@@ -60,6 +63,25 @@
         {{#is assertion 'assert'}}
         assert.true(validator.validate(body, schema));
         {{/is}}
+        done();
+        {{/isJsonMediaType}}
+        {{#isXmlMediaType returnType}}
+        var xml2jsConfig = {{xml2jsConfig}};
+
+        parseString(res.text, xml2jsConfig, function(parseErr, result) {
+          if (parseErr) return done(parseErr);
+        {{#is assertion 'expect'}}
+          expect(validator.validate(body, schema)).to.be.true;
+        {{/is}}
+        {{#is assertion 'should'}}
+          validator.validate(body, schema).should.be.true;
+        {{/is}}
+        {{#is assertion 'assert'}}
+          assert.true(validator.validate(body, schema));
+        {{/is}}
+          done();
+        });
+        {{/isXmlMediaType}}
         {{else}}
         {{#is assertion 'expect'}}
         expect(body).to.equal(null); // non-json response or no schema
@@ -70,7 +92,7 @@
         {{#is assertion 'assert'}}
         assert.isNull(body); // non-json response or no schema
         {{/is}}
+            done();
         {{/validateResponse}}
-        done();
       });
     });
