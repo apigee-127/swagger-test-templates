@@ -8,9 +8,11 @@
       api.get('{{pathify path pathParams}}')
       {{#ifCond queryParameters queryApiKey}}
       .query({
-        {{#if queryApiKey}}
-        {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-        {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+      {{#if queryApiKey}}
+      {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+      {{/if}}{{/if}}
+      {{#if queryParameters}}{{#each queryParameters}}{{#hasWriteParameter this ../requestParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}
+      {{/hasWriteParameter}}{{/each}}{{/if}}
       })
       {{/ifCond}}
       {{#if headerSecurity}}
