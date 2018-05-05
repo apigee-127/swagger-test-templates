@@ -45,7 +45,7 @@ var tests = stt.testGen(swagger, config);
 * **`assertionFormat`** *required*: One of `should`, `expect` or `assert`. Choose which assertion method should be used in output test code.
 * **`testModule`** *required*: One of `supertest` or `request`. Choose between direct API calls (`request`) vs. programatic access to your API (`supertest`).
 * **`pathName`** *required*: List of path names available in your Swagger API spec used to generate tests for. Empty array leads to **all paths**.
-* **`statusCodes`** *optional* Array with status codes to generate tests for. Useful for generating only happy-flow tests. Excluding this param will generate tests for all responses.
+* **`statusCodes`** *optional* Array with status codes to generate tests for. Useful for generating only happy-flow tests. Excluding this param will generate tests for all responses. A test is generated for the status code only when the status code is listed in the Swagger API spec.
 * **`loadTest`** *optional*: List of objects info in your Swagger API spec used to generate stress tests. If specify, pathName & operation are **required**. Optional fields requests defaults to `1000`, concurrent defaults to `100`.
 * **`maxLen`** *optional*: Maximum line length. If set to `-1`, descriptions will not be truncated. Defaults to `80`.
 * **`pathParams`** *optional*: Object containing the values of a specific path parameters.
@@ -68,7 +68,7 @@ The mock data needs to have the following structure:
 {
    '/endpoint': {
        operation: {
-           'responseCode': [{ body: {}, description:'some description of the data']
+           'responseCode': [{ body: {}, description:'some description of the data'}]
        }
    }
  }
@@ -81,7 +81,7 @@ The mock data needs to have the following structure:
 {
    '/pet/{name}': {
        get: {
-           '200': [{ name: 'spot', description:'some description of the data']
+           '200': [{ name: 'spot', description:'some description of the data'}]
        }
    }
  }
@@ -96,7 +96,7 @@ This will make a request to `/pet?name=spot` assuming that your swagger API has 
 {
    '/pet': {
        get: {
-           '200': [{ name: 'spot', description:'some description of the data']
+           '200': [{ name: 'spot', description:'some description of the data'}]
        }
    }
  }
@@ -111,33 +111,49 @@ This will add an HTTP header `X-Token` set to `waestrydtufj` assuming that your 
 {
    '/pet': {
        get: {
-           '200': [{ 'X-Token': 'waestrydtufj', description:'some description of the data']
+           '200': [{ 'X-Token': 'waestrydtufj', description:'some description of the data'}]
        }
    }
  }
 
 ```
 
-so, for example this could be:
+Multiple objects within a status code request data array are supported. So, for example this could be:
 
 ```javascript
 {
      '/pet': {
          post: {
-             '200': [{
-               body: {
+             '200': [
+               {
+                 body: {
                   id: 1,
                   otherProperty: 'some property that is a string'
                  },
                  description: 'the description for this data'
-               }]
+               },
+               {
+                 body: {
+                  id: 2,
+                  otherProperty: 'another value of that property'
+                 },
+                 description: 'the description for another data'
+               }
+             ]
          },
          get: {
-            '200': [ {
-              guid: 'some_string_to_place_in_path',
-              anotherPathParam: 100,
-              description: 'valid path or query parameters'
-            }]
+            '200': [
+              {
+                guid: 'some_string_to_place_in_path',
+                anotherPathParam: 100,
+                description: 'valid path or query parameters'
+              },
+              {
+                guid: 'some_other_string_to_place_in_path',
+                anotherPathParam: 200,
+                description: 'another valid path or query parameters'
+              }
+          ]
          }
      }
  }
@@ -146,6 +162,8 @@ so, for example this could be:
 Note: for get-requests matching data will be transferred to the pathParams. So setting config.pathParams directly will have the same effect (see above).
 
 Every mockData item in the `responseCode` array will be used to generate a test. The description will be added to the "it" function for reference.
+
+Parameters explicitly marked as `required: false` in your Swagger API spec, will only be set if there is a matching value in requestData object. Required parameters and parameters without explicitly set `required` flag in Swagger API spec will be set to either a matching value in requestData object or 'DATA GOES HERE' string.
 
 ## License
 

@@ -29,6 +29,7 @@ var testGen = require('../../index.js').testGen;
 var swaggerPost = require('./swagger-post.json');
 var swaggerGet = require('./swagger-get.json');
 var swaggerGet2 = require('./swagger-get2.json');
+var swaggerGet2Optional = require('./swagger-get2-optional.json');
 var swaggerGetWithHeaders = require('./swagger-get-with-headers.json');
 var swaggerNonStandardContentType = require('./swagger-with-non-standard-content-type.json');
 var yaml = require('js-yaml');
@@ -36,7 +37,7 @@ var join = require('path').join;
 var rules;
 var read = require('fs').readFileSync;
 
-rules = yaml.safeLoad(read(join(__dirname, '/../../.eslintrc'), 'utf8'));
+rules = yaml.safeLoad(read(join(__dirname, './.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
 describe('request data population', function() {
@@ -51,7 +52,10 @@ describe('request data population', function() {
           requestData: {
             '/user': {
               post: {
-                200: [{body: {"my-id": 2}, description: 'some description'}]
+                200: [
+                  {body: {"my-id": 2}, description: 'some description'},
+                  {body: {"my-id": 3}, description: 'some other description'}
+                ]
               }
             }
           }
@@ -97,6 +101,10 @@ describe('request data population', function() {
                   {
                     body: {},
                     description: 'some description'
+                  },
+                  {
+                    body: {id: 1, name: 'product'},
+                    description: 'some description'
                   }
                 ]
               }
@@ -107,6 +115,10 @@ describe('request data population', function() {
                   {
                     id: 2,
                     description: 'some description'
+                  },
+                  {
+                    id: 3,
+                    description: 'some other description'
                   }
                 ]
               },
@@ -116,6 +128,11 @@ describe('request data population', function() {
                     id: 2,
                     body: {},
                     description: 'some description'
+                  },
+                  {
+                    id: 3,
+                    body: {},
+                    description: 'some other description'
                   }
                 ]
               }
@@ -158,7 +175,10 @@ describe('request data population', function() {
           requestData: {
             '/user': {
               post: {
-                200: [{body: {"my-id": 2}, longitude: 10, description: 'some description'}]
+                200: [
+                  {body: {"my-id": 2}, longitude: 10, description: 'some description'},
+                  {body: {"my-id": 3}, longitude: 20, description: 'some other description'}
+              ]
               }
             }
           }
@@ -200,7 +220,10 @@ describe('request data population', function() {
         requestData: {
           '/user': {
             get: {
-              200: [{longitude: 10, description: 'some description'}]
+              200: [
+                {longitude: 10, description: 'some description'},
+                {longitude: 20, description: 'some other description'}
+              ]
             }
           }
         }
@@ -240,7 +263,10 @@ describe('request data population', function() {
           requestData: {
             '/user': {
               get: {
-                200: [{name: 'Simon', description: 'some description'}]
+                200: [
+                  {name: 'Simon', description: 'some description'},
+                  {name: 'Garfunkel', description: 'some other description'}
+                ]
               }
             }
           }
@@ -270,6 +296,51 @@ describe('request data population', function() {
         });
       });
     });
+
+    describe('with optional parameter', function() {
+      describe('expect', function() {
+        var output5 = testGen(swaggerGet2Optional, {
+          assertionFormat: 'expect',
+          pathName: [],
+          testModule: 'request',
+          maxLen: -1,
+          requestData: {
+            '/user': {
+              get: {
+                200: [
+                  {name: 'Miles', description: 'some description'},
+                  {name: 'John', nickname: 'Trane', description: 'some other description'},
+                  {name: 'Dave', description: 'yet another description'}
+                ]
+              }
+            }
+          }
+        });
+
+        var paths1 = [];
+        var ndx;
+
+        for (ndx in output5) {
+          if (output5) {
+            paths1.push(join(__dirname, '/compare/request/expect/qs4-' + output5[ndx].name));
+          }
+        }
+
+        it('should populate query parameters in test description', function() {
+          assert.isArray(output5);
+          assert.lengthOf(output5, 1);
+
+          var generatedCode;
+
+          for (ndx in paths1) {
+            if (paths1 !== undefined) {
+              generatedCode = read(paths1[ndx], 'utf8').replace(/\r\n/g, '\n');
+              assert.equal(output5[ndx].test.replace(/\r\n/g, '\n'), generatedCode);
+            }
+          }
+        });
+      });
+    });
   });
 
   describe('with HTTP headers', function() {
@@ -282,7 +353,10 @@ describe('request data population', function() {
         requestData: {
           '/user': {
             get: {
-              200: [{'X-Token': 'sadfg', description: 'some description'}]
+              200: [
+                {'X-Token': 'sadfg', description: 'some description'},
+                {'X-Token': 'qwerty', description: 'some other description'}
+            ]
             }
           }
         }

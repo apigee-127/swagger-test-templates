@@ -10,7 +10,7 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         json: true,
         qs: {
-          name: 'Simon'
+          name: 'Miles'
         },
         method: 'GET',
         headers: {
@@ -31,7 +31,28 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         json: true,
         qs: {
-          name: 'Garfunkel'
+          name: 'John',nickname: 'Trane'
+        },
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(200);
+
+        expect(body).to.equal(null); // non-json response or no schema
+        done();
+      });
+    });
+  it('should respond with 200 OK and yet another description', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        json: true,
+        qs: {
+          name: 'Dave'
         },
         method: 'GET',
         headers: {
@@ -53,7 +74,7 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         json: true,
         qs: {
-          name: 'DATA GOES HERE'
+          name: 'DATA GOES HERE',nickname: 'DATA GOES HERE'
         },
         method: 'GET',
         headers: {
@@ -75,7 +96,7 @@ describe('/user', function() {
         url: 'https://api.uber.com/user',
         json: true,
         qs: {
-          name: 'DATA GOES HERE'
+          name: 'DATA GOES HERE',nickname: 'DATA GOES HERE'
         },
         method: 'GET',
         headers: {

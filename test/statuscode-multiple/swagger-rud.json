@@ -1,0 +1,64 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.0",
+        "title": "Simple API"
+    },
+    "host": "basic.herokuapp.com",
+    "paths": {
+        "/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "GET",
+                "summary": "Get",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "PUT",
+                "summary": "Update",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "OK, but not 200"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "DELETE",
+                "summary": "Delete",
+                "responses": {
+                    "204": {
+                        "description": "OK, but not 200"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+extends: ../../.eslintrc
+env:
+  mocha: true
+rules:
+  indent: false
+  no-unused-expressions: false
+  valid-jsdoc: 0;
+  quotes: [0]
+  key-spacing: false
+  quote-props: false
+  comma-spacing: false

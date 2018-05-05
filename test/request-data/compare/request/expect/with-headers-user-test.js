@@ -25,6 +25,26 @@ describe('/user', function() {
         done();
       });
     });
+  it('should respond with 200 OK and some other description', function(done) {
+      request({
+        url: 'https://api.uber.com/user',
+        json: true,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Longitude': 'DATA GOES HERE',
+          'X-Token': 'qwerty'
+        }
+      },
+      function(error, res, body) {
+        if (error) return done(error);
+
+        expect(res.statusCode).to.equal(200);
+
+        expect(body).to.equal(null); // non-json response or no schema
+        done();
+      });
+    });
 
     it('should respond with 400 NOT OK', function(done) {
       request({
