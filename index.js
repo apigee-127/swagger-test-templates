@@ -559,6 +559,7 @@ handlebars.registerHelper('printJSON', helpers.printJSON);
 handlebars.registerHelper('requestDataParamFormatter', helpers.requestDataParamFormatter);
 handlebars.registerHelper('isJsonRepresentation', helpers.isJsonRepresentation);
 handlebars.registerHelper('isJsonMediaType', helpers.isJsonMediaType);
+handlebars.registerHelper('isPdfMediaType', helpers.isPdfMediaType);
 
 
 module.exports = {
