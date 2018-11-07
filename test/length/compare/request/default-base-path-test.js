@@ -6,7 +6,7 @@ chai.should();
 
 describe('/', function() {
   describe('get', function() {
-    it('should respond with 200 OK, and this description is extra long for a simple length toggle test!', function(done) {
+    it('should respond with 200 \'OK\'\n\\/\"This description...', function(done) {
       request({
         url: 'http://basic.herokuapp.com/',
         json: true,

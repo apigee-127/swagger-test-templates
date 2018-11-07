@@ -10,7 +10,7 @@
             "get": {
                 "responses": {
                     "200": {
-                        "description": "OK, and this description is extra long for a simple length toggle test!"
+                        "description": "'OK'\n\\/\"This description is extra long for a simple length toggle test!\" It needs to contain at least 80 characters"
                     },
                     "400": {
                       "description": "NOK"
