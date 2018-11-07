@@ -75,3 +75,5 @@ node_modules
 .idea
 test/instagram
 test/templatesPath/userTemplateDirectory/**/*.handlebars
+package-lock.json
+.vscode/

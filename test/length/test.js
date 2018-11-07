@@ -37,10 +37,10 @@ var rules;
 
 var fs = require('fs');
 
-rules = yaml.safeLoad(fs.readFileSync(join(__dirname,
-  '/../../.eslintrc'), 'utf8'));
+rules = yaml.safeLoad(fs.readFileSync(join(__dirname, '../../.eslintrc'), 'utf8'));
 rules.env = {mocha: true};
 
+// Turn off truncation
 describe('Toggle description truncation', function() {
   var output = testGen(swagger, {
     assertionFormat: 'should',
@@ -58,7 +58,77 @@ describe('Toggle description truncation', function() {
 
     for (ndx in output) {
       if (output) {
-        paths1.push(join(__dirname, '/compare/request/' + output[ndx].name));
+        paths1.push(join(__dirname, '/compare/request/toggle-' + output[ndx].name));
+      }
+    }
+
+    assert.isArray(output);
+    assert.lengthOf(output, 1);
+
+    var generatedCode;
+
+    for (ndx in paths1) {
+      if (paths1 !== undefined) {
+        generatedCode = fs.readFileSync(paths1[ndx], 'utf8');
+        assert.equal(output[ndx].test, generatedCode);
+      }
+    }
+  });
+});
+
+// Default truncation
+describe('Default truncation', function() {
+  var output = testGen(swagger, {
+    assertionFormat: 'should',
+    pathNames: [],
+    testModule: 'request',
+    statusCodes: [200]
+  });
+
+  it('should truncate the description at the default size', function() {
+
+    var paths1 = [];
+    var ndx;
+
+    for (ndx in output) {
+      if (output) {
+        paths1.push(join(__dirname, '/compare/request/default-' + output[ndx].name));
+      }
+    }
+
+    assert.isArray(output);
+    assert.lengthOf(output, 1);
+
+    var generatedCode;
+
+    for (ndx in paths1) {
+      if (paths1 !== undefined) {
+        generatedCode = fs.readFileSync(paths1[ndx], 'utf8');
+        assert.equal(output[ndx].test, generatedCode);
+      }
+    }
+  });
+});
+
+// Explicit truncation
+describe('Description truncate at 20', function() {
+  var output = testGen(swagger, {
+    assertionFormat: 'should',
+    pathNames: [],
+    testModule: 'request',
+    statusCodes: [200],
+    maxLen: 20
+
+  });
+
+  it('should truncate the description at 20 characters', function() {
+
+    var paths1 = [];
+    var ndx;
+
+    for (ndx in output) {
+      if (output) {
+        paths1.push(join(__dirname, '/compare/request/t20-' + output[ndx].name));
       }
     }
 
