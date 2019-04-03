@@ -517,9 +517,10 @@ function testGen(swagger, config) {
   var schemaTemp;
   var environment;
   var ndx = 0;
+  var lang = config.lang ? config.lang : 'js';
 
-  config.templatesPath = (config.templatesPath) ? config.templatesPath : path.join(__dirname, 'templates');
-
+  config.templatesPath = (config.templatesPath) ? path.join(config.templatesPath, lang) : path.join(__dirname, 'templates', lang);
+  
   swagger = deref(swagger);
   source = fs.readFileSync(path.join(config.templatesPath, '/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});
@@ -548,7 +549,7 @@ function testGen(swagger, config) {
   if (!targets || targets.length === 0) {
     _.forEach(result, function(results) {
       output.push({
-        name: '-test.js',
+        name: '-test.' + lang,
         test: results
       });
     });

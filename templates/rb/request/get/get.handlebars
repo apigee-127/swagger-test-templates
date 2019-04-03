@@ -1,93 +1,52 @@
-  it('should respond with {{length description}}{{#if requestMessage}} and {{requestMessage}}{{/if}}', function(done) {
+  it 'should respond with {{length description}}{{#if requestMessage}} and {{requestMessage}}{{/if}}' do
       {{#validateResponse returnType noSchema}}
-      /*eslint-disable*/
+
       {{> schema-partial this}}
 
-      /*eslint-enable*/
+
       {{/validateResponse}}
-      request({
-        url: '{{pathify path pathParams}}',
-        {{#isJsonRepresentation contentType returnType}}
-        json: true,
-        {{/isJsonRepresentation}}
-        {{#ifCond queryParameters queryApiKey}}
-        qs: {
-          {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
-          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
-        },
-        {{/ifCond}}        method: 'PATCH',
-        headers: {
+      response = RestClient.get(
+        URI.join($ENDPOINT, '{{pathify path pathParams}}').to_s,
+        {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
           {{#each headerParameters}}'{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},
           {{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
           {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
-        },
-        {{#isJsonMediaType contentType}}
-        {{#if request}}body: {
-        {{ request }}
         }
-        {{else}}body: {
-          {{#each bodyParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
-        }{{/if}}
-      },
-        {{/isJsonMediaType}}
-        {{#is contentType 'application/x-www-form-urlencoded'}}
-        form: {
-          {{#each formParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
-        }
-      },
-        {{/is}}
-        {{#is contentType 'multipart/form-data'}}
-        form: {
-          {{#each formParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
-        }
-      },
-        {{/is}}
-        {{#is contentType 'application/xml'}}
-        body: 'XML STRING GOES HERE'
-      },
-        {{/is}}
-      function(error, res, body) {
-        if (error) return done(error);
-
+      )
+      parsed_response = JSON.parse(response.body)
         {{#is assertion 'expect'}}
         {{#if default}}
-        expect(res.statusCode).to.equal('DEFAULT RESPONSE CODE HERE');
+        expect(response.code).to.equal('DEFAULT RESPONSE CODE HERE')
         {{else}}
-        expect(res.statusCode).to.equal({{responseCode}});
+        expect(response.code).to eq({{responseCode}})
         {{/if}}
         {{/is}}
         {{#is assertion 'should'}}
         {{#if default}}
-        res.statusCode.should.equal('DEFAULT RESPONSE CODE HERE');
+        res.statusCode.should.equal('DEFAULT RESPONSE CODE HERE')
         {{else}}
-        res.statusCode.should.equal({{responseCode}});
+        res.statusCode.should.equal({{responseCode}})
         {{/if}}
         {{/is}}
         {{#is assertion 'assert'}}
         {{#if default}}
-        assert.equal(res.statusCode, 'DEFAULT RESPONSE CODE HERE');
+        assert.equal(res.statusCode, 'DEFAULT RESPONSE CODE HERE')
         {{else}}
-        assert.equal(res.statusCode, {{responseCode}});
+        assert.equal(res.statusCode, {{responseCode}})
         {{/if}}
         {{/is}}
 
         {{#validateResponse returnType noSchema}}
         {{#is assertion 'expect'}}
-        expect(validator.validate(body, schema)).to.be.true;
+        expect(JSON::Validator.validate(schema, parsed_response)).to eq(true)
         {{/is}}
         {{#is assertion 'should'}}
-        validator.validate(body, schema).should.be.true;
+        validator.validate(body, schema).should.be.true
         {{/is}}
         {{#is assertion 'assert'}}
-        assert.true(validator.validate(body, schema));
+        assert.true(validator.validate(body, schema))
         {{/is}}
         {{else}}
         {{#isPdfMediaType returnType}}
@@ -112,9 +71,7 @@
         {{/is}}
         {{/isPdfMediaType}}
         {{/validateResponse}}
-        done();
-      });
-    });
+    end
 {{#if isLoadTest}}
     it('load tests with {{length description}}', function(done) {
       arete.loadTest({
@@ -130,41 +87,14 @@
               {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
             },
             {{/ifCond}}
-            method: 'PATCH',
+            method: 'GET',
             headers: {
               'Content-Type': '{{contentType}}'{{#if headerParameters}},
               {{#each headerParameters}}'{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
               {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
               Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
-            },
-            {{#isJsonMediaType contentType}}
-            body: {
-              {{#each bodyParameters}}
-              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-              {{/each}}
             }
           },
-            {{/isJsonMediaType}}
-            {{#is contentType 'application/x-www-form-urlencoded'}}
-            form: {
-              {{#each formParameters}}
-              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-              {{/each}}
-            }
-          },
-            {{/is}}
-            {{#is contentType 'multipart/form-data'}}
-            form: {
-              {{#each formParameters}}
-              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-              {{/each}}
-            }
-          },
-            {{/is}}
-            {{#is contentType 'application/xml'}}
-            body: 'XML STRING GOES HERE'
-          },
-            {{/is}}
           function(error, res, body) {
             callback(error, body);
           });
