@@ -1,0 +1,191 @@
+  it('should respond with {{length description}}{{#if requestMessage}} and {{requestMessage}}{{/if}}', function(done) {
+      {{#validateResponse returnType noSchema}}
+      /*eslint-disable*/
+      {{> schema-partial this}}
+
+      /*eslint-enable*/
+      {{/validateResponse}}
+      api.patch('{{pathify path pathParams}}')
+      {{#ifCond queryParameters queryApiKey}}
+      .query({
+        {{#if queryApiKey}}
+        {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+        {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+      })
+      {{/ifCond}}
+      {{#if headerSecurity}}
+      .set('Authorization', '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}})
+      {{/if}}
+      .set('Content-Type', '{{contentType}}')
+      {{#if headerParameters}}
+      .set({
+        {{#each headerParameters}}
+        '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      {{/if}}
+      {{#if headerApiKey}}
+      .set('{{headerApiKey.type}}', process.env.{{headerApiKey.name}})
+      {{/if}}
+      {{#is contentType 'application/json'}}
+      {{#if request}}
+      .send({{ request }})
+      {{else}}
+      .send({
+        {{#each bodyParameters}}
+        {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      {{/if}}
+      {{/is}}
+      {{#is contentType 'application/x-www-form-urlencoded'}}
+      .send({
+      {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+      {{/each}}
+      })
+      {{/is}}
+      {{#is contentType 'multipart/form-data'}}
+      .send({
+      {{#each formParameters}}
+          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+      {{/each}}
+      })
+      {{/is}}
+      {{#if default}}
+      .expect('DEFAULT RESPONSE CODE HERE')
+      {{else}}
+      .expect({{responseCode}})
+      {{/if}}
+      .end(function(err, res) {
+        if (err) return done(err);
+
+        {{#validateResponse returnType noSchema}}
+        {{#is assertion 'expect'}}
+        expect(validator.validate(res.body, schema)).to.be.true;
+        {{/is}}
+        {{#is assertion 'should'}}
+        validator.validate(res.body, schema).should.be.true;
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.true(validator.validate(res.body, schema));
+        {{/is}}
+        {{else}}
+        {{#isPdfMediaType returnType}}
+        {{#is assertion 'expect'}}
+        expect(res.body).to.deep.equal(new Buffer(Number(res.header['content-length'])));
+        {{/is}}
+        {{#is assertion 'should'}}
+        res.body.should.deep.equal(new Buffer(Number(res.header['content-length'])));
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.deepEqual(res.body, new Buffer(Number(res.header['content-length'])));
+        {{/is}}
+        {{else}}
+        {{#is assertion 'expect'}}
+        expect(res.body).to.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is assertion 'should'}}
+        res.body.should.equal(null); // non-json response or no schema
+        {{/is}}
+        {{#is assertion 'assert'}}
+        assert.isNull(res.body); // non-json response or no schema
+        {{/is}}
+        {{/isPdfMediaType}}
+        {{/validateResponse}}
+        done();
+      });
+    });
+{{#if isLoadTest}}
+    it('load tests with {{length description}}', function(done) {
+      arete.loadTest({
+        name: '{{loadName}}',
+        requests: {{requests}},
+        concurrentRequests: {{concurrent}},
+        targetFunction: function(callback) {
+          api.patch('{{pathify path pathParams}}')
+          {{#ifCond queryParameters queryApiKey}}
+          .query({
+            {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+            {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+          })
+          {{/ifCond}}
+          {{#if headerSecurity}}
+          .set('Authorization', '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}})
+          {{/if}}
+          .set('Content-Type', '{{contentType}}')
+          {{#if headerParameters}}
+          .set({
+            {{#each headerParameters}}
+            {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+            {{/each}}
+          })
+          {{/if}}
+          {{#if headerApiKey}}
+          .set('{{headerApiKey.type}}', process.env.{{headerApiKey.name}})
+          {{/if}}
+          {{#is contentType 'application/json'}}
+          .send({
+            {{#each bodyParameters}}
+            '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+            {{/each}}
+          })
+          {{/is}}
+          {{#is contentType 'application/x-www-form-urlencoded'}}
+          .send({
+            {{#each formParameters}}
+            {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+            {{/each}}
+          })
+          {{/is}}
+          {{#is contentType 'multipart/form-data'}}
+          .send({
+            {{#each formParameters}}
+            {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+            {{/each}}
+          })
+          {{/is}}
+          {{#if default}}
+          .expect('DEFAULT RESPONSE CODE HERE')
+          {{else}}
+          .expect({{responseCode}})
+          {{/if}}
+          .end(function(err, res) {
+            callback(err, res);
+          });
+        },
+        printResponses: false, // true or false
+        printReport: true, // true or false
+        printSteps: true, // true or false
+        callback: function(error, report) {
+          if (error) return done(error);
+
+          {{#is assertion 'expect'}}
+          expect(report.successfulResponses.length).
+          to.equal(report.results.length);
+          expect(report.averageResponseTimeInternal).
+          to.be.lessThan('TIME DATA HERE');
+          expect(report.timeElapsed).
+          to.be.lessThan('TIME DATA HERE');
+          {{/is}}
+          {{#is assertion 'should'}}
+          report.successfulResponses.length.
+          should.equal(report.results.length);
+          (report.averageResponseTimeInternal).
+          should.be.lessThan('TIME DATA HERE');
+          (report.timeElapsed).
+          should.be.lessThan('TIME DATA HERE');
+          {{/is}}
+          {{#is assertion 'assert'}}
+          assert.equal(report.successfulResponses.length,
+          report.results.length);
+          assert.isBelow(report.averageResponseTimeInternal,
+          'TIME DATA HERE');
+          assert.isBelow(report.timeElapsed,
+          'TIME DATA HERE');
+          {{/is}}
+          done();
+        }
+      });
+    });
+{{/if}}

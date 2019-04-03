@@ -6,7 +6,7 @@
       /*eslint-enable*/
       {{/validateResponse}}
       request({
-        url: '{{pathify path pathParams}}',
+        url: String(urljoin(process.env.swagger_host, '{{pathify path pathParams}}')),
         {{#ifCond queryParameters queryApiKey}}
         qs: {
           {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},

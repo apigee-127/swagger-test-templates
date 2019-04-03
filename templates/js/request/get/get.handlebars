@@ -6,7 +6,7 @@
       /*eslint-enable*/
       {{/validateResponse}}
       request({
-        url: '{{pathify path pathParams}}',
+        url: String(urljoin(process.env.swagger_host, '{{pathify path pathParams}}')),
         {{#isJsonRepresentation contentType returnType}}
         json: true,
         {{/isJsonRepresentation}}
@@ -16,42 +16,15 @@
           {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
         },
         {{/ifCond}}
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': '{{contentType}}'{{#if headerParameters}},
           {{#each headerParameters}}'{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},
           {{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
           {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
           Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
-        },
-        {{#isJsonMediaType contentType}}
-        {{#if request}}body: {{ request }}{{else}}body: {
-          {{#each bodyParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
-        }{{/if}}
-      },
-        {{/isJsonMediaType}}
-        {{#is contentType 'application/x-www-form-urlencoded'}}
-        form: {
-          {{#each formParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
         }
       },
-        {{/is}}
-        {{#is contentType 'multipart/form-data'}}
-        form: {
-          {{#each formParameters}}
-          {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-          {{/each}}
-        }
-      },
-        {{/is}}
-        {{#is contentType 'application/xml'}}
-        body: 'XML STRING GOES HERE'
-      },
-        {{/is}}
       function(error, res, body) {
         if (error) return done(error);
 
@@ -128,41 +101,14 @@
               {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
             },
             {{/ifCond}}
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': '{{contentType}}'{{#if headerParameters}},
               {{#each headerParameters}}'{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
               {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
               Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
-            },
-            {{#isJsonMediaType contentType}}
-            body: {
-              {{#each bodyParameters}}
-              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-              {{/each}}
             }
           },
-            {{/isJsonMediaType}}
-            {{#is contentType 'application/x-www-form-urlencoded'}}
-            form: {
-              {{#each formParameters}}
-              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-              {{/each}}
-            }
-          },
-            {{/is}}
-            {{#is contentType 'multipart/form-data'}}
-            form: {
-              {{#each formParameters}}
-              {{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}
-              {{/each}}
-            }
-          },
-            {{/is}}
-            {{#is contentType 'application/xml'}}
-            body: 'XML STRING GOES HERE'
-          },
-            {{/is}}
           function(error, res, body) {
             callback(error, body);
           });
