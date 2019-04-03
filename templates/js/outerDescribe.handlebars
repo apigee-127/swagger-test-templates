@@ -1,10 +1,14 @@
 'use strict';
 var chai = require('chai');{{#if importValidator}}
 var ZSchema = require('z-schema');
+var urljoin = require('url-join');
 var customFormats = {{customFormats}}
 customFormats(ZSchema);
 
-var validator = new ZSchema({});{{/if}}
+var validator = new ZSchema({
+	assumeAdditional: true,
+    ignoreUnknownFormats: true
+});{{/if}}
 {{#is testmodule 'request'}}
 var request = require('request');
 {{/is}}

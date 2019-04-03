@@ -1,0 +1,20 @@
+
+require 'rest-client'
+require 'json-schema'
+require 'httparty'
+require 'safe_yaml'
+
+describe '{{description}}' do
+    before(:all) do
+        define_end_point
+    end
+{{#each tests}}
+  {{this}}
+{{/each}}
+end
+def define_end_point
+    if ENV["environment"] == nil
+        ENV["environment"] = "server"
+    end
+    $ENDPOINT = YAML.safe_load(File.read(File.expand_path('../../../../config/application.yml', __FILE__)))[ENV["environment"]]["endpoint"]
+end
