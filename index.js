@@ -191,8 +191,6 @@ function getData(swagger, apiPath, operation, response, config, info) {
   // request url case
   if (config.testModule === 'request') {
     data.path = url.format({
-      protocol: swagger.schemes !== undefined ? swagger.schemes[0] : 'http',
-      host: swagger.host !== undefined ? swagger.host : 'localhost:10010',
       pathname: requestPath
     });
   } else {
@@ -517,8 +515,9 @@ function testGen(swagger, config) {
   var schemaTemp;
   var environment;
   var ndx = 0;
+  var lang = "" + config.lang;
 
-  config.templatesPath = (config.templatesPath) ? config.templatesPath : path.join(__dirname, 'templates');
+  config.templatesPath = (config.templatesPath) ? config.templatesPath : path.join(__dirname, 'templates', lang);
 
   swagger = deref(swagger);
   source = fs.readFileSync(path.join(config.templatesPath, '/schema.handlebars'), 'utf8');
@@ -548,7 +547,7 @@ function testGen(swagger, config) {
   if (!targets || targets.length === 0) {
     _.forEach(result, function(results) {
       output.push({
-        name: '-test.js',
+        name: '-test.' + lang,
         test: results
       });
     });
