@@ -1,0 +1,39 @@
+  it('should respond with {{length description}}{{#if inputs}}, {{inputs.body.message}}{{/if}}', function(done) {
+      {{#validateResponse returnType noSchema}}
+      /*eslint-disable*/
+      {{> schema-partial this}}
+
+      /*eslint-enable*/
+      {{/validateResponse}}
+      api.head('{{pathify path pathParams}}')
+      {{#ifCond queryParameters queryApiKey}}
+      .query({
+        {{#if queryApiKey}}
+        {{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+        {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: {{requestDataParamFormatter this.name this.type ../requestParameters}}{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+      })
+      {{/ifCond}}
+      {{#if headerSecurity}}
+      .set('Authorization', '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}})
+      {{/if}}
+      .set('Content-Type', '{{contentType}}')
+      {{#if headerParameters}}
+      .set({
+        {{#each headerParameters}}
+        '{{this.name}}': 'DATA GOES HERE'{{#unless @last}},{{/unless}}
+        {{/each}}
+      })
+      {{/if}}
+      {{#if headerApiKey}}
+      .set('{{headerApiKey.type}}', process.env.{{headerApiKey.name}})
+      {{/if}}
+      {{#if default}}
+      .expect('DEFAULT RESPONSE CODE HERE')
+      {{else}}
+      .expect({{responseCode}})
+      {{/if}}
+      .end(function(err) {
+        if (err) return done(err);
+        done();
+      });
+    });

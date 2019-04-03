@@ -1,0 +1,51 @@
+  it('should respond with {{length description}}{{#if requestMessage}} and {{requestMessage}}{{/if}}', function(done) {
+      {{#validateResponse returnType noSchema}}
+      /*eslint-disable*/
+      {{> schema-partial this}}
+
+      /*eslint-enable*/
+      {{/validateResponse}}
+      request({
+        URI.join($ENDPOINT, '{{pathify path pathParams}}').to_s,
+        {{#ifCond queryParameters queryApiKey}}
+        qs: {
+          {{#if queryApiKey}}{{queryApiKey.type}}: process.env.{{queryApiKey.name}}{{#if queryParameters}},
+          {{/if}}{{/if}}{{#if queryParameters}}{{#each queryParameters}}{{this.name}}: 'DATA GOES HERE'{{#unless @last}},{{/unless}}{{/each}}{{/if}}
+        },
+        {{/ifCond}}
+        method: 'HEAD',
+        headers: {
+          'Content-Type': '{{contentType}}'{{#if headerParameters}},
+          {{#each headerParameters}}'{{this.name}}': {{requestDataParamFormatter this.name 'string' ../requestParameters}}{{#unless @last}},
+          {{/unless}}{{/each}}{{/if}}{{#if headerApiKey}},
+          {{headerApiKey.type}}: process.env.{{headerApiKey.name}}{{/if}}{{#if headerSecurity}},
+          Authorization: '{{headerSecurity.type}} ' + process.env.{{headerSecurity.name}}{{/if}}
+        }
+      },
+      function(error, res) {
+        if (error) return done(error);
+
+        {{#is assertion 'expect'}}
+        {{#if default}}
+        expect(res.statusCode).to.equal('DEFAULT RESPONSE CODE HERE');
+        {{else}}
+        expect(res.statusCode).to.equal({{responseCode}});
+        {{/if}}
+        {{/is}}
+        {{#is assertion 'should'}}
+        {{#if default}}
+        res.statusCode.should.equal('DEFAULT RESPONSE CODE HERE');
+        {{else}}
+        res.statusCode.should.equal({{responseCode}});
+        {{/if}}
+        {{/is}}
+        {{#is assertion 'assert'}}
+        {{#if default}}
+        assert.equal(res.statusCode, 'DEFAULT RESPONSE CODE HERE');
+        {{else}}
+        assert.equal(res.statusCode, {{responseCode}});
+        {{/if}}
+        {{/is}}
+        done();
+      });
+    });
