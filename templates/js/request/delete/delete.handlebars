@@ -6,7 +6,7 @@
       /*eslint-enable*/
       {{/validateResponse}}
       request({
-        url: '{{pathify path pathParams}}',
+        url: String(urljoin(process.env.swagger_host, '{{pathify path pathParams}}')),
         {{#isJsonRepresentation contentType returnType}}
         json: true,
         {{/isJsonRepresentation}}

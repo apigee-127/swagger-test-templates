@@ -47,7 +47,7 @@ ncp(path.join(__dirname, 'templates'),
       return console.error(err);
     }
     console.log('templates copied');
-    fs.appendFile(path.join(customTemplatesPath, 'outerDescribe.handlebars'),
+    fs.appendFile(path.join(customTemplatesPath, 'js/outerDescribe.handlebars'),
       'THIS IS A CUSTOM TEMPLATE', function(appendErr) {
         if (appendErr) {
           return console.log(appendErr);
