@@ -110,7 +110,7 @@ describe('Test getData function', function() {
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(1);
       expect(data).to.have.property('path');
-      expect(data.path).to.equal('http://localhost:10010/plan');
+      expect(data.path).to.equal('/plan');
     });
 
     it('should get all the data parsed for the /plan/{plan_id}/users',
@@ -121,7 +121,7 @@ describe('Test getData function', function() {
       expect(data).to.have.property('pathParameters');
       expect(data.pathParameters).to.have.length(1);
       expect(data).to.have.property('path');
-      expect(data.path).to.equal('http://localhost:10010/plan/{plan_id}/users');
+      expect(data.path).to.equal('/plan/{plan_id}/users');
     });
 
     it('should get all the data parsed for the /user post',
@@ -133,7 +133,7 @@ describe('Test getData function', function() {
       expect(data).to.have.property('queryParameters');
       expect(data.queryParameters).to.have.length(2);
       expect(data).to.have.property('path');
-      expect(data.path).to.equal('http://localhost:10010/user');
+      expect(data.path).to.equal('/user');
     });
   });
 });

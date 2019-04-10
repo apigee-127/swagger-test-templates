@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+
+
 var supertest = require('supertest');
 var api = supertest('http://localhost:10010'); // supertest init;
 var assert = chai.assert;

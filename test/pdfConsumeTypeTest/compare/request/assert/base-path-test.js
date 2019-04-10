@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 var assert = chai.assert;
 
@@ -9,7 +12,7 @@ describe('/', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           accessToken: process.env.KEY
@@ -31,7 +34,7 @@ describe('/', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           accessToken: process.env.KEY
@@ -53,7 +56,7 @@ describe('/', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           accessToken: process.env.KEY
@@ -78,7 +81,7 @@ describe('/', function() {
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -104,7 +107,7 @@ describe('/', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -130,7 +133,7 @@ describe('/', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'

@@ -1,5 +1,7 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
 var ZSchema = require('z-schema');
 var customFormats = module.exports = function(zSchema) {
   // Placeholder file for all custom-formats in known to swagger.json
@@ -48,8 +50,10 @@ var customFormats = module.exports = function(zSchema) {
 };
 
 customFormats(ZSchema);
-
-var validator = new ZSchema({});
+var validator = new ZSchema({
+	assumeAdditional: true,
+    ignoreUnknownFormats: true
+});
 var request = require('request');
 var expect = chai.expect;
 
@@ -73,7 +77,7 @@ describe('/', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           accessToken: process.env.KEY
@@ -105,7 +109,7 @@ describe('/', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           accessToken: process.env.KEY
@@ -149,7 +153,7 @@ describe('/', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           accessToken: process.env.KEY
@@ -191,7 +195,7 @@ describe('/', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -223,7 +227,7 @@ describe('/', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -255,7 +259,7 @@ describe('/', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'

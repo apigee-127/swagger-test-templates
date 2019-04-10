@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 var expect = chai.expect;
 
@@ -7,7 +10,7 @@ describe('/products', function() {
   describe('post', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
-        url: 'https://api.uber.com/products',
+        url: String(urljoin(process.env.swagger_host, '/products')),
         json: true,
         method: 'POST',
         headers: {
@@ -26,7 +29,7 @@ describe('/products', function() {
     });
   it('should respond with 200 OK and some description', function(done) {
       request({
-        url: 'https://api.uber.com/products',
+        url: String(urljoin(process.env.swagger_host, '/products')),
         json: true,
         method: 'POST',
         headers: {

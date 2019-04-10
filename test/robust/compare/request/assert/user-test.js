@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 var assert = chai.assert;
 
@@ -9,7 +12,7 @@ describe('/user', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {
@@ -29,7 +32,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {
@@ -49,7 +52,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {
@@ -72,7 +75,7 @@ describe('/user', function() {
   describe('post', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -98,7 +101,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -124,7 +127,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -153,7 +156,7 @@ describe('/user', function() {
   describe('put', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -179,7 +182,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -205,7 +208,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         qs: {
           longitude: 'DATA GOES HERE'
@@ -234,7 +237,7 @@ describe('/user', function() {
   describe('patch', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'PATCH',
         headers: {
@@ -260,7 +263,7 @@ describe('/user', function() {
   describe('delete', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'DELETE',
         headers: {

@@ -1,5 +1,7 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+
 var ZSchema = require('z-schema');
 var customFormats = module.exports = function(zSchema) {
   // Placeholder file for all custom-formats in known to swagger.json
@@ -48,8 +50,10 @@ var customFormats = module.exports = function(zSchema) {
 };
 
 customFormats(ZSchema);
-
-var validator = new ZSchema({});
+var validator = new ZSchema({
+	assumeAdditional: true,
+    ignoreUnknownFormats: true
+});
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
 

@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 
 chai.should();
@@ -8,7 +11,7 @@ describe('/{id}', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'http://basic.herokuapp.com/{id PARAM GOES HERE}',
+        url: String(urljoin(process.env.swagger_host, '/{id PARAM GOES HERE}')),
         json: true,
         method: 'GET',
         headers: {
@@ -30,7 +33,7 @@ describe('/{id}', function() {
   describe('put', function() {
     it('should respond with 202 OK, but not 200', function(done) {
       request({
-        url: 'http://basic.herokuapp.com/{id PARAM GOES HERE}',
+        url: String(urljoin(process.env.swagger_host, '/{id PARAM GOES HERE}')),
         json: true,
         method: 'PUT',
         headers: {
@@ -55,7 +58,7 @@ describe('/{id}', function() {
   describe('delete', function() {
     it('should respond with 204 OK, but not 200', function(done) {
       request({
-        url: 'http://basic.herokuapp.com/{id PARAM GOES HERE}',
+        url: String(urljoin(process.env.swagger_host, '/{id PARAM GOES HERE}')),
         json: true,
         method: 'DELETE',
         headers: {

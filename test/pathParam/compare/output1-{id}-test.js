@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 
 chai.should();
@@ -8,7 +11,7 @@ describe('/{id}', function() {
   describe('get', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'http://localhost:10010/{id PARAM GOES HERE}',
+        url: String(urljoin(process.env.swagger_host, '/{id PARAM GOES HERE}')),
         json: true,
         method: 'GET',
         headers: {
@@ -30,7 +33,7 @@ describe('/{id}', function() {
   describe('head', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'http://localhost:10010/{id PARAM GOES HERE}',
+        url: String(urljoin(process.env.swagger_host, '/{id PARAM GOES HERE}')),
         method: 'HEAD',
         headers: {
           'Content-Type': 'application/json'

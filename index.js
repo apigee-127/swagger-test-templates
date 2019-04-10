@@ -191,8 +191,6 @@ function getData(swagger, apiPath, operation, response, config, info) {
   // request url case
   if (config.testModule === 'request') {
     data.path = url.format({
-      protocol: swagger.schemes !== undefined ? swagger.schemes[0] : 'http',
-      host: swagger.host !== undefined ? swagger.host : 'localhost:10010',
       pathname: requestPath
     });
   } else {
@@ -519,8 +517,10 @@ function testGen(swagger, config) {
   var ndx = 0;
   var lang = config.lang ? config.lang : 'js';
 
-  config.templatesPath = (config.templatesPath) ? path.join(config.templatesPath, lang) : path.join(__dirname, 'templates', lang);
-  
+  config.templatesPath = (config.templatesPath) ? config.templatesPath : path.join(__dirname, 'templates', lang);
+  if (config.templatesPath.indexOf(lang) === -1) {
+    config.templatesPath = path.join(config.templatesPath, lang);
+  }
   swagger = deref(swagger);
   source = fs.readFileSync(path.join(config.templatesPath, '/schema.handlebars'), 'utf8');
   schemaTemp = handlebars.compile(source, {noEscape: true});

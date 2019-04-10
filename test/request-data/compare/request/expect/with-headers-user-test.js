@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 var expect = chai.expect;
 
@@ -7,7 +10,7 @@ describe('/user', function() {
   describe('get', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {
@@ -27,7 +30,7 @@ describe('/user', function() {
     });
   it('should respond with 200 OK and some other description', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {
@@ -48,7 +51,7 @@ describe('/user', function() {
 
     it('should respond with 400 NOT OK', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {
@@ -69,7 +72,7 @@ describe('/user', function() {
 
     it('should respond with 500 SERVER ERROR', function(done) {
       request({
-        url: 'https://api.uber.com/user',
+        url: String(urljoin(process.env.swagger_host, '/user')),
         json: true,
         method: 'GET',
         headers: {

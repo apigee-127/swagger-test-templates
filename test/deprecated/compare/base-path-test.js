@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
+
 var request = require('request');
 var expect = chai.expect;
 
@@ -9,7 +12,7 @@ describe('/', function() {
   describe('head', function() {
     it('should respond with 200 OK', function(done) {
       request({
-        url: 'http://localhost:10010/',
+        url: String(urljoin(process.env.swagger_host, '/')),
         method: 'HEAD',
         headers: {
           'Content-Type': 'application/json',

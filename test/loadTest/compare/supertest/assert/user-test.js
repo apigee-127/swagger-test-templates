@@ -1,5 +1,8 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+
+
 var supertest = require('supertest');
 var api = supertest('https://api.uber.com'); // supertest init;
 var assert = chai.assert;

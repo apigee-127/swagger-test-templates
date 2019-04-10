@@ -1,5 +1,7 @@
 'use strict';
+/*'THIS IS A CUSTOM TEMPLATE'*/
 var chai = require('chai');
+var urljoin = require('url-join');
 var ZSchema = require('z-schema');
 var customFormats = module.exports = function(zSchema) {
   // Placeholder file for all custom-formats in known to swagger.json
@@ -48,8 +50,10 @@ var customFormats = module.exports = function(zSchema) {
 };
 
 customFormats(ZSchema);
-
-var validator = new ZSchema({});
+var validator = new ZSchema({
+	assumeAdditional: true,
+    ignoreUnknownFormats: true
+});
 var request = require('request');
 var expect = chai.expect;
 
@@ -75,7 +79,7 @@ describe('/products/{id}', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/products/2',
+        url: String(urljoin(process.env.swagger_host, '/products/2')),
         json: true,
         method: 'GET',
         headers: {
@@ -111,7 +115,7 @@ describe('/products/{id}', function() {
 
       /*eslint-enable*/
       request({
-        url: 'https://api.uber.com/products/3',
+        url: String(urljoin(process.env.swagger_host, '/products/3')),
         json: true,
         method: 'GET',
         headers: {
@@ -133,7 +137,7 @@ describe('/products/{id}', function() {
   describe('put', function() {
     it('should respond with 200 OK and some description', function(done) {
       request({
-        url: 'https://api.uber.com/products/2',
+        url: String(urljoin(process.env.swagger_host, '/products/2')),
         json: true,
         method: 'PUT',
         headers: {
@@ -152,7 +156,7 @@ describe('/products/{id}', function() {
     });
   it('should respond with 200 OK and some other description', function(done) {
       request({
-        url: 'https://api.uber.com/products/3',
+        url: String(urljoin(process.env.swagger_host, '/products/3')),
         json: true,
         method: 'PUT',
         headers: {
