@@ -55,5 +55,8 @@
     "lodash": "^4.17.12",
     "sanitize-filename": "^1.3.0",
     "string": "^3.3.0"
+  },
+  "engines" : {
+    "node" : ">=6.0.0"
   }
 }
