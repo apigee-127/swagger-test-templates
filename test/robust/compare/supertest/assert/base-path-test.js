@@ -82,7 +82,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema));
         done();
       });
     });
@@ -107,7 +107,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema));
         done();
       });
     });
@@ -144,7 +144,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema));
         done();
       });
     });
@@ -183,7 +183,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema));
         done();
       });
     });
@@ -208,7 +208,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema));
         done();
       });
     });
@@ -233,7 +233,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema));
         done();
       });
     });
