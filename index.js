@@ -209,7 +209,7 @@ function getData(swagger, apiPath, operation, response, config, info) {
     var mockParameters = {};
 
     if (config.pathParams) {
-      data.pathParams = config.pathParams
+      data.pathParams = config.pathParams;
     } else {
       // no path params in config, get them from per-endpoint data
       data.pathParameters.forEach(function(parameter) {
@@ -217,9 +217,9 @@ function getData(swagger, apiPath, operation, response, config, info) {
         mockParameters[parameter.name] = data.requestData.filter(function(mock) {
           return mock.hasOwnProperty(parameter.name);
         })[0][parameter.name];
-      });    
+      });
       data.pathParams = mockParameters;
-    }   
+    }
   }
   return data;
 }
