@@ -1,4 +1,0 @@
-language: node_js
-node_js:
-  - '6.17.1'
-  - '10.16.3'
