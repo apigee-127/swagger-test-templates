@@ -87,7 +87,7 @@
         validator.validate(body, schema).should.be.true;
         {{/is}}
         {{#is assertion 'assert'}}
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         {{/is}}
         {{else}}
         {{#isPdfMediaType returnType}}

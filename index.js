@@ -208,15 +208,16 @@ function getData(swagger, apiPath, operation, response, config, info) {
     // if we have requestData, fill the path params accordingly
     var mockParameters = {};
 
-    data.pathParameters.forEach(function(parameter) {
-      // find the mock data for this parameter name
-      mockParameters[parameter.name] = data.requestData.filter(function(mock) {
-        return mock.hasOwnProperty(parameter.name);
-      })[0][parameter.name];
-    });
-    // only write parameters if they are not already defined in config
-    // @todo we should rework this with code above to be more readable
-    if (!config.pathParams) {
+    if (config.pathParams) {
+      data.pathParams = config.pathParams;
+    } else {
+      // no path params in config, get them from per-endpoint data
+      data.pathParameters.forEach(function(parameter) {
+        // find the mock data for this parameter name
+        mockParameters[parameter.name] = data.requestData.filter(function(mock) {
+          return mock.hasOwnProperty(parameter.name);
+        })[0][parameter.name];
+      });
       data.pathParams = mockParameters;
     }
   }

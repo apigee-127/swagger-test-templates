@@ -43,7 +43,7 @@
         validator.validate(res.body, schema).should.be.true;
         {{/is}}
         {{#is assertion 'assert'}}
-        assert.true(validator.validate(res.body, schema));
+        assert(validator.validate(res.body, schema), 'Schema validation failed: ' + JSON.stringify(validator.getLastErrors()));
         {{/is}}
         {{else}}
         {{#isPdfMediaType returnType}}
@@ -64,7 +64,7 @@
         res.body.should.equal(null); // non-json response or no schema
         {{/is}}
         {{#is assertion 'assert'}}
-        assert.isNull(res.body); // non-json response or no schema
+        assert((Object.keys(res.body).length === 0) || (res.body === null)); // non-json response (sets body to empty obj) or no schema
         {{/is}}
         {{/isPdfMediaType}}
         {{/validateResponse}}

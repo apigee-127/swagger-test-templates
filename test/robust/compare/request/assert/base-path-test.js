@@ -88,7 +88,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 200);
 
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         done();
       });
     });
@@ -120,7 +120,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 400);
 
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         done();
       });
     });
@@ -164,7 +164,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 500);
 
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         done();
       });
     });
@@ -210,7 +210,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 200);
 
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         done();
       });
     });
@@ -242,7 +242,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 400);
 
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         done();
       });
     });
@@ -274,7 +274,7 @@ describe('/', function() {
 
         assert.equal(res.statusCode, 500);
 
-        assert.true(validator.validate(body, schema));
+        assert(validator.validate(body, schema), 'Schema validation failed');
         done();
       });
     });

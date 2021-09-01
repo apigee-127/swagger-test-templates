@@ -18,7 +18,7 @@ describe('/', function() {
       .end(function(err, res) {
         if (err) return done(err);
 
-        assert.isNull(res.body); // non-json response or no schema
+        assert((Object.keys(res.body).length === 0) || (res.body === null)); // non-json response (sets body to empty obj) or no schema
         done();
       });
     });
